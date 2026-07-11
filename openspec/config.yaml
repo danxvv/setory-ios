@@ -1,0 +1,43 @@
+schema: spec-driven
+
+context: |
+  Product: iOS app for tracking gym workouts. The user records each exercise
+  in a session as either repetitions (sets x reps, optional weight) or
+  time-based duration, then saves the whole session as a reusable routine.
+  An AI service suggests the next day's routine based on workout history.
+
+  Domain model essentials:
+  - Exercise: name, category, and explicit muscle-target metadata (primary
+    and secondary muscles). Muscle data is required — it is what makes the
+    AI suggestions accurate.
+  - Workout session: an ordered list of performed exercises with their
+    reps/time/weight values, saved as a named routine.
+  - Exercise catalog: bundled with the app (predefined library including
+    muscle targets); users can add custom exercises.
+
+  Tech stack (iOS app — the deliverable of this project):
+  - Swift, SwiftUI, SwiftData for local persistence (iOS 17+).
+  - Local-only storage, no user accounts, no cloud sync. The only network
+    traffic is calls to the AI suggestion endpoint.
+
+  AI backend:
+  - Built later in a separate project: Python + FastAPI, using the
+    OpenRouter API for inference.
+  - This project must define the REST API contract the app consumes
+    (request: workout history with muscle-target data; response: suggested
+    routine), so the backend can be implemented against it afterward.
+  - The app must degrade gracefully when the backend is unreachable
+    (tracking always works offline; suggestions are optional).
+
+rules:
+  proposal:
+    - Scope proposals to the iOS app; treat the backend as an external
+      dependency defined only by its REST contract.
+  specs:
+    - Any spec involving exercises must account for muscle-target metadata.
+    - Specs touching AI suggestions must reference the REST API contract
+      rather than assuming inference happens on-device.
+  tasks:
+    - Break tasks into chunks of max 2 hours.
+    - Tasks must not depend on the backend existing; use the API contract
+      and mock/stub responses for development and tests.
