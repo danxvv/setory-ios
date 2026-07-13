@@ -65,6 +65,40 @@ struct LocalizationTests {
         }
     }
 
+    /// Every user-facing string added by the AI suggestion feature must
+    /// have a Spanish value in the compiled Localizable table.
+    @Test func everyAISuggestionKeyHasSpanishValue() throws {
+        let newKeys = [
+            "AI Settings", "Done", "API Key", "API key configured",
+            "OpenRouter API Key", "Save Key", "Clear Key",
+            "Stored securely in the Keychain and never shown again after saving. Saving replaces the previous key.",
+            "Model", "Model ID", "Leave empty to use the default: %@", "Privacy",
+            "When you request a suggestion, your exercise IDs, set counts, muscle data, session dates, and optional goal are sent to OpenRouter under your API key. Requests happen only when you ask for a suggestion.",
+            "Suggest with AI", "Suggestion failed", "Retry", "Open AI Settings",
+            "Routine suggestions need an OpenRouter API key. Add yours in AI Settings to enable them.",
+            "e.g. focus legs, 45 minutes", "Goal (optional)",
+            "The suggestion balances your recent workout history; add a goal to steer it.",
+            "Generating suggestion…", "Cancel Generation", "Generate",
+            "An OpenRouter API key is required.",
+            "Couldn't reach OpenRouter. Check your connection and try again.",
+            "Your API key appears to be invalid. Update it in AI Settings.",
+            "Your OpenRouter account is out of credits. Add credits or update the key in AI Settings.",
+            "Too many requests right now. Try again in a moment.",
+            "OpenRouter returned an unexpected response. Try again.",
+            "The model didn't suggest any usable exercises. Try again.",
+            "Why this routine",
+        ]
+        let esBundle = try spanishBundle()
+
+        for key in newKeys {
+            let localized = esBundle.localizedString(forKey: key, value: missing, table: nil)
+            #expect(
+                localized != missing,
+                "Key '\(key)' has no Spanish value in Localizable.xcstrings"
+            )
+        }
+    }
+
     @Test func everyBundledExerciseHasSpanishContent() throws {
         let entries = try BundledCatalogSource().loadCatalog()
         #expect(!entries.isEmpty)

@@ -21,13 +21,16 @@ context: |
     traffic is calls to the AI suggestion endpoint.
 
   AI backend:
-  - Built later in a separate project: Python + FastAPI, using the
-    OpenRouter API for inference.
-  - This project must define the REST API contract the app consumes
-    (request: workout history with muscle-target data; response: suggested
-    routine), so the backend can be implemented against it afterward.
-  - The app must degrade gracefully when the backend is unreachable
-    (tracking always works offline; suggestions are optional).
+  - The app calls the OpenRouter API directly (POST
+    https://openrouter.ai/api/v1/chat/completions) with a user-provided
+    API key stored in the Keychain; there is no separate backend service.
+  - OpenRouter is an external dependency defined by its REST contract:
+    requests use structured outputs (strict JSON schema over catalog
+    exercise IDs), and responses are validated client-side against the
+    local exercise store before anything reaches the UI.
+  - The app must degrade gracefully when OpenRouter is unreachable or no
+    API key is configured (tracking always works offline; suggestions are
+    optional).
 
 rules:
   proposal:

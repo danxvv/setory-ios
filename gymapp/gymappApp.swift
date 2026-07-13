@@ -10,6 +10,33 @@ import SwiftData
 
 @main
 struct gymappApp: App {
+    /// AI dependencies resolved once at launch: Keychain + OpenRouter
+    /// normally, or an in-memory store + stub service under
+    /// `-uitest-ai <scenario>` (success / error / no-key) so UI tests never
+    /// touch the network or the real Keychain.
+    private let aiKeyStore: any APIKeyStoring
+    private let aiSuggestionService: any RoutineSuggestionService
+
+    init() {
+        if let scenario = Self.uiTestAIScenario {
+            let store = InMemoryAPIKeyStore(key: scenario == "no-key" ? nil : "uitest-stub-key")
+            aiKeyStore = store
+            aiSuggestionService = StubSuggestionService.uiTestService(scenario: scenario)
+        } else {
+            let store = KeychainAPIKeyStore()
+            aiKeyStore = store
+            aiSuggestionService = OpenRouterSuggestionService(keyStore: store)
+        }
+    }
+
+    private static var uiTestAIScenario: String? {
+        let arguments = CommandLine.arguments
+        guard let index = arguments.firstIndex(of: "-uitest-ai"), index + 1 < arguments.count else {
+            return nil
+        }
+        return arguments[index + 1]
+    }
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Exercise.self,
@@ -54,6 +81,8 @@ struct gymappApp: App {
     var body: some Scene {
         WindowGroup {
             RootTabView()
+                .environment(\.apiKeyStore, aiKeyStore)
+                .environment(\.routineSuggestionService, aiSuggestionService)
         }
         .modelContainer(sharedModelContainer)
     }

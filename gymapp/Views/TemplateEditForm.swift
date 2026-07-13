@@ -18,6 +18,8 @@ struct TemplateEditForm: View {
 
     /// Nil when creating a new template (blank or pre-filled from a session).
     private let template: RoutineTemplate?
+    /// AI suggestion rationale, shown above the form; nil everywhere else.
+    private let rationale: String?
 
     @State private var draft: TemplateDraft
     /// The last suggestion auto-inserted into the name field. The field is
@@ -30,14 +32,17 @@ struct TemplateEditForm: View {
     /// content, never auto-replaced.
     init(template: RoutineTemplate) {
         self.template = template
+        self.rationale = nil
         _draft = State(initialValue: TemplateDraft(template: template))
         _autoFilledName = State(initialValue: nil)
     }
 
-    /// Create flow: blank by default, or pre-filled from a saved session.
+    /// Create flow: blank by default, or pre-filled from a saved session
+    /// or an AI suggestion (which also passes its rationale for display).
     /// An empty name is seeded with the suggestion when one exists.
-    init(prefill: TemplateDraft = TemplateDraft()) {
+    init(prefill: TemplateDraft = TemplateDraft(), rationale: String? = nil) {
         self.template = nil
+        self.rationale = rationale
         var draft = prefill
         var autoFilled: String?
         if draft.trimmedName.isEmpty, let suggestion = draft.suggestedName {
@@ -51,6 +56,7 @@ struct TemplateEditForm: View {
     var body: some View {
         NavigationStack {
             Form {
+                rationaleSection
                 nameSection
                 exercisesSection
                 coverageSection
@@ -84,6 +90,18 @@ struct TemplateEditForm: View {
     }
 
     // MARK: - Sections
+
+    @ViewBuilder
+    private var rationaleSection: some View {
+        if let rationale {
+            Section("Why this routine") {
+                Text(rationale)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .accessibilityIdentifier("suggestion-rationale")
+            }
+        }
+    }
 
     private var nameSection: some View {
         Section {

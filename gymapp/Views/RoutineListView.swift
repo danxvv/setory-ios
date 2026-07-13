@@ -18,6 +18,13 @@ struct RoutineListView: View {
     @State private var showNewTemplateEditor = false
     @State private var templateToEdit: RoutineTemplate?
     @State private var templateToDelete: RoutineTemplate?
+    @State private var showAISettings = false
+    @State private var showSuggestSheet = false
+    /// Handed over by the suggest sheet right before it dismisses; moved
+    /// into `suggestionToReview` once the sheet is gone so the editor can
+    /// present without fighting the dismissal animation.
+    @State private var pendingSuggestion: RoutineSuggestion?
+    @State private var suggestionToReview: RoutineSuggestion?
 
     /// User-entered names, so sort with locale-aware comparison in memory.
     private var sortedTemplates: [RoutineTemplate] {
@@ -37,12 +44,35 @@ struct RoutineListView: View {
                 }
                 .accessibilityIdentifier("create-template-button")
             }
+            ToolbarItem {
+                Button("Suggest with AI", systemImage: "sparkles") {
+                    showSuggestSheet = true
+                }
+                .accessibilityIdentifier("suggest-with-ai-button")
+            }
+            ToolbarItem {
+                Button("AI Settings", systemImage: "gearshape") {
+                    showAISettings = true
+                }
+                .accessibilityIdentifier("ai-settings-button")
+            }
         }
         .sheet(isPresented: $showNewTemplateEditor) {
             TemplateEditForm()
         }
         .sheet(item: $templateToEdit) { template in
             TemplateEditForm(template: template)
+        }
+        .sheet(isPresented: $showAISettings) {
+            AISettingsView()
+        }
+        .sheet(isPresented: $showSuggestSheet, onDismiss: presentPendingSuggestion) {
+            SuggestRoutineSheet { suggestion in
+                pendingSuggestion = suggestion
+            }
+        }
+        .sheet(item: $suggestionToReview) { suggestion in
+            TemplateEditForm(prefill: suggestion.draft, rationale: suggestion.rationale)
         }
         .confirmationDialog(
             "Delete this template?",
@@ -59,6 +89,14 @@ struct RoutineListView: View {
         } message: { _ in
             Text("This won't affect saved workouts.")
         }
+    }
+
+    /// Runs when the suggest sheet finishes dismissing: promotes the
+    /// handed-over suggestion so the editor sheet presents next.
+    private func presentPendingSuggestion() {
+        guard let pending = pendingSuggestion else { return }
+        pendingSuggestion = nil
+        suggestionToReview = pending
     }
 
     // MARK: - Templates
