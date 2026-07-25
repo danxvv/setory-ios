@@ -21,18 +21,18 @@ scripts/uitest.sh
 
 ## 2. Move files into the layer tree
 
-- [ ] 2.1 Create the layer directories and `git mv` all `Domain/` files into `Entities/`, `Vocabulary/`, `Drafts/`, `Stats/` per design D1. No content edits.
-- [ ] 2.2 `git mv` the persistence, media, and AI files into `Persistence/`, `Media/`, `AI/Shared/`, `AI/Suggestion/`, `AI/PhotoMatch/`. No content edits.
-- [ ] 2.3 `git mv` the view files into `Features/Log/`, `Features/Catalog/`, `Features/Routines/`, `Features/Progress/`, `Features/AI/`, `Features/Settings/`, and the reusable components into `DesignSystem/`. No content edits.
-- [ ] 2.4 `git mv` `gymappApp.swift` and `RootTabView.swift` into `App/`, and the two stub services into `TestSupport/`. Confirm `Assets.xcassets`, `Resources/`, and `Localizable.xcstrings` stayed at the target root.
-- [ ] 2.5 Split three files mechanically, no logic changes: `ExerciseCategory` out of `Muscle.swift` into `Domain/Vocabulary/ExerciseCategory.swift`; `InMemoryAPIKeyStore` out of `APIKeyStore.swift` into `TestSupport/InMemoryAPIKeyStore.swift`; `ExerciseFilters` out of `ExerciseFilterBar.swift` into `Features/Catalog/ExerciseFilters.swift`.
-- [ ] 2.6 Build and run both suites. Verify no `Models/`, `Services/`, or `Views/` directory remains and that `git log --follow` resolves a moved file's history.
+- [x] 2.1 Create the layer directories and `git mv` all `Domain/` files into `Entities/`, `Vocabulary/`, `Drafts/`, `Stats/` per design D1. No content edits.
+- [x] 2.2 `git mv` the persistence, media, and AI files into `Persistence/`, `Media/`, `AI/Shared/`, `AI/Suggestion/`, `AI/PhotoMatch/`. No content edits.
+- [x] 2.3 `git mv` the view files into `Features/Log/`, `Features/Catalog/`, `Features/Routines/`, `Features/Progress/`, `Features/AI/`, `Features/Settings/`, and the reusable components into `DesignSystem/`. No content edits.
+- [x] 2.4 `git mv` `gymappApp.swift` and `RootTabView.swift` into `App/`, and the two stub services into `TestSupport/`. Confirm `Assets.xcassets`, `Resources/`, and `Localizable.xcstrings` stayed at the target root.
+- [x] 2.5 Split three files mechanically, no logic changes: `ExerciseCategory` out of `Muscle.swift` into `Domain/Vocabulary/ExerciseCategory.swift`; `InMemoryAPIKeyStore` out of `APIKeyStore.swift` into `TestSupport/InMemoryAPIKeyStore.swift`; `ExerciseFilters` out of `ExerciseFilterBar.swift` into `Features/Catalog/ExerciseFilters.swift`.
+- [x] 2.6 Build and run both suites. Verify no `Models/`, `Services/`, or `Views/` directory remains and that `git log --follow` resolves a moved file's history.
 
 ## 3. Thin out the app entry point
 
-- [ ] 3.1 Extract the schema and `ModelContainer` construction from `gymappApp.swift` into `App/AppModelContainer.swift`, keeping the `-uitest-reset` and seeding call order byte-identical for now.
-- [ ] 3.2 Extract `UITestSeeding` from `gymappApp.swift` into `TestSupport/UITestSeeding.swift` unchanged.
-- [ ] 3.3 Build and run both suites; confirm `-uitest-reset -uitest-seed` still produces the two known sessions.
+- [x] 3.1 Extract the schema and `ModelContainer` construction from `gymappApp.swift` into `App/AppModelContainer.swift`, keeping the `-uitest-reset` and seeding call order byte-identical for now.
+- [x] 3.2 Extract `UITestSeeding` from `gymappApp.swift` into `TestSupport/UITestSeeding.swift` unchanged.
+- [x] 3.3 Build and run both suites; confirm `-uitest-reset -uitest-seed` still produces the two known sessions.
 
 ## 4. Rename and extract the shared AI pieces
 
