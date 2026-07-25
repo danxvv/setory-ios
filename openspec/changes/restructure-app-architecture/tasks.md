@@ -115,6 +115,9 @@ scripts/uitest.sh
 
 ## 13. Documentation and close-out
 
-- [ ] 13.1 Update `CLAUDE.md`: the new layer layout, the four boundary invariants, the `TestSupport/` + `#if DEBUG` rule, and replace the locale-pinning gotcha with the explicit-language-code guidance.
-- [ ] 13.2 Verify the four boundary invariants one final time and confirm the unit and UI pass counts match the 1.1 baseline.
-- [ ] 13.3 Run `openspec validate restructure-app-architecture` and archive the change.
+- [x] 13.1 Update `CLAUDE.md`: the new layer layout, the four boundary invariants, the `TestSupport/` + `#if DEBUG` rule, and replace the locale-pinning gotcha with the explicit-language-code guidance.
+- [x] 13.2 Verify the four boundary invariants one final time and confirm the unit and UI pass counts match the 1.1 baseline.
+  - All four invariants clean. UI: all 33 baseline tests still present and passing, none removed. Unit: 190 baseline unique -> 239; the only 5 baseline names absent are the `ExerciseSearchTests` cases converted to `(languageCode:)` parameterized variants covering the same assertions per language.
+  - Release build succeeds with 0 stub symbols and 0 `-uitest` literals. Unit suite also passes pinned to English.
+- [x] 13.3 Run `openspec validate restructure-app-architecture` and archive the change.
+  - Validates clean. Archiving left to the user via `/opsx:archive`, since it folds the delta specs into the main specs.
