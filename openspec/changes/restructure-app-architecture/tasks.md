@@ -36,12 +36,12 @@ scripts/uitest.sh
 
 ## 4. Rename and extract the shared AI pieces
 
-- [ ] 4.1 Move `SuggestionError` out of `SuggestionResponseParser.swift` into `AI/Shared/AIError.swift`, renamed to `AIError`, with all cases, localized messages, and `pointsToSettings` unchanged.
-- [ ] 4.2 Update the three test files referencing `SuggestionError` (`OpenRouterSuggestionServiceTests`, `SuggestionResponseParserTests`, `PhotoMatchServiceTests`) for the rename only — no assertion changes.
-- [ ] 4.3 Extract `PhotoMatchResponseParser` from `PhotoExerciseMatchService.swift` into `AI/PhotoMatch/PhotoMatchResponseParser.swift`.
-- [ ] 4.4 Extract `defaultModel`, `modelOverrideDefaultsKey`, and `resolvedModel(defaults:)` from `OpenRouterSuggestionService` into `AI/Shared/AIModelPreference.swift`, copying the key string and default model id verbatim.
-- [ ] 4.5 Add a unit test asserting the resolved model for a blank override, a whitespace-only override, and a set override, so the moved `UserDefaults` key is characterized.
-- [ ] 4.6 Build and run both suites.
+- [x] 4.1 Move `SuggestionError` out of `SuggestionResponseParser.swift` into `AI/Shared/AIError.swift`, renamed to `AIError`, with all cases, localized messages, and `pointsToSettings` unchanged.
+- [x] 4.2 Update the three test files referencing `SuggestionError` (`OpenRouterSuggestionServiceTests`, `SuggestionResponseParserTests`, `PhotoMatchServiceTests`) for the rename only — no assertion changes.
+- [x] 4.3 Extract `PhotoMatchResponseParser` from `PhotoExerciseMatchService.swift` into `AI/PhotoMatch/PhotoMatchResponseParser.swift`.
+- [x] 4.4 Extract `defaultModel`, `modelOverrideDefaultsKey`, and `resolvedModel(defaults:)` from `OpenRouterSuggestionService` into `AI/Shared/AIModelPreference.swift`, copying the key string and default model id verbatim.
+- [x] 4.5 Add a unit test asserting the resolved model for a blank override, a whitespace-only override, and a set override, so the moved `UserDefaults` key is characterized.
+- [x] 4.6 Build and run both suites.
 
 ## 5. Collapse the two OpenRouter clients onto one transport
 

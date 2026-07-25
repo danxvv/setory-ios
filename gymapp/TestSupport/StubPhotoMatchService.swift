@@ -13,7 +13,7 @@ import Foundation
 struct StubPhotoMatchService: PhotoExerciseMatchService {
     enum Outcome: Sendable {
         case success(PhotoMatchResult)
-        case failure(SuggestionError)
+        case failure(AIError)
     }
 
     var outcome: Outcome

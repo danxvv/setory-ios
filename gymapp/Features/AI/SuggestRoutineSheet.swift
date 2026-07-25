@@ -33,7 +33,7 @@ struct SuggestRoutineSheet: View {
     @State private var goal = ""
     @State private var isGenerating = false
     @State private var generationTask: Task<Void, Never>?
-    @State private var suggestionError: SuggestionError?
+    @State private var suggestionError: AIError?
     @State private var showSettings = false
 
     var body: some View {
@@ -172,7 +172,7 @@ struct SuggestRoutineSheet: View {
                         TemplateDraft.Item(exercise: $0, targetSets: item.targetSets)
                     }
                 }
-                guard !items.isEmpty else { throw SuggestionError.emptySuggestion }
+                guard !items.isEmpty else { throw AIError.emptySuggestion }
 
                 onSuggestion(RoutineSuggestion(
                     draft: TemplateDraft(name: routine.name, items: items),
@@ -181,7 +181,7 @@ struct SuggestRoutineSheet: View {
                 dismiss()
             } catch is CancellationError {
                 // User cancelled: back to the sheet, no error alert.
-            } catch let error as SuggestionError {
+            } catch let error as AIError {
                 suggestionError = error
             } catch {
                 suggestionError = .badResponse

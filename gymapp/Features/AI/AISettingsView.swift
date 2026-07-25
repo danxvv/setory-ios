@@ -13,7 +13,7 @@ import SwiftUI
 struct AISettingsView: View {
     @Environment(\.apiKeyStore) private var keyStore
     @Environment(\.dismiss) private var dismiss
-    @AppStorage(OpenRouterSuggestionService.modelOverrideDefaultsKey) private var modelOverride = ""
+    @AppStorage(AIModelPreference.overrideDefaultsKey) private var modelOverride = ""
 
     @State private var enteredKey = ""
     @State private var isKeyConfigured = false
@@ -92,7 +92,7 @@ struct AISettingsView: View {
         } header: {
             Text("Model")
         } footer: {
-            Text("Leave empty to use the default: \(OpenRouterSuggestionService.defaultModel)")
+            Text("Leave empty to use the default: \(AIModelPreference.defaultModel)")
         }
     }
 

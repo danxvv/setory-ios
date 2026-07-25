@@ -105,7 +105,7 @@ struct PhotoMatchServiceTests {
 
         let bodyData = try #require(capturedBody)
         let sent = try #require(try JSONSerialization.jsonObject(with: bodyData) as? [String: Any])
-        #expect(sent["model"] as? String == OpenRouterSuggestionService.defaultModel)
+        #expect(sent["model"] as? String == AIModelPreference.defaultModel)
         let messages = try #require(sent["messages"] as? [[String: Any]])
         let content = try #require(messages.last?["content"] as? [[String: Any]])
         #expect(content.map { $0["type"] as? String } == ["text", "image_url"])
@@ -116,7 +116,7 @@ struct PhotoMatchServiceTests {
         let suiteName = "PhotoMatchServiceTests-override"
         let defaults = try #require(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }
-        defaults.set("custom/vision-model", forKey: OpenRouterSuggestionService.modelOverrideDefaultsKey)
+        defaults.set("custom/vision-model", forKey: AIModelPreference.overrideDefaultsKey)
 
         nonisolated(unsafe) var capturedBody: Data?
         let body = try successBody(matches: [])
@@ -144,7 +144,7 @@ struct PhotoMatchServiceTests {
         defer { PhotoMatchMockURLProtocol.handler = nil }
 
         let payload = try makePayload()
-        await #expect(throws: SuggestionError.missingAPIKey) {
+        await #expect(throws: AIError.missingAPIKey) {
             _ = try await makeService(key: nil).matchExercises(request: payload)
         }
         #expect(requestCount == 0)
@@ -177,7 +177,7 @@ struct PhotoMatchServiceTests {
         defer { PhotoMatchMockURLProtocol.handler = nil }
 
         let payload = try makePayload()
-        await #expect(throws: SuggestionError.invalidKey) {
+        await #expect(throws: AIError.invalidKey) {
             _ = try await makeService().matchExercises(request: payload)
         }
     }
@@ -189,7 +189,7 @@ struct PhotoMatchServiceTests {
         defer { PhotoMatchMockURLProtocol.handler = nil }
 
         let payload = try makePayload()
-        await #expect(throws: SuggestionError.insufficientCredits) {
+        await #expect(throws: AIError.insufficientCredits) {
             _ = try await makeService().matchExercises(request: payload)
         }
     }
@@ -201,7 +201,7 @@ struct PhotoMatchServiceTests {
         defer { PhotoMatchMockURLProtocol.handler = nil }
 
         let payload = try makePayload()
-        await #expect(throws: SuggestionError.rateLimited) {
+        await #expect(throws: AIError.rateLimited) {
             _ = try await makeService().matchExercises(request: payload)
         }
     }
@@ -218,7 +218,7 @@ struct PhotoMatchServiceTests {
         defer { PhotoMatchMockURLProtocol.handler = nil }
 
         let payload = try makePayload()
-        await #expect(throws: SuggestionError.badResponse) {
+        await #expect(throws: AIError.badResponse) {
             _ = try await makeService().matchExercises(request: payload)
         }
     }
@@ -230,7 +230,7 @@ struct PhotoMatchServiceTests {
         defer { PhotoMatchMockURLProtocol.handler = nil }
 
         let payload = try makePayload()
-        await #expect(throws: SuggestionError.network) {
+        await #expect(throws: AIError.network) {
             _ = try await makeService().matchExercises(request: payload)
         }
     }

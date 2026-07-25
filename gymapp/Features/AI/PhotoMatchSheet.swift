@@ -54,7 +54,7 @@ struct PhotoMatchSheet: View {
     @State private var selectedIds: Set<String> = []
     @State private var isMatching = false
     @State private var matchTask: Task<Void, Never>?
-    @State private var matchError: SuggestionError?
+    @State private var matchError: AIError?
     @State private var hasKey = false
     @State private var showCamera = false
     @State private var showSettings = false
@@ -435,7 +435,7 @@ struct PhotoMatchSheet: View {
             do {
                 let exercises = try modelContext.fetch(FetchDescriptor<Exercise>())
                 let jpegs = photos.compactMap(PhotoPreprocessor.jpegData(from:))
-                guard !jpegs.isEmpty else { throw SuggestionError.badResponse }
+                guard !jpegs.isEmpty else { throw AIError.badResponse }
 
                 let payload = PhotoMatchRequestBuilder.payload(
                     exercises: exercises,
@@ -463,7 +463,7 @@ struct PhotoMatchSheet: View {
                 phase = .results(matches)
             } catch is CancellationError {
                 // User cancelled: back to the attached photos, no alert.
-            } catch let error as SuggestionError {
+            } catch let error as AIError {
                 matchError = error
             } catch {
                 matchError = .badResponse

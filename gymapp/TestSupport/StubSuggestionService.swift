@@ -13,7 +13,7 @@ import Foundation
 struct StubSuggestionService: RoutineSuggestionService {
     enum Outcome: Sendable {
         case success(SuggestedRoutine)
-        case failure(SuggestionError)
+        case failure(AIError)
     }
 
     var outcome: Outcome

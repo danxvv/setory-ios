@@ -83,7 +83,7 @@ struct SuggestionResponseParserTests {
             ["exerciseId": "made-up", "targetSets": 3],
             ["exerciseId": "also-made-up", "targetSets": 4],
         ]))
-        #expect(throws: SuggestionError.emptySuggestion) {
+        #expect(throws: AIError.emptySuggestion) {
             try SuggestionResponseParser.routine(from: data, statusCode: 200, validExerciseIds: catalogIds)
         }
     }
@@ -96,28 +96,28 @@ struct SuggestionResponseParserTests {
 
     @Test func status401MapsToInvalidKey() throws {
         let data = try errorBody("No auth credentials found", code: 401)
-        #expect(throws: SuggestionError.invalidKey) {
+        #expect(throws: AIError.invalidKey) {
             try SuggestionResponseParser.routine(from: data, statusCode: 401, validExerciseIds: catalogIds)
         }
     }
 
     @Test func status402MapsToInsufficientCredits() throws {
         let data = try errorBody("Insufficient credits", code: 402)
-        #expect(throws: SuggestionError.insufficientCredits) {
+        #expect(throws: AIError.insufficientCredits) {
             try SuggestionResponseParser.routine(from: data, statusCode: 402, validExerciseIds: catalogIds)
         }
     }
 
     @Test func status429MapsToRateLimited() throws {
         let data = try errorBody("Rate limit exceeded", code: 429)
-        #expect(throws: SuggestionError.rateLimited) {
+        #expect(throws: AIError.rateLimited) {
             try SuggestionResponseParser.routine(from: data, statusCode: 429, validExerciseIds: catalogIds)
         }
     }
 
     @Test func otherErrorStatusesMapToBadResponse() throws {
         let data = try errorBody("Internal error", code: 500)
-        #expect(throws: SuggestionError.badResponse) {
+        #expect(throws: AIError.badResponse) {
             try SuggestionResponseParser.routine(from: data, statusCode: 500, validExerciseIds: catalogIds)
         }
     }
@@ -134,21 +134,21 @@ struct SuggestionResponseParserTests {
             ]],
         ]
         let data = try JSONSerialization.data(withJSONObject: envelope)
-        #expect(throws: SuggestionError.badResponse) {
+        #expect(throws: AIError.badResponse) {
             try SuggestionResponseParser.routine(from: data, statusCode: 200, validExerciseIds: catalogIds)
         }
     }
 
     @Test func topLevelErrorInA200MapsToBadResponse() throws {
         let data = try errorBody("Bad gateway", code: 502)
-        #expect(throws: SuggestionError.badResponse) {
+        #expect(throws: AIError.badResponse) {
             try SuggestionResponseParser.routine(from: data, statusCode: 200, validExerciseIds: catalogIds)
         }
     }
 
     @Test func malformedJSONMapsToBadResponse() {
         let data = Data("not json at all".utf8)
-        #expect(throws: SuggestionError.badResponse) {
+        #expect(throws: AIError.badResponse) {
             try SuggestionResponseParser.routine(from: data, statusCode: 200, validExerciseIds: catalogIds)
         }
     }
@@ -161,7 +161,7 @@ struct SuggestionResponseParserTests {
             ]],
         ]
         let data = try JSONSerialization.data(withJSONObject: envelope)
-        #expect(throws: SuggestionError.badResponse) {
+        #expect(throws: AIError.badResponse) {
             try SuggestionResponseParser.routine(from: data, statusCode: 200, validExerciseIds: catalogIds)
         }
     }
@@ -169,10 +169,10 @@ struct SuggestionResponseParserTests {
     // MARK: - Error affordances
 
     @Test func keyAndCreditErrorsPointToSettings() {
-        #expect(SuggestionError.invalidKey.pointsToSettings)
-        #expect(SuggestionError.insufficientCredits.pointsToSettings)
-        #expect(SuggestionError.missingAPIKey.pointsToSettings)
-        #expect(!SuggestionError.network.pointsToSettings)
-        #expect(!SuggestionError.emptySuggestion.pointsToSettings)
+        #expect(AIError.invalidKey.pointsToSettings)
+        #expect(AIError.insufficientCredits.pointsToSettings)
+        #expect(AIError.missingAPIKey.pointsToSettings)
+        #expect(!AIError.network.pointsToSettings)
+        #expect(!AIError.emptySuggestion.pointsToSettings)
     }
 }

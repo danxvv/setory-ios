@@ -11,17 +11,12 @@
 import Foundation
 
 protocol RoutineSuggestionService: Sendable {
-    /// One suggestion per call; throws SuggestionError (or CancellationError
+    /// One suggestion per call; throws AIError (or CancellationError
     /// when the surrounding task was cancelled).
     func suggestRoutine(request: SuggestionRequestPayload) async throws -> SuggestedRoutine
 }
 
 struct OpenRouterSuggestionService: RoutineSuggestionService {
-    /// Cheap, structured-outputs-capable default (verified on openrouter.ai
-    /// 2026-07); users can override it in AI Settings.
-    static let defaultModel = "openai/gpt-5.4-mini"
-    /// UserDefaults key of the model override — a preference, not a secret.
-    static let modelOverrideDefaultsKey = "aiModelOverride"
     static let endpoint = URL(string: "https://openrouter.ai/api/v1/chat/completions")!
     static let requestTimeout: TimeInterval = 60
 
@@ -39,20 +34,11 @@ struct OpenRouterSuggestionService: RoutineSuggestionService {
         self.defaults = defaults
     }
 
-    /// The override when one is set (non-blank), otherwise the default.
-    /// Static because the photo-match client resolves the same preference —
-    /// one model setting covers every AI feature.
-    static func resolvedModel(defaults: UserDefaults) -> String {
-        let override = defaults.string(forKey: modelOverrideDefaultsKey)?
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        return (override?.isEmpty ?? true) ? defaultModel : override!
-    }
-
-    var model: String { Self.resolvedModel(defaults: defaults) }
+    var model: String { AIModelPreference.resolvedModel(defaults: defaults) }
 
     func suggestRoutine(request payload: SuggestionRequestPayload) async throws -> SuggestedRoutine {
         guard let key = keyStore.read(), !key.isEmpty else {
-            throw SuggestionError.missingAPIKey
+            throw AIError.missingAPIKey
         }
 
         var request = URLRequest(url: Self.endpoint)
@@ -77,11 +63,11 @@ struct OpenRouterSuggestionService: RoutineSuggestionService {
             // as CancellationError so the UI can return silently.
             throw CancellationError()
         } catch {
-            throw SuggestionError.network
+            throw AIError.network
         }
 
         guard let http = response as? HTTPURLResponse else {
-            throw SuggestionError.badResponse
+            throw AIError.badResponse
         }
         return try SuggestionResponseParser.routine(
             from: data,

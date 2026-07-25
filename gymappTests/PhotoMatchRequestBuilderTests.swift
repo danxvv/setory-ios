@@ -249,11 +249,11 @@ struct PhotoMatchRequestBuilderTests {
         let defaults = try #require(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }
 
-        defaults.set("vendor/vision-override", forKey: OpenRouterSuggestionService.modelOverrideDefaultsKey)
+        defaults.set("vendor/vision-override", forKey: AIModelPreference.overrideDefaultsKey)
         #expect(OpenRouterPhotoMatchService(defaults: defaults).model == "vendor/vision-override")
 
-        defaults.set("   ", forKey: OpenRouterSuggestionService.modelOverrideDefaultsKey)
-        #expect(OpenRouterPhotoMatchService(defaults: defaults).model == OpenRouterSuggestionService.defaultModel)
+        defaults.set("   ", forKey: AIModelPreference.overrideDefaultsKey)
+        #expect(OpenRouterPhotoMatchService(defaults: defaults).model == AIModelPreference.defaultModel)
     }
 
     // MARK: - Response schema

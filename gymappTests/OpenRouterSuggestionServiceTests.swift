@@ -144,7 +144,7 @@ struct OpenRouterSuggestionServiceTests {
 
         let bodyData = try #require(capturedBody)
         let sent = try #require(try JSONSerialization.jsonObject(with: bodyData) as? [String: Any])
-        #expect(sent["model"] as? String == OpenRouterSuggestionService.defaultModel)
+        #expect(sent["model"] as? String == AIModelPreference.defaultModel)
         #expect((sent["messages"] as? [[String: Any]])?.count == 2)
         #expect(sent["response_format"] != nil)
     }
@@ -153,7 +153,7 @@ struct OpenRouterSuggestionServiceTests {
         let suiteName = "OpenRouterSuggestionServiceTests-override"
         let defaults = try #require(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }
-        defaults.set("custom/model-id", forKey: OpenRouterSuggestionService.modelOverrideDefaultsKey)
+        defaults.set("custom/model-id", forKey: AIModelPreference.overrideDefaultsKey)
 
         nonisolated(unsafe) var capturedBody: Data?
         let body = try successBody(routine: [
@@ -177,9 +177,9 @@ struct OpenRouterSuggestionServiceTests {
         let suiteName = "OpenRouterSuggestionServiceTests-blank"
         let defaults = try #require(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }
-        defaults.set("   ", forKey: OpenRouterSuggestionService.modelOverrideDefaultsKey)
+        defaults.set("   ", forKey: AIModelPreference.overrideDefaultsKey)
 
-        #expect(makeService(defaults: defaults).model == OpenRouterSuggestionService.defaultModel)
+        #expect(makeService(defaults: defaults).model == AIModelPreference.defaultModel)
     }
 
     // MARK: - Key handling
@@ -192,7 +192,7 @@ struct OpenRouterSuggestionServiceTests {
         }
         defer { SuggestionMockURLProtocol.handler = nil }
 
-        await #expect(throws: SuggestionError.missingAPIKey) {
+        await #expect(throws: AIError.missingAPIKey) {
             _ = try await makeService(key: nil).suggestRoutine(request: payload)
         }
         #expect(requestCount == 0)
@@ -229,7 +229,7 @@ struct OpenRouterSuggestionServiceTests {
         }
         defer { SuggestionMockURLProtocol.handler = nil }
 
-        await #expect(throws: SuggestionError.invalidKey) {
+        await #expect(throws: AIError.invalidKey) {
             _ = try await makeService().suggestRoutine(request: payload)
         }
     }
@@ -240,7 +240,7 @@ struct OpenRouterSuggestionServiceTests {
         }
         defer { SuggestionMockURLProtocol.handler = nil }
 
-        await #expect(throws: SuggestionError.network) {
+        await #expect(throws: AIError.network) {
             _ = try await makeService().suggestRoutine(request: payload)
         }
     }
