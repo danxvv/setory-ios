@@ -45,11 +45,11 @@ scripts/uitest.sh
 
 ## 5. Collapse the two OpenRouter clients onto one transport
 
-- [ ] 5.1 Add `AI/Shared/OpenRouterClient.swift` owning the endpoint, timeout, key guard, Bearer and content-type headers, `URLError.cancelled` → `CancellationError` translation, and the `HTTPURLResponse` cast, returning `(Data, statusCode)`.
-- [ ] 5.2 Rewrite `OpenRouterSuggestionService` on top of `OpenRouterClient`, keeping its own request builder and parser.
-- [ ] 5.3 Rewrite `OpenRouterPhotoMatchService` on top of `OpenRouterClient`, removing its cross-feature reads of the suggestion service's statics.
-- [ ] 5.4 Add unit tests asserting both features map 401, 402, 429, and a malformed body to the same `AIError` cases, and that a cancelled task throws `CancellationError` from both.
-- [ ] 5.5 Run the request-body fixture tests from 1.2 and confirm both bodies are still byte-identical; run both suites.
+- [x] 5.1 Add `AI/Shared/OpenRouterClient.swift` owning the endpoint, timeout, key guard, Bearer and content-type headers, `URLError.cancelled` → `CancellationError` translation, and the `HTTPURLResponse` cast, returning `(Data, statusCode)`.
+- [x] 5.2 Rewrite `OpenRouterSuggestionService` on top of `OpenRouterClient`, keeping its own request builder and parser.
+- [x] 5.3 Rewrite `OpenRouterPhotoMatchService` on top of `OpenRouterClient`, removing its cross-feature reads of the suggestion service's statics.
+- [x] 5.4 Add unit tests asserting both features map 401, 402, 429, and a malformed body to the same `AIError` cases, and that a cancelled task throws `CancellationError` from both.
+- [x] 5.5 Run the request-body fixture tests from 1.2 and confirm both bodies are still byte-identical; run both suites.
 
 ## 6. Add the persistence stores with tests
 

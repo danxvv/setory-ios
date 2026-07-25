@@ -98,7 +98,7 @@ struct PhotoMatchServiceTests {
         _ = try await makeService(defaults: defaults).matchExercises(request: try makePayload())
 
         let request = try #require(captured)
-        #expect(request.url == OpenRouterSuggestionService.endpoint)
+        #expect(request.url == OpenRouterClient.endpoint)
         #expect(request.httpMethod == "POST")
         #expect(request.value(forHTTPHeaderField: "Authorization") == "Bearer sk-or-v1-unit-test")
         #expect(request.value(forHTTPHeaderField: "Content-Type") == "application/json")
