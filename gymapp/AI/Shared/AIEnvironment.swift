@@ -9,9 +9,15 @@
 //
 
 import SwiftUI
+import UIKit
 
 extension EnvironmentValues {
     @Entry var apiKeyStore: any APIKeyStoring = KeychainAPIKeyStore()
     @Entry var routineSuggestionService: any RoutineSuggestionService = OpenRouterSuggestionService()
     @Entry var photoMatchService: any PhotoExerciseMatchService = OpenRouterPhotoMatchService()
+    /// Stand-in photo offered instead of the camera and system picker under
+    /// the photo-match UI-test hook; nil everywhere else, always nil in
+    /// Release. Injected like the services above so the feature view needs
+    /// no knowledge of launch arguments.
+    @Entry var photoMatchFixture: UIImage?
 }

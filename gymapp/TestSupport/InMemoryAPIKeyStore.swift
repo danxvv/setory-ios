@@ -7,6 +7,8 @@
 //  binary never carries a substitute for the Keychain.
 //
 
+#if DEBUG
+
 import Foundation
 
 /// A class so every reader sees writes made through shared references.
@@ -30,3 +32,5 @@ final class InMemoryAPIKeyStore: APIKeyStoring, @unchecked Sendable {
         lock.withLock { key = nil }
     }
 }
+
+#endif

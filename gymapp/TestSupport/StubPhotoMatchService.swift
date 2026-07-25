@@ -8,6 +8,8 @@
 //  network.
 //
 
+#if DEBUG
+
 import Foundation
 
 struct StubPhotoMatchService: PhotoExerciseMatchService {
@@ -54,3 +56,5 @@ extension StubPhotoMatchService {
         }
     }
 }
+
+#endif

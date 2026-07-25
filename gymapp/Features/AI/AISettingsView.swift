@@ -123,7 +123,13 @@ struct AISettingsView: View {
     }
 }
 
+// Previews use the Debug-only stub AI dependencies, so they compile
+// out of Release along with the rest of TestSupport.
+#if DEBUG
+
 #Preview {
     AISettingsView()
         .environment(\.apiKeyStore, InMemoryAPIKeyStore())
 }
+
+#endif

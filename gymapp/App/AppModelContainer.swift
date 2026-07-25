@@ -29,40 +29,19 @@ enum AppModelContainer {
 
         do {
             let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
-            if CommandLine.arguments.contains("-uitest-reset") {
-                reset(context: container.mainContext)
-            }
+            // Order matters: a UI-test reset runs before catalog seeding so a
+            // pristine catalog is in place, and session seeding runs after so
+            // its series can resolve real exercise records.
+            TestOverrides.applyStoreReset(context: container.mainContext)
             do {
                 try CatalogSeeder.seedIfNeeded(context: container.mainContext)
             } catch {
                 assertionFailure("Catalog seeding failed: \(error)")
             }
-            if CommandLine.arguments.contains("-uitest-seed") {
-                do {
-                    try UITestSeeding.seedSessions(context: container.mainContext)
-                } catch {
-                    assertionFailure("UI-test session seeding failed: \(error)")
-                }
-            }
+            TestOverrides.applySessionSeeding(context: container.mainContext)
             return container
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
-    }
-
-    /// The `-uitest-reset` path: drop all user-generated data and restore a
-    /// pristine catalog (dropping user edits) so UI tests never inherit
-    /// renames from a previous run. Wiping and reseeding all ~1300 Exercise
-    /// rows here dominated every UI-test launch; instead drop custom
-    /// exercises and re-align edited ones, parsing the catalog only when
-    /// edits exist.
-    private static func reset(context: ModelContext) {
-        try? context.delete(model: WorkoutSeries.self)
-        try? context.delete(model: WorkoutSession.self)
-        try? context.delete(model: RoutineTemplateItem.self)
-        try? context.delete(model: RoutineTemplate.self)
-        try? context.delete(model: Exercise.self, where: #Predicate { $0.isCustom })
-        try? CatalogSeeder.restorePristineCatalog(context: context)
-        try? context.save()
     }
 }

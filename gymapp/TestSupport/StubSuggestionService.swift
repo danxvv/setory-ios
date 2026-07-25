@@ -8,6 +8,8 @@
 //  network.
 //
 
+#if DEBUG
+
 import Foundation
 
 struct StubSuggestionService: RoutineSuggestionService {
@@ -58,3 +60,5 @@ extension StubSuggestionService {
         }
     }
 }
+
+#endif

@@ -86,12 +86,14 @@ scripts/uitest.sh
 
 ## 10. Quarantine the test scaffolding
 
-- [ ] 10.1 Add `TestSupport/LaunchOptions.swift` as the single reader of `CommandLine.arguments`, exposing typed options for reset, seed, offline media, the two AI scenarios, and animation disabling.
-- [ ] 10.2 Add `TestSupport/TestOverrides.swift` with the `#if DEBUG` seam returning overrides in Debug and `nil` in Release, and route `gymappApp`'s dependency resolution through it.
-- [ ] 10.3 Move the reset routine into `TestSupport/UITestReset.swift`, delegating to `CatalogSeeder.restorePristineCatalog` and `seedIfNeeded` in `Persistence/`, and preserving the no-parse-unless-edited property.
-- [ ] 10.4 Move the photo fixture and UI-test detection out of `PhotoMatchSheet` into `TestSupport/PhotoMatchFixture.swift`, delivering the fixture affordance to the sheet through the environment seam that already supplies its match service.
-- [ ] 10.5 Wrap the stub services, in-memory key store, seeding, reset, and fixture in `#if DEBUG`.
-- [ ] 10.6 Verify: a Release build compiles and contains no stub service; launching Release with `-uitest-reset -uitest-seed -uitest-ai success` wipes and seeds nothing; `CommandLine.arguments` appears only under `TestSupport/`; both suites still pass in Debug.
+- [x] 10.1 Add `TestSupport/LaunchOptions.swift` as the single reader of `CommandLine.arguments`, exposing typed options for reset, seed, offline media, the two AI scenarios, and animation disabling.
+- [x] 10.2 Add `TestSupport/TestOverrides.swift` with the `#if DEBUG` seam returning overrides in Debug and `nil` in Release, and route `gymappApp`'s dependency resolution through it.
+- [x] 10.3 Move the reset routine into `TestSupport/UITestReset.swift`, delegating to `CatalogSeeder.restorePristineCatalog` and `seedIfNeeded` in `Persistence/`, and preserving the no-parse-unless-edited property.
+- [x] 10.4 Move the photo fixture and UI-test detection out of `PhotoMatchSheet` into `TestSupport/PhotoMatchFixture.swift`, delivering the fixture affordance to the sheet through the environment seam that already supplies its match service.
+- [x] 10.5 Wrap the stub services, in-memory key store, seeding, reset, and fixture in `#if DEBUG`.
+- [x] 10.6 Verify: a Release build compiles and contains no stub service; launching Release with `-uitest-reset -uitest-seed -uitest-ai success` wipes and seeds nothing; `CommandLine.arguments` appears only under `TestSupport/`; both suites still pass in Debug.
+  - Symbol counts, Debug dylib vs Release binary — control symbol present in both, scaffolding only in Debug: `OpenRouterClient` 48/35, `StubSuggestionService` 73/**0**, `InMemoryAPIKeyStore` 52/**0**, `LaunchOptions` 85/**0**, `-uitest` string literals 6/**0**. Inertness follows from the literals being absent: Release has no flag string to match and no reset/seed code to run.
+  - Release also required gating the three `#Preview` blocks that build stub AI dependencies — `#Preview` expands in Release too, which the Release build caught.
 
 ## 11. Split the two oversized views
 

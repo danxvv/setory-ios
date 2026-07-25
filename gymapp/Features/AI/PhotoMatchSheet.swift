@@ -21,6 +21,7 @@ struct PhotoMatchSheet: View {
 
     @Environment(\.apiKeyStore) private var keyStore
     @Environment(\.photoMatchService) private var matchService
+    @Environment(\.photoMatchFixture) private var photoMatchFixture
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
@@ -190,13 +191,12 @@ struct PhotoMatchSheet: View {
                     .accessibilityIdentifier("photo-match-camera-button")
                 }
 
-                if PhotoMatchSheet.isUITesting {
+                if let photoMatchFixture {
                     // Keeps XCUITest out of the camera and the system photo
-                    // picker: attaches a bundled catalog thumbnail instead.
+                    // picker. The image is injected; this view knows nothing
+                    // about launch arguments.
                     Button {
-                        if let fixture = PhotoMatchSheet.fixturePhoto {
-                            attach(fixture)
-                        }
+                        attach(photoMatchFixture)
                     } label: {
                         // Verbatim: test-only affordance, never localized.
                         Text(verbatim: "Attach Test Photo")
@@ -471,20 +471,11 @@ struct PhotoMatchSheet: View {
         }
     }
 
-    // MARK: - UI-test hooks
-
-    /// True under `-uitest-photo-match`, which also exposes the fixture
-    /// attach button so tests never open system UI.
-    static var isUITesting: Bool {
-        CommandLine.arguments.contains("-uitest-photo-match")
-    }
-
-    /// A bundled catalog thumbnail doubling as the test fixture — real JPEG
-    /// bytes through the same preprocessing path, no extra asset to ship.
-    static var fixturePhoto: UIImage? {
-        UIImage(named: "gv0025.jpg")
-    }
 }
+
+// Previews use the Debug-only stub AI dependencies, so they compile
+// out of Release along with the rest of TestSupport.
+#if DEBUG
 
 #Preview {
     let container = try! ModelContainer(
@@ -500,3 +491,5 @@ struct PhotoMatchSheet: View {
         ))
         .modelContainer(container)
 }
+
+#endif

@@ -7,6 +7,8 @@
 //  and Run, plus a Barbell Full Squat-only session three days earlier.
 //
 
+#if DEBUG
+
 import Foundation
 import SwiftData
 
@@ -38,3 +40,5 @@ enum UITestSeeding {
         try context.save()
     }
 }
+
+#endif

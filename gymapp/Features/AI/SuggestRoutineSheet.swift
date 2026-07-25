@@ -190,6 +190,10 @@ struct SuggestRoutineSheet: View {
     }
 }
 
+// Previews use the Debug-only stub AI dependencies, so they compile
+// out of Release along with the rest of TestSupport.
+#if DEBUG
+
 #Preview {
     SuggestRoutineSheet { _ in }
         .environment(\.apiKeyStore, InMemoryAPIKeyStore(key: "preview-key"))
@@ -202,3 +206,5 @@ struct SuggestRoutineSheet: View {
             inMemory: true
         )
 }
+
+#endif
