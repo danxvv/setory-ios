@@ -5,37 +5,11 @@
 //  Muscle and equipment filters shared by the exercise library and the
 //  exercise pickers. Filters combine with each other and with search; the
 //  bar lives above the list (not in the navigation bar) so it stays
-//  visible while search is active.
+//  visible while search is active. The selection and filter pipeline live
+//  in ExerciseFilters; this file only renders them.
 //
 
 import SwiftUI
-
-/// Active filter selection plus the shared filter pipeline.
-struct ExerciseFilters: Equatable {
-    var muscle: Muscle?
-    var equipment: Equipment?
-
-    var isActive: Bool { muscle != nil || equipment != nil }
-
-    /// Case- and diacritic-insensitive search (see Exercise.matchesSearch)
-    /// combined with the active filters. Filtering runs on locale-independent
-    /// raw values, so a filtered set is identical in every language — only
-    /// its ordering localizes, via the callers' sort.
-    /// Preserves the input order (callers sort).
-    func apply(to exercises: [Exercise], searchText: String) -> [Exercise] {
-        var result = exercises
-        if let muscle {
-            result = result.filter { $0.primaryMuscles.contains(muscle) }
-        }
-        if let equipment {
-            result = result.filter { $0.equipment == equipment }
-        }
-        if !searchText.isEmpty {
-            result = result.filter { $0.matchesSearch(searchText) }
-        }
-        return result
-    }
-}
 
 struct ExerciseFilterBar: View {
     @Binding var filters: ExerciseFilters

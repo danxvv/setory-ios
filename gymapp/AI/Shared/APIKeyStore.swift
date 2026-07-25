@@ -4,7 +4,8 @@
 //
 //  Keychain-backed storage for the OpenRouter API key. The key never
 //  touches UserDefaults, files, or logs. The protocol seam lets tests and
-//  the -uitest-ai launch hook substitute an in-memory store.
+//  the -uitest-ai launch hook substitute an in-memory store — see
+//  InMemoryAPIKeyStore in TestSupport.
 //
 
 import Foundation
@@ -64,28 +65,5 @@ struct KeychainAPIKeyStore: APIKeyStoring {
         if status != errSecSuccess && status != errSecItemNotFound {
             assertionFailure("Keychain delete failed: \(status)")
         }
-    }
-}
-
-/// Non-persistent store for unit tests and the -uitest-ai launch hook.
-/// A class so every reader sees writes made through shared references.
-final class InMemoryAPIKeyStore: APIKeyStoring, @unchecked Sendable {
-    private let lock = NSLock()
-    private var key: String?
-
-    init(key: String? = nil) {
-        self.key = key
-    }
-
-    func read() -> String? {
-        lock.withLock { key }
-    }
-
-    func save(_ key: String) {
-        lock.withLock { self.key = key }
-    }
-
-    func clear() {
-        lock.withLock { key = nil }
     }
 }
