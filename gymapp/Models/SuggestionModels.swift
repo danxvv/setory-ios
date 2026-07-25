@@ -19,6 +19,8 @@ struct SuggestionRequestPayload: Codable, Equatable, Sendable {
         let id: String
         /// ExerciseCategory raw value ("strength" / "cardio").
         let category: String
+        /// Equipment raw value (e.g. "barbell"); omitted when unknown.
+        let equipment: String?
         /// Muscle raw values (e.g. "chest", "lower_back").
         let primaryMuscles: [String]
         let secondaryMuscles: [String]

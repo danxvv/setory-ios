@@ -374,6 +374,16 @@
         }
       }
     },
+    "About & Licenses": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acerca de y licencias"
+          }
+        }
+      }
+    },
     "Abs": {
       "localizations": {
         "es": {
@@ -414,6 +424,16 @@
         }
       }
     },
+    "Add a photo of the machine, the equipment, or the exercise being performed.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añade una foto de la máquina, del equipo o del ejercicio en ejecución."
+          }
+        }
+      }
+    },
     "Add at least one exercise.": {
       "localizations": {
         "es": {
@@ -434,6 +454,26 @@
         }
       }
     },
+    "All equipment": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todo el equipamiento"
+          }
+        }
+      }
+    },
+    "All muscles": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todos los músculos"
+          }
+        }
+      }
+    },
     "An OpenRouter API key is required.": {
       "localizations": {
         "es": {
@@ -444,12 +484,42 @@
         }
       }
     },
+    "Assisted": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asistido"
+          }
+        }
+      }
+    },
     "Back": {
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Espalda"
+          }
+        }
+      }
+    },
+    "Band": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Banda elástica"
+          }
+        }
+      }
+    },
+    "Barbell": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barra"
           }
         }
       }
@@ -470,6 +540,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bíceps"
+          }
+        }
+      }
+    },
+    "Body Weight": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peso corporal"
+          }
+        }
+      }
+    },
+    "Bosu Ball": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bosu"
+          }
+        }
+      }
+    },
+    "Cable": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Polea"
           }
         }
       }
@@ -504,6 +604,16 @@
         }
       }
     },
+    "Cancel Match": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar búsqueda"
+          }
+        }
+      }
+    },
     "Cardio": {
       "localizations": {
         "es": {
@@ -534,12 +644,32 @@
         }
       }
     },
+    "Choose Photos": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elegir fotos"
+          }
+        }
+      }
+    },
     "Clear Key": {
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Borrar clave"
+          }
+        }
+      }
+    },
+    "Clear filters": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrar filtros"
           }
         }
       }
@@ -634,6 +764,16 @@
         }
       }
     },
+    "Dumbbell": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mancuerna"
+          }
+        }
+      }
+    },
     "Duplicate": {
       "localizations": {
         "es": {
@@ -650,6 +790,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Duración (min)"
+          }
+        }
+      }
+    },
+    "EZ Barbell": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barra EZ"
           }
         }
       }
@@ -674,12 +824,52 @@
         }
       }
     },
+    "Elliptical Machine": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Máquina elíptica"
+          }
+        }
+      }
+    },
+    "Equipment": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Equipamiento"
+          }
+        }
+      }
+    },
     "Exercise": {
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Ejercicio"
+          }
+        }
+      }
+    },
+    "Exercise data license": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Licencia de los datos de ejercicios"
+          }
+        }
+      }
+    },
+    "Exercise media": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multimedia de ejercicios"
           }
         }
       }
@@ -700,6 +890,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ejercicios"
+          }
+        }
+      }
+    },
+    "Find Exercises": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar ejercicios"
           }
         }
       }
@@ -784,12 +984,32 @@
         }
       }
     },
+    "Hammer Machine": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Máquina Hammer"
+          }
+        }
+      }
+    },
     "Hamstrings": {
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Isquiotibiales"
+          }
+        }
+      }
+    },
+    "High match": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coincidencia alta"
           }
         }
       }
@@ -814,12 +1034,32 @@
         }
       }
     },
+    "Identifying exercises…": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Identificando ejercicios…"
+          }
+        }
+      }
+    },
     "Instructions": {
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Instrucciones"
+          }
+        }
+      }
+    },
+    "Kettlebell": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pesa rusa"
           }
         }
       }
@@ -874,6 +1114,16 @@
         }
       }
     },
+    "Leverage Machine": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Máquina de palanca"
+          }
+        }
+      }
+    },
     "Log": {
       "localizations": {
         "es": {
@@ -894,6 +1144,26 @@
         }
       }
     },
+    "Match from Photo": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar por foto"
+          }
+        }
+      }
+    },
+    "Matches": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coincidencias"
+          }
+        }
+      }
+    },
     "Max reps": {
       "localizations": {
         "es": {
@@ -910,6 +1180,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Peso máximo (kg)"
+          }
+        }
+      }
+    },
+    "Medicine Ball": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Balón medicinal"
           }
         }
       }
@@ -940,6 +1220,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mes"
+          }
+        }
+      }
+    },
+    "Muscle": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Músculo"
           }
         }
       }
@@ -1000,6 +1290,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "No se encontraron ejercicios"
+          }
+        }
+      }
+    },
+    "No matching exercises": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin ejercicios coincidentes"
           }
         }
       }
@@ -1074,6 +1374,16 @@
         }
       }
     },
+    "Olympic Barbell": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barra olímpica"
+          }
+        }
+      }
+    },
     "Open AI Settings": {
       "localizations": {
         "es": {
@@ -1144,6 +1454,36 @@
         }
       }
     },
+    "Photo match failed": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La búsqueda por foto falló"
+          }
+        }
+      }
+    },
+    "Photo matching needs an OpenRouter API key. Add yours in AI Settings to enable it.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La búsqueda por foto necesita una clave de API de OpenRouter. Añade la tuya en Ajustes de IA para activarla."
+          }
+        }
+      }
+    },
+    "Photos": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotos"
+          }
+        }
+      }
+    },
     "Pick an exercise to log your first set of the day.": {
       "localizations": {
         "es": {
@@ -1160,6 +1500,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Plan: %@"
+          }
+        }
+      }
+    },
+    "Possible match": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coincidencia posible"
           }
         }
       }
@@ -1214,6 +1564,16 @@
         }
       }
     },
+    "Remove photo": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitar foto"
+          }
+        }
+      }
+    },
     "Replace": {
       "localizations": {
         "es": {
@@ -1264,12 +1624,42 @@
         }
       }
     },
+    "Resistance Band": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Banda de resistencia"
+          }
+        }
+      }
+    },
     "Retry": {
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Reintentar"
+          }
+        }
+      }
+    },
+    "Roller": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rodillo"
+          }
+        }
+      }
+    },
+    "Rope": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuerda"
           }
         }
       }
@@ -1364,6 +1754,16 @@
         }
       }
     },
+    "Select the exercises to add to this routine.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecciona los ejercicios que quieras añadir a esta rutina."
+          }
+        }
+      }
+    },
     "Series": {
       "localizations": {
         "es": {
@@ -1384,6 +1784,56 @@
         }
       }
     },
+    "Show demonstration for %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar demostración de %@"
+          }
+        }
+      }
+    },
+    "SkiErg Machine": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Máquina SkiErg"
+          }
+        }
+      }
+    },
+    "Sled Machine": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Máquina de trineo"
+          }
+        }
+      }
+    },
+    "Smith Machine": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Máquina Smith"
+          }
+        }
+      }
+    },
+    "Stability Ball": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pelota de estabilidad"
+          }
+        }
+      }
+    },
     "Start from template": {
       "localizations": {
         "es": {
@@ -1394,12 +1844,32 @@
         }
       }
     },
+    "Stationary Bike": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bicicleta estática"
+          }
+        }
+      }
+    },
     "Step": {
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Paso"
+          }
+        }
+      }
+    },
+    "Stepmill Machine": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escaladora"
           }
         }
       }
@@ -1440,6 +1910,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "La sugerencia falló"
+          }
+        }
+      }
+    },
+    "Take Photo": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tomar foto"
           }
         }
       }
@@ -1514,12 +1994,32 @@
         }
       }
     },
+    "Tire": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neumático"
+          }
+        }
+      }
+    },
     "Too many requests right now. Try again in a moment.": {
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Demasiadas solicitudes en este momento. Inténtalo de nuevo en un momento."
+          }
+        }
+      }
+    },
+    "Trap Bar": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barra hexagonal"
           }
         }
       }
@@ -1554,12 +2054,52 @@
         }
       }
     },
+    "Try Other Photos": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Probar con otras fotos"
+          }
+        }
+      }
+    },
     "Try a different search.": {
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Prueba con otra búsqueda."
+          }
+        }
+      }
+    },
+    "Try a photo that shows the whole machine or its label.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prueba con una foto que muestre la máquina completa o su etiqueta."
+          }
+        }
+      }
+    },
+    "Up to %lld photos are sent to OpenRouter under your API key.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se envían hasta %lld fotos a OpenRouter con tu clave de API."
+          }
+        }
+      }
+    },
+    "Upper Body Ergometer": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ergómetro de brazos"
           }
         }
       }
@@ -1604,6 +2144,16 @@
         }
       }
     },
+    "Weak match": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coincidencia débil"
+          }
+        }
+      }
+    },
     "Week": {
       "localizations": {
         "es": {
@@ -1624,12 +2174,32 @@
         }
       }
     },
-    "When you request a suggestion, your exercise IDs, set counts, muscle data, session dates, and optional goal are sent to OpenRouter under your API key. Requests happen only when you ask for a suggestion.": {
+    "Weighted": {
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Al pedir una sugerencia, se envían a OpenRouter tus IDs de ejercicios, número de series, datos musculares, fechas de sesión y el objetivo opcional, usando tu clave de API. Las solicitudes solo ocurren cuando pides una sugerencia."
+            "value": "Con peso"
+          }
+        }
+      }
+    },
+    "Wheel Roller": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rueda abdominal"
+          }
+        }
+      }
+    },
+    "When you request a suggestion, your exercise IDs, set counts, muscle data, session dates, and optional goal are sent to OpenRouter under your API key. When you request a photo match, the photos you attach are sent along with the exercise catalog (IDs, names, and muscle data); the app never stores them. Requests happen only when you ask for a suggestion or a photo match.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuando pides una sugerencia, se envían a OpenRouter con tu clave de API los IDs de tus ejercicios, el número de series, los datos musculares, las fechas de las sesiones y el objetivo opcional. Cuando pides una búsqueda por foto, se envían las fotos que adjuntes junto con el catálogo de ejercicios (IDs, nombres y datos musculares); la app nunca las almacena. Las solicitudes solo ocurren cuando pides una sugerencia o una búsqueda por foto."
           }
         }
       }

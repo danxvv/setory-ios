@@ -25,11 +25,19 @@ The logging screen SHALL display a calendar at the top showing the current month
 - **THEN** the routine detail view for that day's session is pushed
 
 ### Requirement: Exercise selection
-The logging screen SHALL provide a dropdown/picker listing all exercises from the exercise catalog (see `exercise-catalog`). Selecting an exercise MUST open the set-entry popup for that exercise.
+The logging screen SHALL provide an exercise picker presented as a searchable sheet listing all exercises from the exercise catalog (see `exercise-catalog`), with case- and diacritic-insensitive name search and filters by primary muscle and equipment. Rows MUST show the exercise thumbnail (or category-icon fallback) and display name. Selecting an exercise MUST open the set-entry popup for that exercise.
 
-#### Scenario: Opening the set-entry popup
-- **WHEN** the user selects an exercise from the dropdown
-- **THEN** a popup appears titled with the exercise name and configured for the exercise's measurement type
+#### Scenario: Selecting an exercise
+- **WHEN** the user opens the exercise picker and selects an exercise
+- **THEN** the set-entry popup opens for that exercise
+
+#### Scenario: Searching within the picker
+- **WHEN** the user types "press" in the picker's search field
+- **THEN** only exercises whose display name matches "press" (ignoring case and diacritics) remain listed
+
+#### Scenario: Filtering within the picker
+- **WHEN** the user filters the picker by equipment `dumbbell`
+- **THEN** only dumbbell exercises remain listed
 
 ### Requirement: Set-entry popup
 The set-entry popup SHALL adapt its inputs to the exercise category: for `strength` exercises it MUST accept repetitions (required, positive integer) and weight (optional, non-negative decimal in kg); for `cardio` exercises it MUST accept a duration (required, greater than zero). The popup SHALL offer confirm and cancel actions, and confirm MUST be disabled while required inputs are missing or invalid.
@@ -102,3 +110,30 @@ The logging screen SHALL let the user apply a routine template (see `routine-tem
 #### Scenario: Saved days cannot receive a template
 - **WHEN** the selected day already has a saved workout session
 - **THEN** no apply-template action is offered for that day
+
+### Requirement: Routine media on the logging screen
+Every routine row on the logging screen — planned exercise rows, unsaved draft series rows, and saved-session series rows — SHALL show the exercise's bundled thumbnail, falling back to the exercise's category icon when the exercise has no media reference, and to a neutral placeholder icon when the row's exercise is missing (e.g. deleted). For exercises with a media reference, the thumbnail SHALL act as an affordance that opens a media viewer presenting that exercise's animated demonstration with the exercise's localized name, per the `exercise-media` capability (on-demand fetch, on-disk cache, thumbnail degradation with retry, and attribution). Opening the viewer MUST NOT trigger the row's primary action (set-entry popup or routine-detail navigation), and all existing row interactions (row tap, swipe-to-delete) MUST continue to work. Exercises without a media reference MUST NOT offer the viewer affordance. This requirement changes presentation only: it MUST NOT alter what is logged or saved, nor the exercises' muscle-target metadata.
+
+#### Scenario: Plan rows show thumbnails
+- **WHEN** the user applies a routine template to an empty day
+- **THEN** each planned exercise row shows the exercise's thumbnail (or category-icon fallback) alongside its name, progress, and reference values
+
+#### Scenario: Series rows show thumbnails
+- **WHEN** the selected day has draft series or a saved session
+- **THEN** each series row shows the exercise's thumbnail (or category-icon fallback) alongside its name and recorded values
+
+#### Scenario: Thumbnail opens the animated demonstration
+- **WHEN** the user taps the thumbnail of a routine exercise that has a media reference
+- **THEN** a media viewer opens showing that exercise's animated demonstration and name, and the row's primary action is not triggered
+
+#### Scenario: Row actions keep working alongside media
+- **WHEN** the user taps a planned exercise row outside its thumbnail
+- **THEN** the set-entry popup opens as before, and no media viewer appears
+
+#### Scenario: Exercise without media offers no viewer
+- **WHEN** a routine row's exercise has no media reference
+- **THEN** the row shows the category icon in place of a thumbnail and tapping it does not open the media viewer
+
+#### Scenario: Saved series with a missing exercise
+- **WHEN** a saved-session series row's exercise no longer exists
+- **THEN** the row shows a placeholder icon, offers no viewer affordance, and its name and values render as before

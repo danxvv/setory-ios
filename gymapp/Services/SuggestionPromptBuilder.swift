@@ -13,6 +13,9 @@ import Foundation
 enum SuggestionPromptBuilder {
     /// How many of the most recent sessions are summarized for the model.
     static let maxHistorySessions = 10
+    /// Hard cap on catalog entries per request: the full 1,300+ catalog
+    /// would bloat every request by tens of thousands of tokens.
+    static let maxCatalogEntries = 200
     /// Structured-output schema name required by OpenRouter.
     static let schemaName = "suggested_routine"
 
@@ -31,8 +34,9 @@ enum SuggestionPromptBuilder {
         let language = languageCode.hasPrefix("es") ? "Spanish" : "English"
         return """
         You are an expert strength coach. Given a JSON payload with an \
-        exercise catalog, the user's recent workout history, and an \
-        optional goal, compose the user's next workout routine.
+        exercise catalog (a relevant subset of the user's full library), \
+        the user's recent workout history, and an optional goal, compose \
+        the user's next workout routine.
 
         Rules:
         - Use only exercise IDs from the catalog; never invent exercises.
@@ -50,42 +54,141 @@ enum SuggestionPromptBuilder {
     // MARK: - User payload
 
     /// Snapshot of the local store for the user message. Sessions are
-    /// summarized newest first, capped at `maxHistorySessions`; catalog
-    /// order is by ID so payloads are deterministic.
+    /// summarized newest first, capped at `maxHistorySessions`; the catalog
+    /// is a bounded relevance-filtered subset, ordered by ID so payloads
+    /// are deterministic.
     static func payload(
         exercises: [Exercise],
         sessions: [WorkoutSession],
         goal: String?
     ) -> SuggestionRequestPayload {
-        let catalog = exercises
-            .sorted { $0.id < $1.id }
-            .map {
-                SuggestionRequestPayload.CatalogEntry(
-                    id: $0.id,
-                    category: $0.categoryRaw,
-                    primaryMuscles: $0.primaryMuscleRaws,
-                    secondaryMuscles: $0.secondaryMuscleRaws
-                )
-            }
-
-        let recent = sessions
+        let recentSessions = sessions
             .sorted { $0.date > $1.date }
             .prefix(maxHistorySessions)
-            .map { session in
-                SuggestionRequestPayload.HistorySession(
-                    date: dayFormatter.string(from: session.date),
-                    exercises: exerciseEntries(for: session),
-                    musclesWorked: session.musclesWorked.map(\.rawValue)
-                )
-            }
 
         let trimmedGoal = goal?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let normalizedGoal = (trimmedGoal?.isEmpty ?? true) ? nil : trimmedGoal
+
+        let catalog = catalogSubset(
+            exercises: exercises,
+            recentSessions: Array(recentSessions),
+            goal: normalizedGoal
+        )
+        .sorted { $0.id < $1.id }
+        .map {
+            SuggestionRequestPayload.CatalogEntry(
+                id: $0.id,
+                category: $0.categoryRaw,
+                equipment: $0.equipmentRaw,
+                primaryMuscles: $0.primaryMuscleRaws,
+                secondaryMuscles: $0.secondaryMuscleRaws
+            )
+        }
+
+        let recent = recentSessions.map { session in
+            SuggestionRequestPayload.HistorySession(
+                date: dayFormatter.string(from: session.date),
+                exercises: exerciseEntries(for: session),
+                musclesWorked: session.musclesWorked.map(\.rawValue)
+            )
+        }
+
         return SuggestionRequestPayload(
             catalog: catalog,
             recentSessions: Array(recent),
-            goal: (trimmedGoal?.isEmpty ?? true) ? nil : trimmedGoal
+            goal: normalizedGoal
         )
     }
+
+    // MARK: - Catalog subset
+
+    /// Selects the bounded catalog subset for a request: every exercise
+    /// from the recent history, then goal-relevant exercises (capped so
+    /// variety survives), then a round-robin sample across primary muscle
+    /// groups. Deterministic: candidates are always walked in ID order.
+    static func catalogSubset(
+        exercises: [Exercise],
+        recentSessions: [WorkoutSession],
+        goal: String?
+    ) -> [Exercise] {
+        let sorted = exercises.sorted { $0.id < $1.id }
+        guard sorted.count > maxCatalogEntries else { return sorted }
+
+        var subset: [Exercise] = []
+        var includedIds = Set<String>()
+        func include(_ exercise: Exercise) {
+            guard subset.count < maxCatalogEntries,
+                  includedIds.insert(exercise.id).inserted else { return }
+            subset.append(exercise)
+        }
+
+        let recentIds = Set(recentSessions.flatMap { session in
+            session.orderedSeries.compactMap { $0.exercise?.id }
+        })
+        for exercise in sorted where recentIds.contains(exercise.id) {
+            include(exercise)
+        }
+
+        let goalMuscles = muscles(inGoal: goal)
+        if !goalMuscles.isEmpty {
+            // Leave a quarter of the budget for cross-muscle variety.
+            let goalCap = maxCatalogEntries * 3 / 4
+            for exercise in sorted
+            where subset.count < goalCap && !goalMuscles.isDisjoint(with: exercise.primaryMuscles) {
+                include(exercise)
+            }
+        }
+
+        var buckets: [Muscle: [Exercise]] = [:]
+        for exercise in sorted where !includedIds.contains(exercise.id) {
+            guard let primary = exercise.primaryMuscles.first else { continue }
+            buckets[primary, default: []].append(exercise)
+        }
+        while subset.count < maxCatalogEntries {
+            var pickedAny = false
+            for muscle in Muscle.allCases {
+                guard subset.count < maxCatalogEntries, !(buckets[muscle]?.isEmpty ?? true) else { continue }
+                include(buckets[muscle]!.removeFirst())
+                pickedAny = true
+            }
+            if !pickedAny { break }
+        }
+        return subset
+    }
+
+    /// Muscles referenced by the free-text goal, matched against a small
+    /// English/Spanish keyword table, case- and diacritic-insensitively.
+    static func muscles(inGoal goal: String?) -> Set<Muscle> {
+        guard let goal, !goal.isEmpty else { return [] }
+        let folded = goal.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
+        var result: Set<Muscle> = []
+        for (keyword, muscles) in goalMuscleKeywords where folded.contains(keyword) {
+            result.formUnion(muscles)
+        }
+        return result
+    }
+
+    /// Keyword table for goal parsing. Keys are diacritic-folded lowercase
+    /// substrings covering English and Spanish gym vocabulary.
+    private static let goalMuscleKeywords: [String: [Muscle]] = [
+        "chest": [.chest], "pecho": [.chest], "pectoral": [.chest],
+        "back": [.back, .lats, .lowerBack], "espalda": [.back, .lats, .lowerBack],
+        "lats": [.lats], "dorsal": [.lats],
+        "trap": [.traps], "trapecio": [.traps],
+        "shoulder": [.shoulders], "hombro": [.shoulders], "delt": [.shoulders], "deltoide": [.shoulders],
+        "arm": [.biceps, .triceps, .forearms], "brazo": [.biceps, .triceps, .forearms],
+        "bicep": [.biceps], "tricep": [.triceps],
+        "forearm": [.forearms], "antebrazo": [.forearms],
+        "abs": [.abs, .obliques], "abdom": [.abs, .obliques], "core": [.abs, .obliques, .lowerBack],
+        "oblique": [.obliques], "oblicuo": [.obliques],
+        "lower back": [.lowerBack], "lumbar": [.lowerBack],
+        "glute": [.glutes], "gluteo": [.glutes],
+        "leg": [.quads, .hamstrings, .glutes, .calves], "pierna": [.quads, .hamstrings, .glutes, .calves],
+        "quad": [.quads], "cuadriceps": [.quads],
+        "hamstring": [.hamstrings], "isquio": [.hamstrings], "femoral": [.hamstrings],
+        "calf": [.calves], "calves": [.calves], "pantorrilla": [.calves], "gemelo": [.calves],
+        "full body": [.fullBody], "cuerpo completo": [.fullBody],
+    ]
 
     /// Series tallied per exercise in first-appearance order, skipping
     /// series without an exercise (same shape as TemplateDraft.draft(from:)).

@@ -2,9 +2,9 @@
 //  ExerciseOverrideTests.swift
 //  gymappTests
 //
-//  Covers the user-modified override semantics: once an exercise is edited,
-//  its stored text wins everywhere and the catalog localization tables no
-//  longer apply (see Exercise.isUserModified).
+//  Covers content-language resolution and the user-modified override
+//  semantics: once an exercise is edited, its stored text wins everywhere
+//  and the content translations no longer apply (see Exercise.isUserModified).
 //
 
 import Foundation
@@ -14,29 +14,42 @@ import Testing
 
 struct ExerciseOverrideTests {
     private func makeCatalogExercise() -> Exercise {
-        // Uses a real catalog id so the ExerciseNames/ExerciseContent tables
-        // contain entries that the override must bypass.
         Exercise(
-            id: "bench-press",
-            name: "Bench Press",
+            id: "gv0025",
+            name: "Barbell Bench Press",
             category: .strength,
             primaryMuscles: [.chest],
             secondaryMuscles: [.triceps, .shoulders],
             summary: "Catalog summary.",
-            instructionSteps: ["Catalog step one.", "Catalog step two."]
+            instructionSteps: ["Catalog step one.", "Catalog step two."],
+            summaryTranslations: ["es": "Resumen del catálogo."],
+            instructionTranslations: ["es": ["Paso uno.", "Paso dos."]]
         )
     }
 
-    @Test func catalogExerciseResolvesThroughLocalizationTables() {
-        // Locale-agnostic: stored values are deliberately not catalog text,
-        // so in any device language the table value must win over them.
+    @Test func displayNameIsAlwaysTheStoredName() {
+        // Catalog names are English-only by design; there is no name table.
         let exercise = makeCatalogExercise()
-        exercise.name = "Stored Fallback Name"
+        #expect(exercise.localizedName == "Barbell Bench Press")
+    }
 
-        #expect(exercise.localizedName != "Stored Fallback Name")
-        #expect(exercise.localizedSummary != "Catalog summary.")
-        #expect(exercise.localizedInstructionSteps.count == 2)
-        #expect(exercise.localizedInstructionSteps[0] != "Catalog step one.")
+    @Test func contentResolvesPerLanguageWithEnglishFallback() {
+        let exercise = makeCatalogExercise()
+
+        #expect(exercise.localizedSummary(languageCode: "es") == "Resumen del catálogo.")
+        #expect(exercise.localizedInstructionSteps(languageCode: "es") == ["Paso uno.", "Paso dos."])
+        #expect(exercise.localizedSummary(languageCode: "en") == "Catalog summary.")
+        #expect(exercise.localizedInstructionSteps(languageCode: "en") == ["Catalog step one.", "Catalog step two."])
+        // Unsupported languages fall back to canonical English.
+        #expect(exercise.localizedSummary(languageCode: "fr") == "Catalog summary.")
+        #expect(exercise.localizedInstructionSteps(languageCode: "fr") == ["Catalog step one.", "Catalog step two."])
+    }
+
+    @Test func currentLanguageAccessorMatchesExplicitLookup() {
+        let exercise = makeCatalogExercise()
+        let code = Exercise.contentLanguageCode
+        #expect(exercise.localizedSummary == exercise.localizedSummary(languageCode: code))
+        #expect(exercise.localizedInstructionSteps == exercise.localizedInstructionSteps(languageCode: code))
     }
 
     @Test func userModifiedExerciseShowsStoredTextVerbatim() {
@@ -47,11 +60,14 @@ struct ExerciseOverrideTests {
         exercise.isUserModified = true
 
         #expect(exercise.localizedName == "Press banca plano")
-        #expect(exercise.localizedSummary == "My own notes.")
-        #expect(exercise.localizedInstructionSteps == ["Do it my way."])
+        // Translations still stored, but the override bypasses them in
+        // every language.
+        #expect(exercise.localizedSummary(languageCode: "es") == "My own notes.")
+        #expect(exercise.localizedSummary(languageCode: "en") == "My own notes.")
+        #expect(exercise.localizedInstructionSteps(languageCode: "es") == ["Do it my way."])
     }
 
-    @Test func unknownIdFallsBackToStoredValues() {
+    @Test func exerciseWithoutTranslationsFallsBackToStoredValues() {
         let exercise = Exercise(
             id: "my-custom-move",
             name: "My Custom Move",
@@ -62,7 +78,7 @@ struct ExerciseOverrideTests {
         )
 
         #expect(exercise.localizedName == "My Custom Move")
-        #expect(exercise.localizedSummary == "Custom summary.")
-        #expect(exercise.localizedInstructionSteps == ["Custom step."])
+        #expect(exercise.localizedSummary(languageCode: "es") == "Custom summary.")
+        #expect(exercise.localizedInstructionSteps(languageCode: "es") == ["Custom step."])
     }
 }

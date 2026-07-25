@@ -87,14 +87,14 @@ final class AISuggestionUITests: XCTestCase {
         XCTAssertTrue(nameField.waitForExistence(timeout: 10))
         XCTAssertEqual(nameField.value as? String, "AI Full Body")
         XCTAssertTrue(element(app, "suggestion-rationale").exists)
-        XCTAssertTrue(app.staticTexts["Bench Press"].exists)
-        XCTAssertTrue(app.staticTexts["Squat"].exists)
+        XCTAssertTrue(app.staticTexts["Barbell Bench Press"].exists)
+        XCTAssertTrue(app.staticTexts["Barbell Full Squat"].exists)
         XCTAssertTrue(app.staticTexts["4 sets"].exists)
         XCTAssertTrue(app.staticTexts["3 sets"].exists)
         // Muscle coverage derives from the local records of the suggested
-        // exercises (bench press → chest, squat → quads).
+        // exercises (bench press → chest, full squat → glutes).
         XCTAssertTrue(app.staticTexts["Chest"].exists)
-        XCTAssertTrue(app.staticTexts["Quads"].exists)
+        XCTAssertTrue(app.staticTexts["Glutes"].exists)
 
         app.buttons["save-template-button"].tap()
 

@@ -36,11 +36,11 @@ final class RoutineTemplatesUITests: XCTestCase {
         nameField.tap()
         nameField.typeText("Push Day")
 
-        addExercises(app: app, searches: [("bench press", "picker-exercise-bench-press"),
-                                          ("squat", "picker-exercise-squat")])
+        addExercises(app: app, searches: [("bench press", "picker-exercise-gv0025"),
+                                          ("full squat", "picker-exercise-gv0043")])
 
-        XCTAssertTrue(app.staticTexts["Bench Press"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Squat"].exists)
+        XCTAssertTrue(app.staticTexts["Barbell Bench Press"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Barbell Full Squat"].exists)
         XCTAssertEqual(nameField.value as? String, "Push Day",
                        "adding exercises must never overwrite a typed name")
 
@@ -52,7 +52,7 @@ final class RoutineTemplatesUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Push Day"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["2 exercises"].exists)
         XCTAssertTrue(app.staticTexts["Chest"].exists)
-        XCTAssertTrue(app.staticTexts["Quads"].exists)
+        XCTAssertTrue(app.staticTexts["Glutes"].exists)
 
         // Apply it to today on the Log tab.
         openTab(app: app, name: "Log")
@@ -66,12 +66,12 @@ final class RoutineTemplatesUITests: XCTestCase {
 
         // The plan stages both exercises at 0/3 (default target).
         XCTAssertTrue(app.staticTexts["Plan: Push Day"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Bench Press"].exists)
-        XCTAssertTrue(app.staticTexts["Squat"].exists)
+        XCTAssertTrue(app.staticTexts["Barbell Bench Press"].exists)
+        XCTAssertTrue(app.staticTexts["Barbell Full Squat"].exists)
         XCTAssertEqual(app.staticTexts.matching(identifier: "0/3 sets").count, 2)
 
         // Log one bench press set from the plan row.
-        app.cells.containing(.staticText, identifier: "Bench Press").element(boundBy: 0).tap()
+        app.cells.containing(.staticText, identifier: "Barbell Bench Press").element(boundBy: 0).tap()
         let reps = app.textFields["reps-field"]
         XCTAssertTrue(reps.waitForExistence(timeout: 5))
         reps.tap()
@@ -97,8 +97,8 @@ final class RoutineTemplatesUITests: XCTestCase {
 
         XCTAssertTrue(app.staticTexts["Saved workout"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.staticTexts["Plan: Push Day"].exists)
-        XCTAssertTrue(app.staticTexts["Bench Press"].exists)
-        XCTAssertFalse(app.staticTexts["Squat"].exists)
+        XCTAssertTrue(app.staticTexts["Barbell Bench Press"].exists)
+        XCTAssertFalse(app.staticTexts["Barbell Full Squat"].exists)
 
         let detailLink = app.staticTexts["View routine details"]
         XCTAssertTrue(detailLink.waitForExistence(timeout: 5))
@@ -108,7 +108,7 @@ final class RoutineTemplatesUITests: XCTestCase {
         detailLink.tap()
         XCTAssertTrue(app.staticTexts["10 reps · 40 kg"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["1"].exists)
-        XCTAssertFalse(app.staticTexts["Squat"].exists)
+        XCTAssertFalse(app.staticTexts["Barbell Full Squat"].exists)
     }
 
     func testSaveSessionAsTemplatePrefillsEditorAndCancelCreatesNothing() throws {
@@ -118,7 +118,7 @@ final class RoutineTemplatesUITests: XCTestCase {
 
         // Open the seeded session (Bench Press + Treadmill Run).
         openRoutinesTab(app: app)
-        let sessionRow = app.staticTexts["Bench Press, Treadmill Run"]
+        let sessionRow = app.staticTexts["Barbell Bench Press, Run"]
         XCTAssertTrue(sessionRow.waitForExistence(timeout: 5))
         sessionRow.tap()
 
@@ -131,8 +131,8 @@ final class RoutineTemplatesUITests: XCTestCase {
         let nameField = app.textFields["template-name-field"]
         XCTAssertTrue(nameField.waitForExistence(timeout: 5))
         XCTAssertEqual(nameField.value as? String, "Chest & Full Body")
-        XCTAssertTrue(app.staticTexts["Bench Press"].exists)
-        XCTAssertTrue(app.staticTexts["Treadmill Run"].exists)
+        XCTAssertTrue(app.staticTexts["Barbell Bench Press"].exists)
+        XCTAssertTrue(app.staticTexts["Run"].exists)
         XCTAssertEqual(app.staticTexts.matching(identifier: "1 set").count, 2)
 
         // Cancelling persists nothing.
@@ -151,7 +151,7 @@ final class RoutineTemplatesUITests: XCTestCase {
         openRoutinesTab(app: app)
         app.buttons["create-template-button"].tap()
         XCTAssertTrue(app.textFields["template-name-field"].waitForExistence(timeout: 5))
-        addExercises(app: app, searches: [("squat", "picker-exercise-squat")])
+        addExercises(app: app, searches: [("full squat", "picker-exercise-gv0043")])
         XCTAssertEqual(app.textFields["template-name-field"].value as? String, "Leg Day")
         app.buttons["save-template-button"].tap()
         XCTAssertTrue(app.staticTexts["Leg Day"].waitForExistence(timeout: 5))
@@ -181,7 +181,7 @@ final class RoutineTemplatesUITests: XCTestCase {
 
         // Templates persist across relaunch (no reset flag this time).
         app.terminate()
-        app.launchArguments = englishLocaleArguments
+        app.launchArguments = ["-uitest-disable-animations"] + englishLocaleArguments
         app.launch()
         openRoutinesTab(app: app)
         XCTAssertTrue(app.staticTexts["Leg Day"].waitForExistence(timeout: 5))
@@ -203,17 +203,18 @@ final class RoutineTemplatesUITests: XCTestCase {
         // A squat-only template suggests the localized "Leg Day".
         app.buttons["create-template-button"].tap()
         XCTAssertTrue(app.textFields["template-name-field"].waitForExistence(timeout: 5))
-        addExercises(app: app, searches: [("sentadilla", "picker-exercise-squat")])
-        XCTAssertTrue(app.staticTexts["Sentadilla"].waitForExistence(timeout: 5))
+        addExercises(app: app, searches: [("full squat", "picker-exercise-gv0043")])
+        XCTAssertTrue(app.staticTexts["Barbell Full Squat"].waitForExistence(timeout: 5))
         XCTAssertEqual(app.textFields["template-name-field"].value as? String, "Día de pierna")
         XCTAssertTrue(app.staticTexts["3 series"].exists)
         attachScreenshot(app: app, name: "es-editor")
         app.buttons["save-template-button"].tap()
 
-        // Row shows localized count and muscle chips ("Cuádriceps").
+        // Row shows localized count and muscle chips ("Glúteos" — the
+        // dataset squat's primary muscle).
         XCTAssertTrue(app.staticTexts["Día de pierna"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["1 ejercicio"].exists)
-        XCTAssertTrue(app.staticTexts["Cuádriceps"].exists)
+        XCTAssertTrue(app.staticTexts["Glúteos"].exists)
         attachScreenshot(app: app, name: "es-routines-list")
 
         // Apply on the Log tab: localized plan header and set progress.

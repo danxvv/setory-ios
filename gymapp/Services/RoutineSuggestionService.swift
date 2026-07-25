@@ -40,11 +40,15 @@ struct OpenRouterSuggestionService: RoutineSuggestionService {
     }
 
     /// The override when one is set (non-blank), otherwise the default.
-    var model: String {
-        let override = defaults.string(forKey: Self.modelOverrideDefaultsKey)?
+    /// Static because the photo-match client resolves the same preference —
+    /// one model setting covers every AI feature.
+    static func resolvedModel(defaults: UserDefaults) -> String {
+        let override = defaults.string(forKey: modelOverrideDefaultsKey)?
             .trimmingCharacters(in: .whitespacesAndNewlines)
-        return (override?.isEmpty ?? true) ? Self.defaultModel : override!
+        return (override?.isEmpty ?? true) ? defaultModel : override!
     }
+
+    var model: String { Self.resolvedModel(defaults: defaults) }
 
     func suggestRoutine(request payload: SuggestionRequestPayload) async throws -> SuggestedRoutine {
         guard let key = keyStore.read(), !key.isEmpty else {

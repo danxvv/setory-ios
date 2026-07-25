@@ -2,7 +2,9 @@
 //  SuggestionResponseParser.swift
 //  gymapp
 //
-//  Decodes and validates OpenRouter chat-completion responses. Client-side
+//  Validates the suggested routine carried by an OpenRouter
+//  chat-completion response (envelope decoding and status mapping live in
+//  ChatCompletionResponse, shared with photo matching). Client-side
 //  validation is the real gate on model output: not every model enforces
 //  strict schemas, so unknown exercise IDs are dropped, set counts clamped,
 //  and duplicates removed before anything reaches the UI. Pure statics so
@@ -58,40 +60,18 @@ enum SuggestionResponseParser {
         statusCode: Int,
         validExerciseIds: Set<String>
     ) throws -> SuggestedRoutine {
-        if let failure = error(forStatusCode: statusCode) {
-            throw failure
-        }
-
-        guard let envelope = try? JSONDecoder().decode(ChatCompletionEnvelope.self, from: data),
-              envelope.error == nil,
-              let choice = envelope.choices?.first
-        else { throw SuggestionError.badResponse }
-
-        // OpenRouter can embed a provider error inside a 200 response.
-        guard choice.error == nil, choice.finishReason != "error" else {
-            throw SuggestionError.badResponse
-        }
-
-        guard let content = choice.message?.content,
-              let routine = try? JSONDecoder().decode(
-                SuggestedRoutine.self,
-                from: Data(content.trimmingCharacters(in: .whitespacesAndNewlines).utf8)
-              )
-        else { throw SuggestionError.badResponse }
-
+        let routine = try ChatCompletionResponse.decode(
+            SuggestedRoutine.self,
+            from: data,
+            statusCode: statusCode
+        )
         return try validated(routine, validExerciseIds: validExerciseIds)
     }
 
     /// Non-2xx statuses each map to a typed error; the response body's
     /// error object adds nothing the UI needs beyond the status itself.
     static func error(forStatusCode statusCode: Int) -> SuggestionError? {
-        switch statusCode {
-        case 200..<300: nil
-        case 401: .invalidKey
-        case 402: .insufficientCredits
-        case 429: .rateLimited
-        default: .badResponse
-        }
+        ChatCompletionResponse.error(forStatusCode: statusCode)
     }
 
     /// Drops items with unknown exercise IDs, clamps target sets to the
@@ -118,31 +98,4 @@ enum SuggestionResponseParser {
         validated.items = items
         return validated
     }
-}
-
-/// The slice of the chat-completion response the app reads. `finish_reason`
-/// and the error objects capture OpenRouter's embedded-error shape.
-private struct ChatCompletionEnvelope: Decodable {
-    struct ErrorObject: Decodable {
-        let message: String?
-    }
-
-    struct Choice: Decodable {
-        struct Message: Decodable {
-            let content: String?
-        }
-
-        let message: Message?
-        let finishReason: String?
-        let error: ErrorObject?
-
-        enum CodingKeys: String, CodingKey {
-            case message
-            case error
-            case finishReason = "finish_reason"
-        }
-    }
-
-    let choices: [Choice]?
-    let error: ErrorObject?
 }

@@ -17,6 +17,7 @@ struct ExerciseMultiPicker: View {
     @Query private var exercises: [Exercise]
 
     @State private var searchText = ""
+    @State private var filters = ExerciseFilters()
     @State private var selectedIds: Set<String> = []
 
     /// Sorted in memory by localized display name: SwiftData can't sort on
@@ -27,10 +28,9 @@ struct ExerciseMultiPicker: View {
         }
     }
 
-    /// Case- and diacritic-insensitive match on the localized name.
+    /// Search plus muscle/equipment filters over the sorted catalog.
     private var filteredExercises: [Exercise] {
-        guard !searchText.isEmpty else { return sortedExercises }
-        return sortedExercises.filter { $0.localizedName.localizedStandardContains(searchText) }
+        filters.apply(to: sortedExercises, searchText: searchText)
     }
 
     /// Selection in localized-name order, matching the list the user saw.
@@ -52,6 +52,10 @@ struct ExerciseMultiPicker: View {
                         row(for: exercise)
                     }
                 }
+            }
+            .safeAreaInset(edge: .top, spacing: 0) {
+                ExerciseFilterBar(filters: $filters)
+                    .background(.bar)
             }
             .navigationTitle("Add Exercises")
             .navigationBarTitleDisplayMode(.inline)
@@ -83,9 +87,7 @@ struct ExerciseMultiPicker: View {
             }
         } label: {
             HStack(spacing: 12) {
-                Image(systemName: exercise.category == .cardio ? "heart.circle" : "dumbbell")
-                    .foregroundStyle(.tint)
-                    .frame(width: 28)
+                ExerciseThumbnailView(exercise: exercise, size: 36)
                 Text(exercise.localizedName)
                     .font(.body.weight(.medium))
                     .foregroundStyle(.primary)

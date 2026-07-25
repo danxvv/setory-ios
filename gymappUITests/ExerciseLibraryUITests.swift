@@ -2,10 +2,12 @@
 //  ExerciseLibraryUITests.swift
 //  gymappUITests
 //
-//  Exercises tab: browse/search the catalog, open detail screens (content,
-//  muscles, history, related exercises), and the edit flow with rename
-//  persistence. `-uitest-reset` restores a pristine catalog, so edits made
-//  here never leak into other tests.
+//  Exercises tab: browse/search/filter the catalog, open detail screens
+//  (media, equipment, muscles, history, related exercises), and the edit
+//  flow with rename persistence. `-uitest-reset` restores a pristine
+//  catalog, so edits made here never leak into other tests.
+//  `-uitest-offline-media` keeps media network traffic out of the tests:
+//  detail screens deterministically show the thumbnail + retry state.
 //
 
 import XCTest
@@ -18,24 +20,33 @@ final class ExerciseLibraryUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    // MARK: - Browse, search, detail (library)
+    // MARK: - Browse, search, filter, detail (library)
 
-    func testLibraryBrowseSearchAndOpenDetail() throws {
+    func testLibraryBrowseSearchFilterAndOpenDetail() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-uitest-reset"] + englishLocaleArguments
+        app.launchArguments = ["-uitest-reset", "-uitest-offline-media"] + englishLocaleArguments
         app.launch()
 
         openExercisesTab(app: app)
 
         // Alphabetical browse: the first rows of the catalog are visible.
-        XCTAssertTrue(app.staticTexts["Back Extension"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Barbell Curl"].exists)
+        XCTAssertTrue(app.staticTexts["3/4 Sit-Up"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["45° Side Bend"].exists)
+
+        // Muscle filter narrows the list; clearing restores it.
+        app.buttons["filter-muscle"].tap()
+        let chestOption = app.buttons["Chest"]
+        XCTAssertTrue(chestOption.waitForExistence(timeout: 5))
+        chestOption.tap()
+        XCTAssertFalse(app.staticTexts["3/4 Sit-Up"].exists)
+        app.buttons["filter-clear"].tap()
+        XCTAssertTrue(app.staticTexts["3/4 Sit-Up"].waitForExistence(timeout: 5))
 
         // Search narrows the list (case-insensitive).
-        search(app: app, text: "bench")
-        XCTAssertTrue(app.staticTexts["Bench Press"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Incline Bench Press"].exists)
-        XCTAssertFalse(app.staticTexts["Back Extension"].exists)
+        search(app: app, text: "bench press")
+        XCTAssertTrue(app.staticTexts["Barbell Bench Press"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Band Bench Press"].exists)
+        XCTAssertFalse(app.staticTexts["3/4 Sit-Up"].exists)
 
         // No matches shows the empty state.
         app.searchFields.firstMatch.typeText("zzz")
@@ -43,46 +54,51 @@ final class ExerciseLibraryUITests: XCTestCase {
 
         // Clear back to a match and open the detail screen.
         clearSearch(app: app)
-        app.searchFields.firstMatch.typeText("bench press")
-        let row = element(in: app, withIdentifier: "exercise-row-bench-press")
+        app.searchFields.firstMatch.typeText("barbell bench press")
+        let row = element(in: app, withIdentifier: "exercise-row-gv0025")
         XCTAssertTrue(row.waitForExistence(timeout: 5))
         row.tap()
+        XCTAssertTrue(app.navigationBars["Barbell Bench Press"].waitForExistence(timeout: 5))
 
-        // Detail content: description, instructions, muscles, empty history.
-        XCTAssertTrue(app.staticTexts["Description"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["exercise-summary"].label.contains("classic barbell press"))
+        // Media section: offline media shows the bundled thumbnail with a
+        // retry affordance, and the attribution is always visible.
+        XCTAssertTrue(element(in: app, withIdentifier: "media-attribution").waitForExistence(timeout: 5))
+        XCTAssertTrue(element(in: app, withIdentifier: "media-retry-button").waitForExistence(timeout: 5))
+
+        // Detail content, revealed strictly in layout order (list rows
+        // don't exist in the AX tree while virtualized offscreen).
+        XCTAssertTrue(element(in: app, withIdentifier: "exercise-equipment").exists)
         XCTAssertTrue(app.staticTexts["Strength"].exists)
-        XCTAssertTrue(app.staticTexts["Primary muscles"].exists)
-        XCTAssertTrue(app.staticTexts["Chest"].exists)
-        XCTAssertTrue(app.staticTexts["Secondary muscles"].exists)
-        XCTAssertTrue(app.staticTexts["Triceps"].exists)
-        XCTAssertTrue(app.staticTexts["Instructions"].exists)
-
-        app.swipeUp()
-        XCTAssertTrue(app.staticTexts["History"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["history-empty"].exists)
+        XCTAssertTrue(reveal(app.staticTexts["Primary muscles"], in: app))
+        XCTAssertTrue(reveal(app.staticTexts["Chest"], in: app))
+        XCTAssertTrue(reveal(app.staticTexts["Secondary muscles"], in: app))
+        XCTAssertTrue(reveal(app.staticTexts["Triceps"], in: app))
+        XCTAssertTrue(reveal(app.staticTexts["Description"], in: app))
+        XCTAssertTrue(reveal(app.staticTexts["exercise-summary"], in: app))
+        XCTAssertTrue(app.staticTexts["exercise-summary"].label.contains("Barbell exercise targeting the chest"))
+        XCTAssertTrue(reveal(app.staticTexts["Instructions"], in: app))
+        XCTAssertTrue(reveal(app.staticTexts["history-empty"], in: app))
 
         // Related exercises share the primary muscle and push their own detail.
-        app.swipeUp()
-        XCTAssertTrue(app.staticTexts["Related exercises"].waitForExistence(timeout: 5))
-        let related = element(in: app, withIdentifier: "related-cable-crossover")
+        XCTAssertTrue(reveal(app.staticTexts["Related exercises"], in: app))
+        let related = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier BEGINSWITH 'related-'")).firstMatch
         XCTAssertTrue(related.waitForExistence(timeout: 5))
         related.tap()
-        XCTAssertTrue(app.navigationBars["Cable Crossover"].waitForExistence(timeout: 5))
+        // A new detail screen was pushed (its nav bar is not the bench press).
+        XCTAssertFalse(app.navigationBars["Barbell Bench Press"].waitForExistence(timeout: 2))
     }
 
     func testDetailShowsSeededHistory() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-uitest-reset", "-uitest-seed"] + englishLocaleArguments
+        app.launchArguments = ["-uitest-reset", "-uitest-seed", "-uitest-offline-media"] + englishLocaleArguments
         app.launch()
 
-        openDetail(app: app, searchText: "bench press", rowId: "exercise-row-bench-press")
+        openDetail(app: app, searchText: "barbell bench press", rowId: "exercise-row-gv0025")
 
-        app.swipeUp()
-        XCTAssertTrue(app.staticTexts["History"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Last performed"].exists)
-        XCTAssertTrue(app.staticTexts["Best set"].exists)
-        XCTAssertTrue(app.staticTexts["10 reps · 40 kg"].firstMatch.exists)
+        XCTAssertTrue(reveal(app.staticTexts["Last performed"], in: app))
+        XCTAssertTrue(reveal(app.staticTexts["Best set"], in: app))
+        XCTAssertTrue(reveal(app.staticTexts["10 reps · 40 kg"].firstMatch, in: app))
         XCTAssertFalse(app.staticTexts["history-empty"].exists)
     }
 
@@ -90,50 +106,53 @@ final class ExerciseLibraryUITests: XCTestCase {
 
     func testLibraryAndDetailRenderInSpanish() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-uitest-reset", "-AppleLanguages", "(es)", "-AppleLocale", "es_ES"]
+        app.launchArguments = ["-uitest-reset", "-uitest-offline-media", "-AppleLanguages", "(es)", "-AppleLocale", "es_ES"]
         app.launch()
 
-        // Tab label and library content are Spanish.
+        // Tab label is Spanish; exercise names stay English by design
+        // (the dataset ships no translated names).
         let tabButton = app.tabBars.buttons["Ejercicios"]
         XCTAssertTrue(tabButton.waitForExistence(timeout: 5))
         tabButton.tap()
-        XCTAssertTrue(app.staticTexts["Curl con barra"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["3/4 Sit-Up"].waitForExistence(timeout: 5))
 
         // Locale-independent identifiers reach the detail screen.
-        search(app: app, text: "press de banca")
-        let row = element(in: app, withIdentifier: "exercise-row-bench-press")
+        search(app: app, text: "barbell curl")
+        let row = element(in: app, withIdentifier: "exercise-row-gv0031")
         XCTAssertTrue(row.waitForExistence(timeout: 5))
         row.tap()
 
-        XCTAssertTrue(app.navigationBars["Press de banca"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Descripción"].exists)
+        // English name; Spanish UI labels and Spanish per-locale content.
+        XCTAssertTrue(app.navigationBars["Barbell Curl"].waitForExistence(timeout: 5))
+        XCTAssertTrue(element(in: app, withIdentifier: "exercise-equipment").exists)
         XCTAssertTrue(app.staticTexts["Fuerza"].exists)
         XCTAssertTrue(app.staticTexts["Músculos principales"].exists)
-        XCTAssertTrue(app.staticTexts["Pecho"].exists)
-        XCTAssertTrue(app.staticTexts["Instrucciones"].exists)
-        XCTAssertTrue(app.staticTexts["exercise-summary"].label.contains("press clásico con barra"))
+        XCTAssertTrue(app.staticTexts["Bíceps"].exists)
+        XCTAssertTrue(reveal(app.staticTexts["Descripción"], in: app))
+        XCTAssertTrue(reveal(app.staticTexts["exercise-summary"], in: app))
+        XCTAssertTrue(app.staticTexts["exercise-summary"].label.contains("Ejercicio con barra"))
+        XCTAssertTrue(reveal(app.staticTexts["Instrucciones"], in: app))
 
-        app.swipeUp()
-        XCTAssertTrue(app.staticTexts["Historial"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Aún no realizado"].exists)
-        app.swipeUp()
-        XCTAssertTrue(app.staticTexts["Ejercicios relacionados"].waitForExistence(timeout: 5))
+        XCTAssertTrue(reveal(app.staticTexts["Aún no realizado"], in: app))
+        XCTAssertTrue(reveal(app.staticTexts["Ejercicios relacionados"], in: app))
     }
 
     // MARK: - Edit flow
 
     func testEditFlowRenameSavePersistsAndCancelDiscards() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-uitest-reset"] + englishLocaleArguments
+        app.launchArguments = ["-uitest-reset", "-uitest-offline-media"] + englishLocaleArguments
         app.launch()
 
-        openDetail(app: app, searchText: "bench press", rowId: "exercise-row-bench-press")
+        // "bench press" (not "barbell bench press") so the still-active
+        // search matches the row again after the rename to "AAA Bench Press".
+        openDetail(app: app, searchText: "bench press", rowId: "exercise-row-gv0025")
 
         // Enter edit mode; the form is pre-filled with the displayed name.
         app.buttons["edit-exercise-button"].tap()
         let nameField = app.textFields["exercise-name-field"]
         XCTAssertTrue(nameField.waitForExistence(timeout: 5))
-        XCTAssertEqual(nameField.value as? String, "Bench Press")
+        XCTAssertEqual(nameField.value as? String, "Barbell Bench Press")
 
         // An empty name disables Save.
         nameField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
@@ -141,8 +160,7 @@ final class ExerciseLibraryUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Name is required."].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["save-exercise-button"].isEnabled)
 
-        // Rename ("AAA" prefix keeps it at the top of alphabetical lists,
-        // so the Add Exercise menu shows it without scrolling) and save.
+        // Rename and save.
         nameField.typeText("AAA Bench Press")
         XCTAssertTrue(app.buttons["save-exercise-button"].isEnabled)
         app.buttons["save-exercise-button"].tap()
@@ -162,21 +180,26 @@ final class ExerciseLibraryUITests: XCTestCase {
         app.navigationBars.buttons.firstMatch.tap()
         XCTAssertTrue(app.staticTexts["AAA Bench Press"].waitForExistence(timeout: 5))
 
-        // The Add Exercise menu on the Log tab shows it too.
+        // The exercise picker on the Log tab finds it too.
         openLogTab(app: app)
-        let addExercise = app.buttons["Add Exercise"]
+        let addExercise = app.buttons["add-exercise-button"]
         XCTAssertTrue(addExercise.waitForExistence(timeout: 5))
-        addExercise.press(forDuration: 0.2)
-        XCTAssertTrue(app.buttons["AAA Bench Press"].waitForExistence(timeout: 5))
-        app.buttons["AAA Bench Press"].tap()
+        addExercise.tap()
+        let searchField = app.searchFields.firstMatch
+        XCTAssertTrue(searchField.waitForExistence(timeout: 5))
+        searchField.tap()
+        searchField.typeText("AAA")
+        let pickerRow = element(in: app, withIdentifier: "picker-exercise-gv0025")
+        XCTAssertTrue(pickerRow.waitForExistence(timeout: 5))
+        pickerRow.tap()
         XCTAssertTrue(app.staticTexts["Reps"].waitForExistence(timeout: 5))
         app.buttons["Cancel"].tap()
 
         // The rename survives a relaunch (no reset this time).
         app.terminate()
-        app.launchArguments = englishLocaleArguments
+        app.launchArguments = ["-uitest-offline-media"] + englishLocaleArguments
         app.launch()
-        openDetail(app: app, searchText: "AAA bench", rowId: "exercise-row-bench-press")
+        openDetail(app: app, searchText: "AAA bench", rowId: "exercise-row-gv0025")
         XCTAssertTrue(app.navigationBars["AAA Bench Press"].waitForExistence(timeout: 5))
     }
 
@@ -233,5 +256,17 @@ final class ExerciseLibraryUITests: XCTestCase {
     /// its inner button depending on OS version; match any element type.
     private func element(in app: XCUIApplication, withIdentifier id: String) -> XCUIElement {
         app.descendants(matching: .any).matching(identifier: id).firstMatch
+    }
+
+    /// Swipes up until the element enters the accessibility tree (list rows
+    /// don't exist while virtualized offscreen). Returns whether it appeared.
+    @discardableResult
+    private func reveal(_ target: XCUIElement, in app: XCUIApplication, maxSwipes: Int = 8) -> Bool {
+        var swipes = 0
+        while !target.exists && swipes < maxSwipes {
+            app.swipeUp()
+            swipes += 1
+        }
+        return target.waitForExistence(timeout: 2)
     }
 }

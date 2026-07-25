@@ -2,9 +2,9 @@
 //  WorkoutLoggingUITests.swift
 //  gymappUITests
 //
-//  End-to-end pass over the logging flow: log strength and cardio series,
-//  delete one, finish the day, relaunch, and confirm persistence and the
-//  calendar highlight.
+//  End-to-end pass over the logging flow: log strength and cardio series
+//  through the searchable picker sheet, delete one, finish the day,
+//  relaunch, and confirm persistence and the calendar highlight.
 //
 
 import XCTest
@@ -19,14 +19,14 @@ final class WorkoutLoggingUITests: XCTestCase {
 
     func testLogWorkoutEndToEnd() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-uitest-reset"] + englishLocaleArguments
+        app.launchArguments = ["-uitest-reset", "-uitest-offline-media"] + englishLocaleArguments
         app.launch()
 
         // Empty state for today.
         XCTAssertTrue(app.staticTexts["No series yet"].waitForExistence(timeout: 5))
 
-        // Strength series: Bench Press, 10 reps at 40 kg.
-        addSeries(app: app, exercise: "Bench Press") {
+        // Strength series: Barbell Bench Press, 10 reps at 40 kg.
+        addSeries(app: app, search: "barbell bench press", exerciseId: "gv0025") {
             let reps = app.textFields["reps-field"]
             XCTAssertTrue(reps.waitForExistence(timeout: 5))
             reps.tap()
@@ -35,42 +35,44 @@ final class WorkoutLoggingUITests: XCTestCase {
             weight.tap()
             weight.typeText("40")
         }
-        XCTAssertTrue(app.staticTexts["Bench Press"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Barbell Bench Press"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["10 reps · 40 kg"].exists)
 
-        // Cardio series: Treadmill Run, 15 minutes.
-        addSeries(app: app, exercise: "Treadmill Run") {
+        // Cardio series. "Walk Elliptical Cross Trainer" is the only name
+        // matching "elliptical cross", so its row is never virtualized
+        // offscreen (searching "run" matches dozens of names — even
+        // "Trunk Rotation" contains it).
+        addSeries(app: app, search: "elliptical cross", exerciseId: "gv2141") {
             let duration = app.textFields["duration-field"]
             XCTAssertTrue(duration.waitForExistence(timeout: 5))
             duration.tap()
             duration.typeText("15")
         }
-        XCTAssertTrue(app.staticTexts["Treadmill Run"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Walk Elliptical Cross Trainer"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["15 min"].exists)
 
         // A third series, then swipe-to-delete it.
-        addSeries(app: app, exercise: "Squat") {
+        addSeries(app: app, search: "barbell full squat", exerciseId: "gv0043") {
             let reps = app.textFields["reps-field"]
             XCTAssertTrue(reps.waitForExistence(timeout: 5))
             reps.tap()
             reps.typeText("8")
         }
-        let squatRow = app.staticTexts["Squat"]
+        let squatRow = app.staticTexts["Barbell Full Squat"]
         XCTAssertTrue(squatRow.waitForExistence(timeout: 5))
         // Clear the bottom "Finish Day" bar so the row is fully exposed,
         // then swipe the cell itself (not the text) to reveal Delete.
         app.swipeUp()
-        let squatCell = app.cells.containing(.staticText, identifier: "Squat").element
+        let squatCell = app.cells.containing(.staticText, identifier: "Barbell Full Squat").element
         squatCell.swipeLeft(velocity: .slow)
         let deleteButton = app.buttons["Delete"]
         if deleteButton.waitForExistence(timeout: 3) {
             deleteButton.tap()
         }
-        XCTAssertFalse(app.staticTexts["Squat"].waitForExistence(timeout: 2))
+        XCTAssertFalse(app.staticTexts["Barbell Full Squat"].waitForExistence(timeout: 2))
 
         // Confirm is disabled while the required field is empty.
-        openExerciseMenu(app: app)
-        app.buttons["Lat Pulldown"].tap()
+        pickExercise(app: app, search: "cable pulldown", exerciseId: "gv0198")
         let confirm = app.buttons["Confirm"]
         XCTAssertTrue(confirm.waitForExistence(timeout: 5))
         XCTAssertFalse(confirm.isEnabled)
@@ -88,43 +90,70 @@ final class WorkoutLoggingUITests: XCTestCase {
 
         // Relaunch without the reset flag: the session must persist.
         app.terminate()
-        app.launchArguments = englishLocaleArguments
+        app.launchArguments = ["-uitest-disable-animations"] + englishLocaleArguments
         app.launch()
 
         XCTAssertTrue(app.staticTexts["Saved workout"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Bench Press"].exists)
+        XCTAssertTrue(app.staticTexts["Barbell Bench Press"].exists)
         XCTAssertTrue(app.staticTexts["10 reps · 40 kg"].exists)
-        XCTAssertTrue(app.staticTexts["Treadmill Run"].exists)
-        XCTAssertFalse(app.staticTexts["Squat"].exists)
+        XCTAssertTrue(app.staticTexts["Walk Elliptical Cross Trainer"].exists)
+        XCTAssertFalse(app.staticTexts["Barbell Full Squat"].exists)
         XCTAssertFalse(app.buttons["Finish Day"].exists)
         assertTodayHasWorkoutMarker(app: app)
     }
 
-    private func addSeries(app: XCUIApplication, exercise: String, fill: () -> Void) {
-        openExerciseMenu(app: app)
-        let item = app.buttons[exercise]
-        _ = item.waitForExistence(timeout: 2)
-        // Long menus scroll; offscreen items are absent from the
-        // accessibility tree until swiped into view.
-        var swipes = 0
-        while !(item.exists && item.isHittable) && swipes < 8 {
-            app.swipeUp()
-            swipes += 1
-        }
-        XCTAssertTrue(item.waitForExistence(timeout: 5))
-        item.tap()
+    func testPickerFiltersByEquipment() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-uitest-reset", "-uitest-offline-media"] + englishLocaleArguments
+        app.launch()
+
+        let addButton = app.buttons["add-exercise-button"]
+        XCTAssertTrue(addButton.waitForExistence(timeout: 5))
+        addButton.tap()
+
+        // Filter to kettlebell: a barbell exercise disappears from the list.
+        let equipmentFilter = app.buttons["filter-equipment"]
+        XCTAssertTrue(equipmentFilter.waitForExistence(timeout: 5))
+        equipmentFilter.tap()
+        let kettlebellOption = app.buttons["Kettlebell"]
+        XCTAssertTrue(kettlebellOption.waitForExistence(timeout: 5))
+        kettlebellOption.tap()
+
+        // First kettlebell exercise by name ("Kettlebell Advanced Windmill")
+        // is visible; the barbell bench press is filtered out.
+        XCTAssertTrue(element(in: app, withIdentifier: "picker-exercise-gv0517").waitForExistence(timeout: 5))
+        XCTAssertFalse(element(in: app, withIdentifier: "picker-exercise-gv0025").exists)
+
+        // Clearing the filter restores the full list ("3/4 Sit-Up" first).
+        app.buttons["filter-clear"].tap()
+        XCTAssertTrue(element(in: app, withIdentifier: "picker-exercise-gv0001").waitForExistence(timeout: 5))
+        app.buttons["Cancel"].tap()
+    }
+
+    // MARK: - Helpers
+
+    /// Opens the picker sheet, searches, and taps the exercise row.
+    private func pickExercise(app: XCUIApplication, search: String, exerciseId: String) {
+        let addButton = app.buttons["add-exercise-button"]
+        XCTAssertTrue(addButton.waitForExistence(timeout: 5))
+        addButton.tap()
+
+        let searchField = app.searchFields.firstMatch
+        XCTAssertTrue(searchField.waitForExistence(timeout: 5))
+        searchField.tap()
+        searchField.typeText(search)
+
+        let row = element(in: app, withIdentifier: "picker-exercise-\(exerciseId)")
+        XCTAssertTrue(row.waitForExistence(timeout: 5))
+        row.tap()
+    }
+
+    private func addSeries(app: XCUIApplication, search: String, exerciseId: String, fill: () -> Void) {
+        pickExercise(app: app, search: search, exerciseId: exerciseId)
         fill()
         let confirm = app.buttons["Confirm"]
         XCTAssertTrue(confirm.isEnabled)
         confirm.tap()
-    }
-
-    /// SwiftUI `Menu` ignores XCUITest's synthesized tap; a short press
-    /// reliably opens it.
-    private func openExerciseMenu(app: XCUIApplication) {
-        let menuButton = app.buttons["Add Exercise"]
-        XCTAssertTrue(menuButton.waitForExistence(timeout: 5))
-        menuButton.press(forDuration: 0.2)
     }
 
     private func assertTodayHasWorkoutMarker(app: XCUIApplication) {
@@ -132,5 +161,11 @@ final class WorkoutLoggingUITests: XCTestCase {
         let todayCell = app.buttons["day-\(dayNumber)"]
         XCTAssertTrue(todayCell.waitForExistence(timeout: 5))
         XCTAssertEqual(todayCell.value as? String, "workout saved")
+    }
+
+    /// SwiftUI moves a row's accessibility identifier between the cell and
+    /// its inner button depending on OS version; match any element type.
+    private func element(in app: XCUIApplication, withIdentifier id: String) -> XCUIElement {
+        app.descendants(matching: .any).matching(identifier: id).firstMatch
     }
 }

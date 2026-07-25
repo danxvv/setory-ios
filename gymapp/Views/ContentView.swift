@@ -13,7 +13,6 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var sessions: [WorkoutSession]
-    @Query private var exercises: [Exercise]
     @Query private var templates: [RoutineTemplate]
     @Query private var allSeries: [WorkoutSeries]
 
@@ -25,9 +24,16 @@ struct ContentView: View {
     /// is guidance and is never persisted.
     @State private var plans: [Date: DayPlan] = [:]
     @State private var exerciseToLog: Exercise?
+    @State private var showExercisePicker = false
+    /// Selection made inside the picker sheet; promoted to `exerciseToLog`
+    /// once the picker has dismissed so the sheets never overlap.
+    @State private var pendingLogExercise: Exercise?
     @State private var showTemplatePicker = false
     /// Template waiting for the user to confirm replacing the day's plan.
     @State private var templateAwaitingReplace: RoutineTemplate?
+    /// Exercise whose animated demonstration is being viewed from a
+    /// routine row's thumbnail.
+    @State private var mediaExercise: Exercise?
 
     private var savedDays: Set<Date> {
         Set(sessions.map(\.date))
@@ -43,14 +49,6 @@ struct ContentView: View {
 
     private var planForSelectedDay: DayPlan? {
         plans[selectedDate]
-    }
-
-    /// Sorted in memory by localized display name: SwiftData can't sort on
-    /// a computed property, and Spanish alphabetization differs from English.
-    private var sortedExercises: [Exercise] {
-        exercises.sorted {
-            $0.localizedName.localizedStandardCompare($1.localizedName) == .orderedAscending
-        }
     }
 
     /// User-entered names, so sort with locale-aware comparison in memory.
@@ -83,10 +81,23 @@ struct ContentView: View {
                     drafts[selectedDate, default: []].append(draft)
                 }
             }
+            .sheet(isPresented: $showExercisePicker) {
+                if let pending = pendingLogExercise {
+                    pendingLogExercise = nil
+                    exerciseToLog = pending
+                }
+            } content: {
+                ExercisePickerSheet { exercise in
+                    pendingLogExercise = exercise
+                }
+            }
             .sheet(isPresented: $showTemplatePicker) {
                 TemplateApplyPicker(templates: sortedTemplates) { template in
                     requestApply(template)
                 }
+            }
+            .sheet(item: $mediaExercise) { exercise in
+                RoutineMediaSheet(exercise: exercise)
             }
             .confirmationDialog(
                 "Replace current plan?",
@@ -130,29 +141,36 @@ struct ContentView: View {
     private func plannedRow(_ planned: PlannedExercise) -> some View {
         let logged = DayPlan.loggedSets(for: planned.exercise, in: draftsForSelectedDay)
         let done = logged >= planned.targetSets
-        return Button {
-            exerciseToLog = planned.exercise
-        } label: {
-            HStack(spacing: 12) {
-                Image(systemName: done ? "checkmark.circle.fill" : "circle")
-                    .foregroundStyle(done ? AnyShapeStyle(.green) : AnyShapeStyle(.quaternary))
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(planned.exercise.localizedName)
-                        .font(.body.weight(.medium))
-                        .foregroundStyle(.primary)
-                    if let reference = lastReference(for: planned.exercise) {
-                        Text("Last: \(reference)")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+        // The thumbnail must be a sibling of the row's action button, not
+        // inside its label: a borderless button nested in another button
+        // never receives the tap.
+        return HStack(spacing: 12) {
+            Image(systemName: done ? "checkmark.circle.fill" : "circle")
+                .foregroundStyle(done ? AnyShapeStyle(.green) : AnyShapeStyle(.quaternary))
+            routineThumbnail(for: planned.exercise)
+            Button {
+                exerciseToLog = planned.exercise
+            } label: {
+                HStack(spacing: 12) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(planned.exercise.localizedName)
+                            .font(.body.weight(.medium))
+                            .foregroundStyle(.primary)
+                        if let reference = lastReference(for: planned.exercise) {
+                            Text("Last: \(reference)")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
                     }
+                    Spacer()
+                    Text("\(logged)/\(planned.targetSets) sets")
+                        .font(.subheadline)
+                        .monospacedDigit()
+                        .foregroundStyle(.secondary)
                 }
-                Spacer()
-                Text("\(logged)/\(planned.targetSets) sets")
-                    .font(.subheadline)
-                    .monospacedDigit()
-                    .foregroundStyle(.secondary)
+                .contentShape(Rectangle())
             }
-            .contentShape(Rectangle())
+            .buttonStyle(.borderless)
         }
         .padding(.vertical, 2)
     }
@@ -194,6 +212,7 @@ struct ContentView: View {
             Section {
                 ForEach(savedSession.orderedSeries) { series in
                     seriesRow(
+                        exercise: series.exercise,
                         name: series.exercise?.localizedName ?? String(localized: "Exercise"),
                         summary: DraftSeries.summary(
                             reps: series.reps,
@@ -221,7 +240,7 @@ struct ContentView: View {
                 if !templates.isEmpty {
                     startFromTemplateButton
                 }
-                addExerciseMenu
+                addExerciseButton
 
                 if draftsForSelectedDay.isEmpty {
                     ContentUnavailableView(
@@ -232,7 +251,12 @@ struct ContentView: View {
                     .listRowSeparator(.hidden)
                 } else {
                     ForEach(Array(draftsForSelectedDay.enumerated()), id: \.element.id) { index, draft in
-                        seriesRow(name: draft.exercise.localizedName, summary: draft.valueSummary, index: index)
+                        seriesRow(
+                            exercise: draft.exercise,
+                            name: draft.exercise.localizedName,
+                            summary: draft.valueSummary,
+                            index: index
+                        )
                     }
                     .onDelete { offsets in
                         drafts[selectedDate, default: []].remove(atOffsets: offsets)
@@ -256,27 +280,19 @@ struct ContentView: View {
         .accessibilityIdentifier("start-from-template-button")
     }
 
-    private var addExerciseMenu: some View {
-        Menu {
-            ForEach(sortedExercises) { exercise in
-                Button {
-                    exerciseToLog = exercise
-                } label: {
-                    Label(
-                        exercise.localizedName,
-                        systemImage: exercise.category == .cardio ? "heart.circle" : "dumbbell"
-                    )
-                }
-            }
+    private var addExerciseButton: some View {
+        Button {
+            showExercisePicker = true
         } label: {
             Label("Add Exercise", systemImage: "plus.circle.fill")
                 .font(.body.weight(.semibold))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .contentShape(Rectangle())
         }
+        .accessibilityIdentifier("add-exercise-button")
     }
 
-    private func seriesRow(name: String, summary: String, index: Int) -> some View {
+    private func seriesRow(exercise: Exercise?, name: String, summary: String, index: Int) -> some View {
         HStack(spacing: 12) {
             Text("\(index + 1)")
                 .font(.footnote.weight(.bold))
@@ -284,6 +300,7 @@ struct ContentView: View {
                 .foregroundStyle(.secondary)
                 .frame(width: 26, height: 26)
                 .background(.quaternary, in: Circle())
+            routineThumbnail(for: exercise)
             VStack(alignment: .leading, spacing: 2) {
                 Text(name)
                     .font(.body.weight(.medium))
@@ -293,6 +310,33 @@ struct ContentView: View {
             }
         }
         .padding(.vertical, 2)
+    }
+
+    /// Routine-row thumbnail: opens the media viewer when the exercise has
+    /// media, stays inert (category-icon fallback) when it doesn't, and
+    /// shows a neutral placeholder when the exercise is missing (deleted
+    /// catalog entry). Borderless so the tap never triggers the row's
+    /// primary action.
+    @ViewBuilder
+    private func routineThumbnail(for exercise: Exercise?) -> some View {
+        if let exercise, exercise.hasMedia {
+            Button {
+                mediaExercise = exercise
+            } label: {
+                ExerciseThumbnailView(exercise: exercise)
+            }
+            .buttonStyle(.borderless)
+            .accessibilityLabel(String(localized: "Show demonstration for \(exercise.localizedName)"))
+            .accessibilityIdentifier("routine-thumbnail-\(exercise.id)")
+        } else if let exercise {
+            ExerciseThumbnailView(exercise: exercise)
+        } else {
+            Image(systemName: "questionmark")
+                .foregroundStyle(.secondary)
+                .frame(width: 40, height: 40)
+                .background(.quaternary.opacity(0.5))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
     }
 
     // MARK: - Finish Day

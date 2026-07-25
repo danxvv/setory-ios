@@ -2,10 +2,10 @@
 //  LocalizationTests.swift
 //  gymappTests
 //
-//  Guards catalog completeness: every bundled exercise id must have a
-//  Spanish display name in the compiled ExerciseNames table and Spanish
-//  summary/step entries in the ExerciseContent table, so adding an exercise
-//  to exercises.json without translating it fails the suite.
+//  Guards catalog completeness: every catalog exercise must carry Spanish
+//  content translations (names are English-only by design — the dataset
+//  ships no translated names), and every UI string catalog key must have a
+//  Spanish value.
 //
 
 import Foundation
@@ -20,20 +20,59 @@ struct LocalizationTests {
         return try #require(Bundle(path: esPath))
     }
 
-    @Test func everyBundledExerciseHasSpanishDisplayName() throws {
-        let entries = try BundledCatalogSource().loadCatalog()
+    @Test func everyCatalogExerciseHasSpanishContent() throws {
+        let entries = try BundledCatalogSource().loadCatalog().exercises
         #expect(!entries.isEmpty)
-        let esBundle = try spanishBundle()
 
         for entry in entries {
-            let localized = esBundle.localizedString(
-                forKey: "exercise.\(entry.id)",
-                value: missing,
-                table: "ExerciseNames"
+            #expect(
+                entry.localizedSummaries["es"]?.isEmpty == false,
+                "Exercise id '\(entry.id)' has no Spanish summary"
             )
             #expect(
+                entry.localizedInstructions["es"]?.isEmpty == false,
+                "Exercise id '\(entry.id)' has no Spanish instruction steps"
+            )
+        }
+    }
+
+    @Test func everyEquipmentValueHasSpanishDisplayName() throws {
+        // The English display strings used as keys by Equipment.displayName.
+        // displayName itself resolves in the host app's language, so the
+        // keys are listed literally; the count guard keeps them in sync.
+        let keys = [
+            "Assisted", "Band", "Barbell", "Body Weight", "Bosu Ball", "Cable",
+            "Dumbbell", "Elliptical Machine", "EZ Barbell", "Hammer Machine",
+            "Kettlebell", "Leverage Machine", "Medicine Ball", "Olympic Barbell",
+            "Resistance Band", "Roller", "Rope", "SkiErg Machine", "Sled Machine",
+            "Smith Machine", "Stability Ball", "Stationary Bike", "Stepmill Machine",
+            "Tire", "Trap Bar", "Upper Body Ergometer", "Weighted", "Wheel Roller",
+        ]
+        #expect(keys.count == Equipment.allCases.count)
+        let esBundle = try spanishBundle()
+
+        for key in keys {
+            let localized = esBundle.localizedString(forKey: key, value: missing, table: nil)
+            #expect(
                 localized != missing,
-                "Exercise id '\(entry.id)' has no Spanish display name in ExerciseNames.xcstrings"
+                "Equipment key '\(key)' has no Spanish value in Localizable.xcstrings"
+            )
+        }
+    }
+
+    /// Strings added with the catalog replacement (filters, media, about).
+    @Test func everyCatalogReplacementKeyHasSpanishValue() throws {
+        let newKeys = [
+            "Muscle", "Equipment", "All muscles", "All equipment", "Clear filters",
+            "About & Licenses", "Exercise media", "Exercise data license",
+        ]
+        let esBundle = try spanishBundle()
+
+        for key in newKeys {
+            let localized = esBundle.localizedString(forKey: key, value: missing, table: nil)
+            #expect(
+                localized != missing,
+                "Key '\(key)' has no Spanish value in Localizable.xcstrings"
             )
         }
     }
@@ -73,7 +112,6 @@ struct LocalizationTests {
             "OpenRouter API Key", "Save Key", "Clear Key",
             "Stored securely in the Keychain and never shown again after saving. Saving replaces the previous key.",
             "Model", "Model ID", "Leave empty to use the default: %@", "Privacy",
-            "When you request a suggestion, your exercise IDs, set counts, muscle data, session dates, and optional goal are sent to OpenRouter under your API key. Requests happen only when you ask for a suggestion.",
             "Suggest with AI", "Suggestion failed", "Retry", "Open AI Settings",
             "Routine suggestions need an OpenRouter API key. Add yours in AI Settings to enable them.",
             "e.g. focus legs, 45 minutes", "Goal (optional)",
@@ -99,32 +137,50 @@ struct LocalizationTests {
         }
     }
 
-    @Test func everyBundledExerciseHasSpanishContent() throws {
-        let entries = try BundledCatalogSource().loadCatalog()
-        #expect(!entries.isEmpty)
+    /// Every user-facing string added by the photo exercise-match feature,
+    /// including the privacy note it rewrote. The error messages are shared
+    /// with the suggestion flow and audited above.
+    @Test func everyPhotoMatchKeyHasSpanishValue() throws {
+        let newKeys = [
+            "Match from Photo", "Photo match failed",
+            "Photo matching needs an OpenRouter API key. Add yours in AI Settings to enable it.",
+            "Photos", "Add a photo of the machine, the equipment, or the exercise being performed.",
+            "Choose Photos", "Take Photo", "Remove photo",
+            "Up to %lld photos are sent to OpenRouter under your API key.",
+            "Identifying exercises…", "Cancel Match", "Find Exercises",
+            "Matches", "Select the exercises to add to this routine.",
+            "No matching exercises", "Try a photo that shows the whole machine or its label.",
+            "Try Other Photos",
+            "High match", "Possible match", "Weak match",
+            "When you request a suggestion, your exercise IDs, set counts, muscle data, session dates, and optional goal are sent to OpenRouter under your API key. When you request a photo match, the photos you attach are sent along with the exercise catalog (IDs, names, and muscle data); the app never stores them. Requests happen only when you ask for a suggestion or a photo match.",
+        ]
         let esBundle = try spanishBundle()
 
-        for entry in entries {
-            let summary = esBundle.localizedString(
-                forKey: "exercise.\(entry.id).summary",
-                value: missing,
-                table: "ExerciseContent"
-            )
+        for key in newKeys {
+            let localized = esBundle.localizedString(forKey: key, value: missing, table: nil)
             #expect(
-                summary != missing,
-                "Exercise id '\(entry.id)' has no Spanish summary in ExerciseContent.xcstrings"
+                localized != missing,
+                "Key '\(key)' has no Spanish value in Localizable.xcstrings"
             )
-            for index in 1...entry.instructions.count {
-                let step = esBundle.localizedString(
-                    forKey: "exercise.\(entry.id).step.\(index)",
-                    value: missing,
-                    table: "ExerciseContent"
-                )
-                #expect(
-                    step != missing,
-                    "Exercise id '\(entry.id)' has no Spanish step \(index) in ExerciseContent.xcstrings"
-                )
-            }
         }
     }
+
+    /// Every user-facing string added by the routine-media feature (the
+    /// logging screen's thumbnail viewer) must have a Spanish value. The
+    /// sheet's "Done" button reuses the existing key audited above.
+    @Test func everyRoutineMediaKeyHasSpanishValue() throws {
+        let newKeys = [
+            "Show demonstration for %@",
+        ]
+        let esBundle = try spanishBundle()
+
+        for key in newKeys {
+            let localized = esBundle.localizedString(forKey: key, value: missing, table: nil)
+            #expect(
+                localized != missing,
+                "Key '\(key)' has no Spanish value in Localizable.xcstrings"
+            )
+        }
+    }
+
 }

@@ -50,6 +50,15 @@ struct ExerciseDetailView: View {
 
     private func detailList(for exercise: Exercise) -> some View {
         List {
+            if exercise.hasMedia {
+                // No identifier on the Section: section modifiers cascade to
+                // every row and would mask the media view's inner ids.
+                Section {
+                    ExerciseMediaView(exercise: exercise)
+                        .listRowBackground(Color.clear)
+                }
+            }
+
             musclesSection(for: exercise)
 
             if !exercise.localizedSummary.isEmpty {
@@ -103,6 +112,12 @@ struct ExerciseDetailView: View {
                     .foregroundStyle(.tint)
                 Text(exercise.category == .cardio ? "Cardio" : "Strength")
                     .font(.body.weight(.medium))
+            }
+            if let equipment = exercise.equipment {
+                LabeledContent("Equipment") {
+                    Text(equipment.displayName)
+                }
+                .accessibilityIdentifier("exercise-equipment")
             }
             VStack(alignment: .leading, spacing: 8) {
                 Text("Primary muscles")
@@ -185,7 +200,7 @@ struct ExerciseDetailView: View {
     )
     _ = try? CatalogSeeder.seed(context: container.mainContext)
     return NavigationStack {
-        ExerciseDetailView(exerciseId: "bench-press")
+        ExerciseDetailView(exerciseId: "gv0025")
     }
     .modelContainer(container)
 }

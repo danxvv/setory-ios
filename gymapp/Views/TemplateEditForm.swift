@@ -27,6 +27,7 @@ struct TemplateEditForm: View {
     /// (or nothing), so a user-typed name is never overwritten.
     @State private var autoFilledName: String?
     @State private var showExercisePicker = false
+    @State private var showPhotoMatch = false
 
     /// Edit flow: pre-filled from the stored template; the name is user
     /// content, never auto-replaced.
@@ -83,6 +84,11 @@ struct TemplateEditForm: View {
                     draft.items.append(contentsOf: selected.map { TemplateDraft.Item(exercise: $0) })
                 }
             }
+            .sheet(isPresented: $showPhotoMatch) {
+                PhotoMatchSheet { selected in
+                    draft.items.append(contentsOf: selected.map { TemplateDraft.Item(exercise: $0) })
+                }
+            }
             .onChange(of: draft.items.map(\.exercise?.id)) {
                 refreshSuggestedName()
             }
@@ -131,6 +137,15 @@ struct TemplateEditForm: View {
                     .contentShape(Rectangle())
             }
             .accessibilityIdentifier("add-exercises-button")
+
+            Button {
+                showPhotoMatch = true
+            } label: {
+                Label("Match from Photo", systemImage: "camera.viewfinder")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+            }
+            .accessibilityIdentifier("photo-match-button")
         } header: {
             HStack {
                 Text("Exercises")

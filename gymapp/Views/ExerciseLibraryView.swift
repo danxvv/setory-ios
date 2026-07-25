@@ -12,6 +12,7 @@ import SwiftData
 struct ExerciseLibraryView: View {
     @Query private var exercises: [Exercise]
     @State private var searchText = ""
+    @State private var filters = ExerciseFilters()
 
     /// Sorted in memory by localized display name: SwiftData can't sort on
     /// a computed property, and Spanish alphabetization differs from English.
@@ -21,10 +22,9 @@ struct ExerciseLibraryView: View {
         }
     }
 
-    /// Case- and diacritic-insensitive match on the localized name.
+    /// Search plus muscle/equipment filters over the sorted catalog.
     private var filteredExercises: [Exercise] {
-        guard !searchText.isEmpty else { return sortedExercises }
-        return sortedExercises.filter { $0.localizedName.localizedStandardContains(searchText) }
+        filters.apply(to: sortedExercises, searchText: searchText)
     }
 
     var body: some View {
@@ -45,6 +45,10 @@ struct ExerciseLibraryView: View {
                     }
                 }
             }
+            .safeAreaInset(edge: .top, spacing: 0) {
+                ExerciseFilterBar(filters: $filters)
+                    .background(.bar)
+            }
             .navigationTitle("Exercises")
             .navigationDestination(for: String.self) { exerciseId in
                 ExerciseDetailView(exerciseId: exerciseId)
@@ -58,9 +62,7 @@ struct ExerciseLibraryView: View {
 
     private func row(for exercise: Exercise) -> some View {
         HStack(spacing: 12) {
-            Image(systemName: exercise.category == .cardio ? "heart.circle" : "dumbbell")
-                .foregroundStyle(.tint)
-                .frame(width: 28)
+            ExerciseThumbnailView(exercise: exercise)
             VStack(alignment: .leading, spacing: 4) {
                 Text(exercise.localizedName)
                     .font(.body.weight(.medium))

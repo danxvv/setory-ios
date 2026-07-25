@@ -24,6 +24,7 @@ struct AISettingsView: View {
                 keySection
                 modelSection
                 privacySection
+                aboutSection
             }
             .navigationTitle("AI Settings")
             .navigationBarTitleDisplayMode(.inline)
@@ -95,11 +96,24 @@ struct AISettingsView: View {
         }
     }
 
+    // MARK: - About
+
+    private var aboutSection: some View {
+        Section {
+            NavigationLink {
+                AboutView()
+            } label: {
+                Label("About & Licenses", systemImage: "info.circle")
+            }
+            .accessibilityIdentifier("about-licenses-link")
+        }
+    }
+
     // MARK: - Privacy
 
     private var privacySection: some View {
         Section {
-            Text("When you request a suggestion, your exercise IDs, set counts, muscle data, session dates, and optional goal are sent to OpenRouter under your API key. Requests happen only when you ask for a suggestion.")
+            Text("When you request a suggestion, your exercise IDs, set counts, muscle data, session dates, and optional goal are sent to OpenRouter under your API key. When you request a photo match, the photos you attach are sent along with the exercise catalog (IDs, names, and muscle data); the app never stores them. Requests happen only when you ask for a suggestion or a photo match.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .accessibilityIdentifier("ai-privacy-note")

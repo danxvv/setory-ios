@@ -171,7 +171,7 @@ struct ExerciseProgressionView: View {
     )
     _ = try? CatalogSeeder.seed(context: container.mainContext)
     return NavigationStack {
-        ExerciseProgressionView(exerciseId: "bench-press")
+        ExerciseProgressionView(exerciseId: "gv0025")
     }
     .modelContainer(container)
 }

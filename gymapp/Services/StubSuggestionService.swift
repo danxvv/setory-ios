@@ -36,14 +36,14 @@ struct StubSuggestionService: RoutineSuggestionService {
 
 /// Scenarios behind the `-uitest-ai <scenario>` launch argument.
 extension StubSuggestionService {
-    /// Catalog IDs here must exist in exercises.json so validation and the
-    /// editor resolve them against the seeded store.
+    /// Catalog IDs here must exist in exercise-catalog.json so validation
+    /// and the editor resolve them against the seeded store.
     static let uiTestRoutine = SuggestedRoutine(
         name: "AI Full Body",
         rationale: "Stub rationale: balances chest and legs for UI tests.",
         items: [
-            .init(exerciseId: "bench-press", targetSets: 4),
-            .init(exerciseId: "squat", targetSets: 3),
+            .init(exerciseId: "gv0025", targetSets: 4),
+            .init(exerciseId: "gv0043", targetSets: 3),
         ]
     )
 

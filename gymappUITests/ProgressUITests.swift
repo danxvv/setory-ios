@@ -4,8 +4,8 @@
 //
 //  Progress tab: empty state, seeded overview + muscle balance, navigation
 //  to the progression chart from both the Progress list and the exercise
-//  detail screen. `-uitest-seed` inserts two sessions: today (Bench Press
-//  10×40, Treadmill Run 15 min) and three days earlier (Squat 8×70).
+//  detail screen. `-uitest-seed` inserts two sessions: today (Barbell Bench Press
+//  10×40, Run 15 min) and three days earlier (Barbell Full Squat 8×70).
 //
 
 import XCTest
@@ -20,7 +20,7 @@ final class ProgressUITests: XCTestCase {
 
     func testProgressTabShowsEmptyStateAfterReset() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-uitest-reset"] + englishLocaleArguments
+        app.launchArguments = ["-uitest-reset", "-uitest-offline-media"] + englishLocaleArguments
         app.launch()
 
         openProgressTab(app: app)
@@ -30,7 +30,7 @@ final class ProgressUITests: XCTestCase {
 
     func testSeededSessionsPopulateOverviewAndMuscleBalance() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-uitest-reset", "-uitest-seed"] + englishLocaleArguments
+        app.launchArguments = ["-uitest-reset", "-uitest-offline-media", "-uitest-seed"] + englishLocaleArguments
         app.launch()
 
         openProgressTab(app: app)
@@ -50,14 +50,14 @@ final class ProgressUITests: XCTestCase {
 
     func testProgressionListNavigatesToChart() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-uitest-reset", "-uitest-seed"] + englishLocaleArguments
+        app.launchArguments = ["-uitest-reset", "-uitest-offline-media", "-uitest-seed"] + englishLocaleArguments
         app.launch()
 
         openProgressTab(app: app)
 
         // Searching collapses the screen to the performed-exercise list.
         search(app: app, text: "bench press")
-        let benchRow = element(in: app, withIdentifier: "progression-row-bench-press")
+        let benchRow = element(in: app, withIdentifier: "progression-row-gv0025")
         XCTAssertTrue(benchRow.waitForExistence(timeout: 5))
         benchRow.tap()
 
@@ -71,12 +71,12 @@ final class ProgressUITests: XCTestCase {
 
     func testDetailHistoryLinksToProgression() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-uitest-reset", "-uitest-seed"] + englishLocaleArguments
+        app.launchArguments = ["-uitest-reset", "-uitest-offline-media", "-uitest-seed"] + englishLocaleArguments
         app.launch()
 
         openExercisesTab(app: app)
         search(app: app, text: "bench press")
-        let row = element(in: app, withIdentifier: "exercise-row-bench-press")
+        let row = element(in: app, withIdentifier: "exercise-row-gv0025")
         XCTAssertTrue(row.waitForExistence(timeout: 5))
         row.tap()
 
@@ -94,7 +94,7 @@ final class ProgressUITests: XCTestCase {
     /// device. Also attaches screenshots so chart rendering can be inspected.
     func testProgressTabShowsSpanishUI() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-uitest-reset", "-uitest-seed", "-AppleLanguages", "(es)", "-AppleLocale", "es_ES"]
+        app.launchArguments = ["-uitest-reset", "-uitest-offline-media", "-uitest-seed", "-AppleLanguages", "(es)", "-AppleLocale", "es_ES"]
         app.launch()
 
         openTab(named: "Progreso", app: app)
@@ -107,7 +107,7 @@ final class ProgressUITests: XCTestCase {
         XCTAssertTrue(reveal(app.staticTexts["Balance muscular"], in: app))
         XCTAssertTrue(reveal(app.staticTexts["Progresión de ejercicios"], in: app))
 
-        let benchRow = element(in: app, withIdentifier: "progression-row-bench-press")
+        let benchRow = element(in: app, withIdentifier: "progression-row-gv0025")
         XCTAssertTrue(reveal(benchRow, in: app))
         benchRow.tap()
 
@@ -120,12 +120,12 @@ final class ProgressUITests: XCTestCase {
 
     func testUnperformedExerciseHasNoProgressionLink() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-uitest-reset", "-uitest-seed"] + englishLocaleArguments
+        app.launchArguments = ["-uitest-reset", "-uitest-offline-media", "-uitest-seed"] + englishLocaleArguments
         app.launch()
 
         openExercisesTab(app: app)
-        search(app: app, text: "deadlift")
-        let row = element(in: app, withIdentifier: "exercise-row-deadlift")
+        search(app: app, text: "barbell deadlift")
+        let row = element(in: app, withIdentifier: "exercise-row-gv0032")
         XCTAssertTrue(row.waitForExistence(timeout: 5))
         row.tap()
 

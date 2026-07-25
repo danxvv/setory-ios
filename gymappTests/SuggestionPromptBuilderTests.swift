@@ -171,4 +171,95 @@ struct SuggestionPromptBuilderTests {
         #expect(SuggestionPromptBuilder.systemPrompt(languageCode: "es").contains("Spanish"))
         #expect(SuggestionPromptBuilder.systemPrompt(languageCode: "en").contains("English"))
     }
+
+    // MARK: - Catalog subset
+
+    /// Synthetic catalog spread across muscles/equipment, big enough to
+    /// force subsetting. IDs are zero-padded so ID order is stable.
+    private func makeBigCatalog(count: Int) -> [Exercise] {
+        let muscles = Muscle.allCases
+        let equipment = Equipment.allCases
+        return (0..<count).map { index in
+            Exercise(
+                id: String(format: "gv%04d", index),
+                name: "Exercise \(index)",
+                category: index % 20 == 0 ? .cardio : .strength,
+                primaryMuscles: [muscles[index % muscles.count]],
+                equipment: equipment[index % equipment.count]
+            )
+        }
+    }
+
+    @Test func catalogSubsetIsBoundedAndDeterministic() {
+        let exercises = makeBigCatalog(count: 900)
+
+        let payload = SuggestionPromptBuilder.payload(exercises: exercises, sessions: [], goal: nil)
+        let again = SuggestionPromptBuilder.payload(exercises: exercises.shuffled(), sessions: [], goal: nil)
+
+        #expect(payload.catalog.count == SuggestionPromptBuilder.maxCatalogEntries)
+        #expect(payload == again)
+        // Sampling spreads across muscle groups, not just the low ids.
+        let musclesCovered = Set(payload.catalog.flatMap(\.primaryMuscles))
+        #expect(musclesCovered.count == Muscle.allCases.count)
+    }
+
+    @Test func smallCatalogIsSentWhole() {
+        let exercises = makeBigCatalog(count: 25)
+        let payload = SuggestionPromptBuilder.payload(exercises: exercises, sessions: [], goal: nil)
+        #expect(payload.catalog.count == 25)
+    }
+
+    @Test func recentExercisesAreAlwaysIncluded() throws {
+        let container = try makeContainer()
+        let context = ModelContext(container)
+        let exercises = makeBigCatalog(count: 900)
+        exercises.forEach(context.insert)
+        // Log the very last exercise by id order, which round-robin
+        // sampling alone would never reach.
+        let last = exercises.last!
+        let session = WorkoutSession(date: Calendar.current.startOfDay(for: .now))
+        context.insert(session)
+        let series = WorkoutSeries(order: 0, exercise: last, reps: 5)
+        series.session = session
+        context.insert(series)
+        try context.save()
+
+        let payload = SuggestionPromptBuilder.payload(exercises: exercises, sessions: [session], goal: nil)
+
+        #expect(payload.catalog.contains { $0.id == last.id })
+        #expect(payload.catalog.count == SuggestionPromptBuilder.maxCatalogEntries)
+    }
+
+    @Test func goalPullsMatchingMusclesIntoTheSubset() {
+        let exercises = makeBigCatalog(count: 900)
+
+        let payload = SuggestionPromptBuilder.payload(exercises: exercises, sessions: [], goal: "focus legs today")
+
+        let legMuscles: Set<String> = ["quads", "hamstrings", "glutes", "calves"]
+        let legEntries = payload.catalog.filter { !legMuscles.isDisjoint(with: $0.primaryMuscles) }
+        // Goal fill takes up to three quarters of the budget…
+        #expect(legEntries.count >= SuggestionPromptBuilder.maxCatalogEntries / 2)
+        // …while variety sampling keeps other muscles present.
+        #expect(legEntries.count < payload.catalog.count)
+        #expect(payload.catalog.count == SuggestionPromptBuilder.maxCatalogEntries)
+    }
+
+    @Test func goalKeywordsMatchEnglishAndSpanishWithDiacritics() {
+        #expect(SuggestionPromptBuilder.muscles(inGoal: "focus legs") == [.quads, .hamstrings, .glutes, .calves])
+        #expect(SuggestionPromptBuilder.muscles(inGoal: "piernas y glúteos").isSuperset(of: [.quads, .glutes]))
+        #expect(SuggestionPromptBuilder.muscles(inGoal: "PECHO y triceps") == [.chest, .triceps])
+        #expect(SuggestionPromptBuilder.muscles(inGoal: "45 minutes, no idea").isEmpty)
+        #expect(SuggestionPromptBuilder.muscles(inGoal: nil).isEmpty)
+    }
+
+    @Test func catalogEntriesCarryEquipment() {
+        let exercises = [
+            Exercise(
+                id: "gv0025", name: "Barbell Bench Press", category: .strength,
+                primaryMuscles: [.chest], equipment: .barbell
+            ),
+        ]
+        let payload = SuggestionPromptBuilder.payload(exercises: exercises, sessions: [], goal: nil)
+        #expect(payload.catalog.first?.equipment == "barbell")
+    }
 }

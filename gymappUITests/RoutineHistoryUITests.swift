@@ -4,8 +4,8 @@
 //
 //  Routines tab: empty state, seeded list rows, detail navigation, and the
 //  logging screen's saved-workout entry point into the same detail view.
-//  `-uitest-seed` inserts two sessions: today (Bench Press, Treadmill Run)
-//  and three days earlier (Squat).
+//  `-uitest-seed` inserts two sessions: today (Barbell Bench Press, Run)
+//  and three days earlier (Barbell Full Squat).
 //
 
 import XCTest
@@ -38,12 +38,12 @@ final class RoutineHistoryUITests: XCTestCase {
         // Both seeded sessions appear with their summaries, newest first.
         // (The History section sits below the Templates section, so rows
         // are found by content, and recency by vertical position.)
-        XCTAssertTrue(app.staticTexts["Bench Press, Treadmill Run"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Squat"].exists)
+        XCTAssertTrue(app.staticTexts["Barbell Bench Press, Run"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Barbell Full Squat"].exists)
         XCTAssertTrue(app.staticTexts["2 series"].exists)
         XCTAssertTrue(app.staticTexts["1 series"].exists)
-        let newestRow = app.cells.containing(.staticText, identifier: "Bench Press, Treadmill Run").element
-        let olderRow = app.cells.containing(.staticText, identifier: "Squat").element
+        let newestRow = app.cells.containing(.staticText, identifier: "Barbell Bench Press, Run").element
+        let olderRow = app.cells.containing(.staticText, identifier: "Barbell Full Squat").element
         XCTAssertTrue(newestRow.exists)
         XCTAssertTrue(newestRow.frame.minY < olderRow.frame.minY)
 
@@ -52,9 +52,9 @@ final class RoutineHistoryUITests: XCTestCase {
         newestRow.tap()
         XCTAssertTrue(app.staticTexts["Muscles worked"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Chest · Full Body"].exists)
-        XCTAssertTrue(app.staticTexts["Bench Press"].exists)
+        XCTAssertTrue(app.staticTexts["Barbell Bench Press"].exists)
         XCTAssertTrue(app.staticTexts["10 reps · 40 kg"].exists)
-        XCTAssertTrue(app.staticTexts["Treadmill Run"].exists)
+        XCTAssertTrue(app.staticTexts["Run"].exists)
         XCTAssertTrue(app.staticTexts["15 min"].exists)
         XCTAssertTrue(app.staticTexts["Chest"].exists)
         XCTAssertTrue(app.staticTexts["Full Body"].exists)

@@ -4,7 +4,7 @@
 //
 //  Request assembly and response handling of the live client through a
 //  URLProtocol fake — no real network. Serialized because the fake's
-//  handler is shared static state.
+//  handler is static state shared by the tests in this suite.
 //
 
 import Foundation
@@ -12,16 +12,29 @@ import Testing
 @testable import gymapp
 
 /// Intercepts every request of an ephemeral URLSession and answers from
-/// the static handler. POST bodies arrive as a stream, so the handler
-/// reads `httpBodyStream`, not `httpBody`.
-final class MockURLProtocol: URLProtocol {
-    nonisolated(unsafe) static var handler: ((URLRequest) throws -> (HTTPURLResponse, Data))?
+/// the handler registered for the concrete subclass. POST bodies arrive as
+/// a stream, so handlers read `httpBodyStream`, not `httpBody`.
+///
+/// Handlers are stored per subclass because `@Suite(.serialized)` only
+/// serializes tests *within* a suite — suites still run in parallel with
+/// each other, so a single shared slot lets one suite answer another's
+/// requests. Every suite registers its own subclass.
+class MockURLProtocol: URLProtocol {
+    typealias Handler = (URLRequest) throws -> (HTTPURLResponse, Data)
+
+    nonisolated(unsafe) private static var handlers: [ObjectIdentifier: Handler] = [:]
+    private static let handlersLock = NSLock()
+
+    static var handler: Handler? {
+        get { handlersLock.withLock { handlers[ObjectIdentifier(self)] } }
+        set { handlersLock.withLock { handlers[ObjectIdentifier(self)] = newValue } }
+    }
 
     override class func canInit(with request: URLRequest) -> Bool { true }
     override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
 
     override func startLoading() {
-        guard let handler = Self.handler else {
+        guard let handler = type(of: self).handler else {
             client?.urlProtocol(self, didFailWithError: URLError(.unsupportedURL))
             return
         }
@@ -38,9 +51,14 @@ final class MockURLProtocol: URLProtocol {
     override func stopLoading() {}
 }
 
-private extension URLRequest {
+/// One subclass per network-mocking suite; see `MockURLProtocol`.
+final class SuggestionMockURLProtocol: MockURLProtocol {}
+final class PhotoMatchMockURLProtocol: MockURLProtocol {}
+final class MediaMockURLProtocol: MockURLProtocol {}
+
+extension URLRequest {
     /// Drains httpBodyStream (how URLSession hands a POST body to a
-    /// URLProtocol) back into Data.
+    /// URLProtocol) back into Data. Shared with the photo-match suite.
     var streamedBody: Data? {
         guard let stream = httpBodyStream else { return httpBody }
         stream.open()
@@ -65,7 +83,7 @@ struct OpenRouterSuggestionServiceTests {
         defaults: UserDefaults = .standard
     ) -> OpenRouterSuggestionService {
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [MockURLProtocol.self]
+        config.protocolClasses = [SuggestionMockURLProtocol.self]
         return OpenRouterSuggestionService(
             keyStore: InMemoryAPIKeyStore(key: key),
             session: URLSession(configuration: config),
@@ -76,8 +94,8 @@ struct OpenRouterSuggestionServiceTests {
     private var payload: SuggestionRequestPayload {
         SuggestionRequestPayload(
             catalog: [
-                .init(id: "bench-press", category: "strength", primaryMuscles: ["chest"], secondaryMuscles: ["triceps"]),
-                .init(id: "squat", category: "strength", primaryMuscles: ["quads"], secondaryMuscles: []),
+                .init(id: "bench-press", category: "strength", equipment: "barbell", primaryMuscles: ["chest"], secondaryMuscles: ["triceps"]),
+                .init(id: "squat", category: "strength", equipment: nil, primaryMuscles: ["quads"], secondaryMuscles: []),
             ],
             recentSessions: [],
             goal: nil
@@ -98,20 +116,25 @@ struct OpenRouterSuggestionServiceTests {
     // MARK: - Request assembly
 
     @Test func requestCarriesEndpointMethodHeadersAndDefaultModel() async throws {
+        // Isolated defaults: .standard is the host app's, where a model
+        // override set in AI Settings on this simulator would leak in.
+        let suiteName = "OpenRouterSuggestionServiceTests-default"
+        let defaults = try #require(UserDefaults(suiteName: suiteName))
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         nonisolated(unsafe) var captured: URLRequest?
         nonisolated(unsafe) var capturedBody: Data?
         let body = try successBody(routine: [
             "name": "Push", "rationale": "r",
             "items": [["exerciseId": "bench-press", "targetSets": 3]],
         ])
-        MockURLProtocol.handler = { request in
+        SuggestionMockURLProtocol.handler = { request in
             captured = request
             capturedBody = request.streamedBody
             return (self.httpResponse(200, for: request), body)
         }
-        defer { MockURLProtocol.handler = nil }
+        defer { SuggestionMockURLProtocol.handler = nil }
 
-        _ = try await makeService().suggestRoutine(request: payload)
+        _ = try await makeService(defaults: defaults).suggestRoutine(request: payload)
 
         let request = try #require(captured)
         #expect(request.url == OpenRouterSuggestionService.endpoint)
@@ -137,11 +160,11 @@ struct OpenRouterSuggestionServiceTests {
             "name": "Push", "rationale": "r",
             "items": [["exerciseId": "bench-press", "targetSets": 3]],
         ])
-        MockURLProtocol.handler = { request in
+        SuggestionMockURLProtocol.handler = { request in
             capturedBody = request.streamedBody
             return (self.httpResponse(200, for: request), body)
         }
-        defer { MockURLProtocol.handler = nil }
+        defer { SuggestionMockURLProtocol.handler = nil }
 
         _ = try await makeService(defaults: defaults).suggestRoutine(request: payload)
 
@@ -163,11 +186,11 @@ struct OpenRouterSuggestionServiceTests {
 
     @Test func missingKeyFailsWithoutTouchingTheNetwork() async throws {
         nonisolated(unsafe) var requestCount = 0
-        MockURLProtocol.handler = { request in
+        SuggestionMockURLProtocol.handler = { request in
             requestCount += 1
             return (self.httpResponse(200, for: request), Data())
         }
-        defer { MockURLProtocol.handler = nil }
+        defer { SuggestionMockURLProtocol.handler = nil }
 
         await #expect(throws: SuggestionError.missingAPIKey) {
             _ = try await makeService(key: nil).suggestRoutine(request: payload)
@@ -185,10 +208,10 @@ struct OpenRouterSuggestionServiceTests {
                 ["exerciseId": "unknown-id", "targetSets": 3],
             ],
         ])
-        MockURLProtocol.handler = { request in
+        SuggestionMockURLProtocol.handler = { request in
             (self.httpResponse(200, for: request), body)
         }
-        defer { MockURLProtocol.handler = nil }
+        defer { SuggestionMockURLProtocol.handler = nil }
 
         let routine = try await makeService().suggestRoutine(request: payload)
         #expect(routine.name == "Leg Focus")
@@ -201,10 +224,10 @@ struct OpenRouterSuggestionServiceTests {
         let body = try JSONSerialization.data(withJSONObject: [
             "error": ["message": "No auth credentials found", "code": 401],
         ])
-        MockURLProtocol.handler = { request in
+        SuggestionMockURLProtocol.handler = { request in
             (self.httpResponse(401, for: request), body)
         }
-        defer { MockURLProtocol.handler = nil }
+        defer { SuggestionMockURLProtocol.handler = nil }
 
         await #expect(throws: SuggestionError.invalidKey) {
             _ = try await makeService().suggestRoutine(request: payload)
@@ -212,10 +235,10 @@ struct OpenRouterSuggestionServiceTests {
     }
 
     @Test func transportFailureSurfacesAsNetworkError() async {
-        MockURLProtocol.handler = { _ in
+        SuggestionMockURLProtocol.handler = { _ in
             throw URLError(.notConnectedToInternet)
         }
-        defer { MockURLProtocol.handler = nil }
+        defer { SuggestionMockURLProtocol.handler = nil }
 
         await #expect(throws: SuggestionError.network) {
             _ = try await makeService().suggestRoutine(request: payload)
