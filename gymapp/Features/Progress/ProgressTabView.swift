@@ -11,12 +11,6 @@ import SwiftUI
 import SwiftData
 import Charts
 
-/// Navigation payload that pushes an exercise's progression screen —
-/// distinct from the plain-String value that pushes the detail screen.
-struct ProgressionDestination: Hashable {
-    let exerciseId: String
-}
-
 struct ProgressTabView: View {
     @Query private var sessions: [WorkoutSession]
     @Query private var allSeries: [WorkoutSeries]
@@ -39,9 +33,7 @@ struct ProgressTabView: View {
                 }
             }
             .navigationTitle("Progress")
-            .navigationDestination(for: ProgressionDestination.self) { destination in
-                ExerciseProgressionView(exerciseId: destination.exerciseId)
-            }
+            .exerciseDestinations()
         }
     }
 
@@ -178,7 +170,7 @@ struct ProgressTabView: View {
                     .foregroundStyle(.secondary)
             } else {
                 ForEach(filteredExercises) { exercise in
-                    NavigationLink(value: ProgressionDestination(exerciseId: exercise.id)) {
+                    NavigationLink(value: ExerciseRoute.progression(exercise.id)) {
                         Label(
                             exercise.localizedName,
                             systemImage: exercise.category == .cardio ? "heart.circle" : "dumbbell"

@@ -71,10 +71,10 @@ scripts/uitest.sh
 
 ## 8. Unify navigation routes
 
-- [ ] 8.1 Add `App/ExerciseRoute.swift` with the `ExerciseRoute` enum and an `exerciseDestinations()` view modifier registering both destinations once.
-- [ ] 8.2 Switch `ExerciseLibraryView` to `ExerciseRoute`, removing its `navigationDestination(for: String.self)` and its own progression registration.
-- [ ] 8.3 Switch `ProgressTabView` and `ExerciseDetailView`'s progression link to `ExerciseRoute`, then delete `ProgressionDestination`.
-- [ ] 8.4 Build and run both suites; confirm the progression screen still opens from the Exercises tab, the Progress tab, and the detail screen's history section.
+- [x] 8.1 Add `App/ExerciseRoute.swift` with the `ExerciseRoute` enum and an `exerciseDestinations()` view modifier registering both destinations once.
+- [x] 8.2 Switch `ExerciseLibraryView` to `ExerciseRoute`, removing its `navigationDestination(for: String.self)` and its own progression registration.
+- [x] 8.3 Switch `ProgressTabView` and `ExerciseDetailView`'s progression link to `ExerciseRoute`, then delete `ProgressionDestination`.
+- [x] 8.4 Build and run both suites; confirm the progression screen still opens from the Exercises tab, the Progress tab, and the detail screen's history section.
 
 ## 9. Move locale resolution to the presentation boundary
 

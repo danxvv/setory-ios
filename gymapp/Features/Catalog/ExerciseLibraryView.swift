@@ -38,7 +38,7 @@ struct ExerciseLibraryView: View {
                     )
                 } else {
                     List(filteredExercises) { exercise in
-                        NavigationLink(value: exercise.id) {
+                        NavigationLink(value: ExerciseRoute.detail(exercise.id)) {
                             row(for: exercise)
                         }
                         .accessibilityIdentifier("exercise-row-\(exercise.id)")
@@ -50,12 +50,7 @@ struct ExerciseLibraryView: View {
                     .background(.bar)
             }
             .navigationTitle("Exercises")
-            .navigationDestination(for: String.self) { exerciseId in
-                ExerciseDetailView(exerciseId: exerciseId)
-            }
-            .navigationDestination(for: ProgressionDestination.self) { destination in
-                ExerciseProgressionView(exerciseId: destination.exerciseId)
-            }
+            .exerciseDestinations()
             .searchable(text: $searchText, prompt: Text("Search exercises"))
         }
     }

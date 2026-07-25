@@ -82,7 +82,7 @@ struct ExerciseDetailView: View {
             if !relatedExercises.isEmpty {
                 Section("Related exercises") {
                     ForEach(relatedExercises) { related in
-                        NavigationLink(value: related.id) {
+                        NavigationLink(value: ExerciseRoute.detail(related.id)) {
                             Label(
                                 related.localizedName,
                                 systemImage: related.category == .cardio ? "heart.circle" : "dumbbell"
@@ -172,7 +172,7 @@ struct ExerciseDetailView: View {
                     }
                     .padding(.vertical, 2)
                 }
-                NavigationLink(value: ProgressionDestination(exerciseId: exercise.id)) {
+                NavigationLink(value: ExerciseRoute.progression(exercise.id)) {
                     Label("View progression", systemImage: "chart.xyaxis.line")
                 }
                 .accessibilityIdentifier("exercise-progression-link")
