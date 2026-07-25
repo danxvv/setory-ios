@@ -7,6 +7,9 @@
 //  review in the template editor. Without a stored key the sheet only
 //  explains how to enable the feature and never touches the network.
 //
+//  The request cycle lives in SuggestionFlow; the no-key, progress, and
+//  failure states come from AIFlowScaffold, shared with photo matching.
+//
 
 import SwiftUI
 import SwiftData
@@ -29,11 +32,9 @@ struct SuggestRoutineSheet: View {
     /// the editor once this sheet is gone.
     let onSuggestion: (RoutineSuggestion) -> Void
 
+    @State private var flow = SuggestionFlow()
     @State private var hasKey = false
     @State private var goal = ""
-    @State private var isGenerating = false
-    @State private var generationTask: Task<Void, Never>?
-    @State private var suggestionError: AIError?
     @State private var showSettings = false
 
     var body: some View {
@@ -43,7 +44,12 @@ struct SuggestRoutineSheet: View {
                     goalSection
                     generateSection
                 } else {
-                    keyRequiredSection
+                    AIKeyRequiredSection(
+                        explanation: "Routine suggestions need an OpenRouter API key. Add yours in AI Settings to enable them.",
+                        explanationIdentifier: "suggest-key-required-text",
+                        openSettingsIdentifier: "suggest-open-settings-button",
+                        onOpenSettings: { showSettings = true }
+                    )
                 }
             }
             .navigationTitle("Suggest with AI")
@@ -51,7 +57,7 @@ struct SuggestRoutineSheet: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", role: .cancel) {
-                        generationTask?.cancel()
+                        flow.cancel()
                         dismiss()
                     }
                     .accessibilityIdentifier("suggest-dismiss-button")
@@ -60,40 +66,13 @@ struct SuggestRoutineSheet: View {
             .sheet(isPresented: $showSettings, onDismiss: refreshKeyState) {
                 AISettingsView()
             }
-            .alert(
+            .aiFailureAlert(
                 "Suggestion failed",
-                isPresented: Binding(
-                    get: { suggestionError != nil },
-                    set: { if !$0 { suggestionError = nil } }
-                ),
-                presenting: suggestionError
-            ) { error in
-                Button("Retry") {
-                    generate()
-                }
-                if error.pointsToSettings {
-                    Button("Open AI Settings") {
-                        showSettings = true
-                    }
-                }
-                Button("Cancel", role: .cancel) {}
-            } message: { error in
-                Text(error.errorDescription ?? "")
-            }
+                error: $flow.error,
+                onRetry: generate,
+                onOpenSettings: { showSettings = true }
+            )
             .onAppear(perform: refreshKeyState)
-        }
-    }
-
-    // MARK: - No-key state
-
-    private var keyRequiredSection: some View {
-        Section {
-            Text("Routine suggestions need an OpenRouter API key. Add yours in AI Settings to enable them.")
-                .accessibilityIdentifier("suggest-key-required-text")
-            Button("Open AI Settings") {
-                showSettings = true
-            }
-            .accessibilityIdentifier("suggest-open-settings-button")
         }
     }
 
@@ -103,7 +82,7 @@ struct SuggestRoutineSheet: View {
         Section {
             TextField("e.g. focus legs, 45 minutes", text: $goal, axis: .vertical)
                 .lineLimit(1...3)
-                .disabled(isGenerating)
+                .disabled(flow.isGenerating)
                 .accessibilityIdentifier("suggest-goal-field")
         } header: {
             Text("Goal (optional)")
@@ -114,17 +93,14 @@ struct SuggestRoutineSheet: View {
 
     private var generateSection: some View {
         Section {
-            if isGenerating {
-                HStack(spacing: 12) {
-                    ProgressView()
-                    Text("Generating suggestion…")
-                        .foregroundStyle(.secondary)
-                }
-                .accessibilityIdentifier("suggest-progress")
-                Button("Cancel Generation", role: .destructive) {
-                    generationTask?.cancel()
-                }
-                .accessibilityIdentifier("suggest-cancel-button")
+            if flow.isGenerating {
+                AIProgressRows(
+                    message: "Generating suggestion…",
+                    progressIdentifier: "suggest-progress",
+                    cancelTitle: "Cancel Generation",
+                    cancelIdentifier: "suggest-cancel-button",
+                    onCancel: flow.cancel
+                )
             } else {
                 Button {
                     generate()
@@ -145,47 +121,13 @@ struct SuggestRoutineSheet: View {
     }
 
     private func generate() {
-        suggestionError = nil
-        isGenerating = true
-        generationTask = Task {
-            defer { isGenerating = false }
-            do {
-                let exercises = try modelContext.fetch(FetchDescriptor<Exercise>())
-                var descriptor = FetchDescriptor<WorkoutSession>(
-                    sortBy: [SortDescriptor(\.date, order: .reverse)]
-                )
-                descriptor.fetchLimit = SuggestionPromptBuilder.maxHistorySessions
-                let sessions = try modelContext.fetch(descriptor)
-
-                let payload = SuggestionPromptBuilder.payload(
-                    exercises: exercises,
-                    sessions: sessions,
-                    goal: goal
-                )
-                let routine = try await suggestionService.suggestRoutine(request: payload)
-
-                // Resolve suggested IDs to local records; muscle metadata
-                // always comes from these, never from the model.
-                let exercisesById = Dictionary(uniqueKeysWithValues: exercises.map { ($0.id, $0) })
-                let items = routine.items.compactMap { item in
-                    exercisesById[item.exerciseId].map {
-                        TemplateDraft.Item(exercise: $0, targetSets: item.targetSets)
-                    }
-                }
-                guard !items.isEmpty else { throw AIError.emptySuggestion }
-
-                onSuggestion(RoutineSuggestion(
-                    draft: TemplateDraft(name: routine.name, items: items),
-                    rationale: routine.rationale
-                ))
-                dismiss()
-            } catch is CancellationError {
-                // User cancelled: back to the sheet, no error alert.
-            } catch let error as AIError {
-                suggestionError = error
-            } catch {
-                suggestionError = .badResponse
-            }
+        flow.generate(
+            goal: goal,
+            context: modelContext,
+            service: suggestionService
+        ) { suggestion in
+            onSuggestion(suggestion)
+            dismiss()
         }
     }
 }
