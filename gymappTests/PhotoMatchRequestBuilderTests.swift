@@ -42,11 +42,37 @@ struct PhotoMatchRequestBuilderTests {
     private func sentBody(
         exercises: [Exercise],
         photos: [Data],
-        model: String = "test/model"
+        model: String = "test/model",
+        description: String? = nil,
+        muscle: Muscle? = nil
     ) throws -> [String: Any] {
-        let payload = PhotoMatchRequestBuilder.payload(exercises: exercises, photos: photos)
+        let payload = PhotoMatchRequestBuilder.payload(
+            exercises: exercises,
+            photos: photos,
+            description: description,
+            muscle: muscle
+        )
         let data = try PhotoMatchRequestBuilder.requestBody(model: model, payload: payload)
         return try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+    }
+
+    /// The `exerciseId` enum the strict schema pins the answer to — the
+    /// thing a muscle filter has to shrink for the narrowing to be real.
+    private func schemaExerciseIds(_ body: [String: Any]) throws -> [String] {
+        let responseFormat = try #require(body["response_format"] as? [String: Any])
+        let jsonSchema = try #require(responseFormat["json_schema"] as? [String: Any])
+        let schema = try #require(jsonSchema["schema"] as? [String: Any])
+        let properties = try #require(schema["properties"] as? [String: Any])
+        let matches = try #require(properties["matches"] as? [String: Any])
+        let items = try #require(matches["items"] as? [String: Any])
+        let itemProperties = try #require(items["properties"] as? [String: Any])
+        let exerciseId = try #require(itemProperties["exerciseId"] as? [String: Any])
+        return try #require(exerciseId["enum"] as? [String])
+    }
+
+    private func textPart(_ body: [String: Any]) throws -> String {
+        let content = try userContent(body)
+        return try #require(content.first?["text"] as? String)
     }
 
     private func userContent(_ body: [String: Any]) throws -> [[String: Any]] {
@@ -106,6 +132,93 @@ struct PhotoMatchRequestBuilderTests {
         #expect(text.contains("\"primaryMuscles\":[\"chest\"]"))
         // Custom exercises travel too, even without equipment metadata.
         #expect(text.contains("\"id\":\"custom-row\""))
+    }
+
+    // MARK: - Main-muscle narrowing
+
+    @Test func mainMuscleNarrowsBothTheCatalogListingAndTheSchemaEnum() throws {
+        let body = try sentBody(exercises: makeExercises(), photos: [try makePhoto()], muscle: .chest)
+        let text = try textPart(body)
+
+        #expect(text.contains("\"id\":\"bench-press\""))
+        #expect(!text.contains("\"id\":\"squat\""))
+        #expect(!text.contains("\"id\":\"custom-row\""))
+        #expect(text.contains("filtered to it): chest"))
+
+        let ids = try schemaExerciseIds(body)
+        #expect(ids == ["bench-press"])
+    }
+
+    /// The filter is a `contains`, not a first-muscle check: squat lists
+    /// quads before glutes.
+    @Test func mainMuscleMatchesAnyPrimaryMuscleNotJustTheFirst() {
+        let payload = PhotoMatchRequestBuilder.payload(
+            exercises: makeExercises(), photos: [], muscle: .glutes
+        )
+
+        #expect(payload.catalog.map(\.id) == ["squat"])
+        #expect(payload.muscle == .glutes)
+    }
+
+    @Test func secondaryMusclesDoNotSatisfyTheFilter() throws {
+        // Triceps and hamstrings appear only as secondary targets here.
+        let body = try sentBody(exercises: makeExercises(), photos: [try makePhoto()], muscle: .triceps)
+        let text = try textPart(body)
+
+        #expect(!text.contains("\"id\":\"bench-press\""))
+        let ids = try schemaExerciseIds(body)
+        #expect(ids.isEmpty)
+    }
+
+    @Test func withoutAMainMuscleTheFullCatalogIsSent() throws {
+        let body = try sentBody(exercises: makeExercises(), photos: [try makePhoto()])
+        let text = try textPart(body)
+
+        let ids = try schemaExerciseIds(body)
+        #expect(ids == ["bench-press", "custom-row", "squat"])
+        #expect(!text.contains("Main muscle stated by the user"))
+    }
+
+    // MARK: - User description
+
+    @Test func descriptionTravelsAsALabeledLineOutsideTheCatalogJSON() throws {
+        let description = "seat pushes forward, handles at chest height"
+        let payload = PhotoMatchRequestBuilder.payload(
+            exercises: makeExercises(), photos: [try makePhoto()], description: description
+        )
+        let data = try PhotoMatchRequestBuilder.requestBody(model: "test/model", payload: payload)
+        let body = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let text = try textPart(body)
+
+        #expect(payload.userDescription == description)
+        #expect(text.contains("User description of the equipment or exercise: \(description)"))
+
+        // The hint is prose beside the listing, never a catalog field.
+        let catalogJSON = String(decoding: try JSONEncoder().encode(payload.catalog), as: UTF8.self)
+        #expect(!catalogJSON.contains(description))
+    }
+
+    @Test func blankDescriptionIsDroppedEntirely() throws {
+        #expect(PhotoMatchRequestBuilder.normalizedDescription(nil) == nil)
+        #expect(PhotoMatchRequestBuilder.normalizedDescription("") == nil)
+        #expect(PhotoMatchRequestBuilder.normalizedDescription("  \n ") == nil)
+        #expect(PhotoMatchRequestBuilder.normalizedDescription("  cable stack ") == "cable stack")
+
+        let text = try textPart(
+            try sentBody(exercises: makeExercises(), photos: [try makePhoto()], description: "   ")
+        )
+        #expect(!text.contains("User description"))
+    }
+
+    @Test func overlongDescriptionIsCappedAtTheDocumentedLength() throws {
+        let cap = PhotoMatchRequestBuilder.maxDescriptionLength
+        let long = String(repeating: "x", count: cap - 5) + "CUTHERE"
+        let text = try textPart(
+            try sentBody(exercises: makeExercises(), photos: [try makePhoto()], description: long)
+        )
+
+        #expect(text.contains(String(long.prefix(cap))))
+        #expect(!text.contains("CUTHERE"))
     }
 
     @Test func modelIsForwardedVerbatim() throws {

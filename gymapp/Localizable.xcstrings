@@ -484,6 +484,16 @@
         }
       }
     },
+    "Any muscle": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cualquier músculo"
+          }
+        }
+      }
+    },
     "Assisted": {
       "localizations": {
         "es": {
@@ -750,6 +760,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Descripción"
+          }
+        }
+      }
+    },
+    "Details": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detalles"
           }
         }
       }
@@ -1144,6 +1164,16 @@
         }
       }
     },
+    "Main muscle": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Músculo principal"
+          }
+        }
+      }
+    },
     "Match from Photo": {
       "localizations": {
         "es": {
@@ -1284,6 +1314,16 @@
         }
       }
     },
+    "No exercise in your library targets that muscle. Pick another main muscle or clear it.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ningún ejercicio de tu biblioteca trabaja ese músculo. Elige otro músculo principal o quítalo."
+          }
+        }
+      }
+    },
     "No exercises found": {
       "localizations": {
         "es": {
@@ -1420,6 +1460,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Opcional"
+          }
+        }
+      }
+    },
+    "Optional. Picking a main muscle sends only that muscle's exercises to OpenRouter.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opcional. Al elegir un músculo principal solo se envían a OpenRouter los ejercicios de ese músculo."
           }
         }
       }
@@ -2184,6 +2234,16 @@
         }
       }
     },
+    "What the machine or exercise looks like": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cómo es la máquina o el ejercicio"
+          }
+        }
+      }
+    },
     "Wheel Roller": {
       "localizations": {
         "es": {
@@ -2194,12 +2254,12 @@
         }
       }
     },
-    "When you request a suggestion, your exercise IDs, set counts, muscle data, session dates, and optional goal are sent to OpenRouter under your API key. When you request a photo match, the photos you attach are sent along with the exercise catalog (IDs, names, and muscle data); the app never stores them. Requests happen only when you ask for a suggestion or a photo match.": {
+    "When you request a suggestion, your exercise IDs, set counts, muscle data, session dates, and optional goal are sent to OpenRouter under your API key. When you request a photo match, the photos you attach are sent along with the exercise catalog (IDs, names, and muscle data) and the description or main muscle you add; the app never stores them. Requests happen only when you ask for a suggestion or a photo match.": {
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cuando pides una sugerencia, se envían a OpenRouter con tu clave de API los IDs de tus ejercicios, el número de series, los datos musculares, las fechas de las sesiones y el objetivo opcional. Cuando pides una búsqueda por foto, se envían las fotos que adjuntes junto con el catálogo de ejercicios (IDs, nombres y datos musculares); la app nunca las almacena. Las solicitudes solo ocurren cuando pides una sugerencia o una búsqueda por foto."
+            "value": "Cuando pides una sugerencia, se envían a OpenRouter con tu clave de API los IDs de tus ejercicios, el número de series, los datos musculares, las fechas de las sesiones y el objetivo opcional. Cuando pides una búsqueda por foto, se envían las fotos que adjuntes junto con el catálogo de ejercicios (IDs, nombres y datos musculares) y la descripción o el músculo principal que añadas; la app nunca las almacena. Las solicitudes solo ocurren cuando pides una sugerencia o una búsqueda por foto."
           }
         }
       }

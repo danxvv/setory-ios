@@ -101,6 +101,92 @@ final class PhotoMatchUITests: XCTestCase {
         XCTAssertFalse(app.buttons["save-template-button"].isEnabled)
     }
 
+    // MARK: - Description and main-muscle hints
+
+    /// The hints are optional context the user attaches before sending. The
+    /// stub answers the same either way — that the muscle actually narrows
+    /// the catalog is asserted against the serialized body in
+    /// `PhotoMatchRequestBuilderTests`.
+    func testDescriptionAndMainMuscleHintsReachTheResults() throws {
+        let app = launch(scenario: "success")
+        openTemplateEditor(app: app)
+
+        app.buttons["photo-match-button"].tap()
+        XCTAssertTrue(app.buttons["photo-match-attach-fixture-button"].waitForExistence(timeout: 5))
+        app.buttons["photo-match-attach-fixture-button"].tap()
+
+        // Unset by default: neither hint is required to send.
+        let muscleMenu = element(app, "photo-match-muscle-menu")
+        XCTAssertTrue(muscleMenu.label.contains("Any muscle"))
+
+        selectMuscle(app: app, named: "Chest")
+        XCTAssertTrue(muscleMenu.label.contains("Chest"))
+
+        let descriptionField = app.textFields["photo-match-description-field"]
+        XCTAssertTrue(descriptionField.exists)
+        descriptionField.tap()
+        // Trailing newline dismisses the keyboard so the send button is hittable.
+        descriptionField.typeText("seat pushes forward, handles at chest height\n")
+        attachScreenshot(app: app, name: "photo-match-hints")
+
+        app.buttons["photo-match-find-button"].tap()
+
+        XCTAssertTrue(element(app, "photo-match-result-gv0025").waitForExistence(timeout: 10))
+    }
+
+    /// A failed match returns to capture with everything the user typed
+    /// still there — retrying must not mean re-entering the hints.
+    func testHintsSurviveAFailedMatch() throws {
+        let app = launch(scenario: "error")
+        openTemplateEditor(app: app)
+
+        app.buttons["photo-match-button"].tap()
+        XCTAssertTrue(app.buttons["photo-match-attach-fixture-button"].waitForExistence(timeout: 5))
+        app.buttons["photo-match-attach-fixture-button"].tap()
+
+        selectMuscle(app: app, named: "Chest")
+        let descriptionField = app.textFields["photo-match-description-field"]
+        descriptionField.tap()
+        descriptionField.typeText("cable stack\n")
+
+        app.buttons["photo-match-find-button"].tap()
+
+        let alert = app.alerts["Photo match failed"]
+        XCTAssertTrue(alert.waitForExistence(timeout: 10))
+        alert.buttons["Cancel"].tap()
+
+        XCTAssertTrue(app.buttons["photo-match-find-button"].waitForExistence(timeout: 5))
+        XCTAssertEqual(descriptionField.value as? String, "cable stack")
+        XCTAssertTrue(element(app, "photo-match-muscle-menu").label.contains("Chest"))
+    }
+
+    /// Obliques is in the muscle list but no catalog exercise lists it as a
+    /// primary target, so the narrowed catalog would be empty — which would
+    /// ship an empty schema enum and be rejected by OpenRouter.
+    func testMainMuscleWithNoExercisesBlocksTheRequest() throws {
+        let app = launch(scenario: "success")
+        openTemplateEditor(app: app)
+
+        app.buttons["photo-match-button"].tap()
+        XCTAssertTrue(app.buttons["photo-match-attach-fixture-button"].waitForExistence(timeout: 5))
+        app.buttons["photo-match-attach-fixture-button"].tap()
+
+        let findButton = app.buttons["photo-match-find-button"]
+        XCTAssertTrue(findButton.isEnabled)
+
+        selectMuscle(app: app, named: "Obliques")
+
+        XCTAssertTrue(element(app, "photo-match-empty-muscle-note").waitForExistence(timeout: 5))
+        XCTAssertFalse(findButton.isEnabled, "an empty catalog must never be sent")
+        attachScreenshot(app: app, name: "photo-match-empty-muscle")
+
+        // Clearing the selection unblocks sending; no request ever went out.
+        selectMuscle(app: app, named: "Any muscle")
+        XCTAssertTrue(findButton.isEnabled)
+        XCTAssertFalse(element(app, "photo-match-empty-muscle-note").exists)
+        XCTAssertFalse(element(app, "photo-match-result-gv0025").exists)
+    }
+
     // MARK: - Error scenario
 
     func testPhotoMatchErrorShowsLocalizedAlertWithRetry() throws {
@@ -172,6 +258,18 @@ final class PhotoMatchUITests: XCTestCase {
         XCTAssertTrue(createButton.waitForExistence(timeout: 5))
         createButton.tap()
         XCTAssertTrue(app.textFields["template-name-field"].waitForExistence(timeout: 5))
+    }
+
+    /// Opens the main-muscle menu and picks an entry. The muscle list is
+    /// long enough that later entries start offscreen, which a swipe fixes.
+    private func selectMuscle(app: XCUIApplication, named name: String) {
+        element(app, "photo-match-muscle-menu").tap()
+        let option = app.buttons[name]
+        if !option.waitForExistence(timeout: 2) {
+            app.swipeUp()
+        }
+        XCTAssertTrue(option.waitForExistence(timeout: 5), "muscle '\(name)' not in the menu")
+        option.tap()
     }
 
     /// Identifier-first lookup that tolerates SwiftUI exposing rows as

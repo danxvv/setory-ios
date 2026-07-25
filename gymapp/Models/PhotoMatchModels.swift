@@ -13,8 +13,9 @@
 import Foundation
 
 /// Everything the model needs to name the exercises in a photo: the local
-/// catalog (ids plus the human-readable metadata it must match against)
-/// and the already-downscaled JPEG photos.
+/// catalog (ids plus the human-readable metadata it must match against),
+/// the already-downscaled JPEG photos, and the optional hints the user
+/// attached to this request.
 struct PhotoMatchRequestPayload: Equatable, Sendable {
     /// One catalog exercise as the model sees it. Names are included (unlike
     /// the suggestion payload) because vision matching is name-driven.
@@ -28,11 +29,20 @@ struct PhotoMatchRequestPayload: Equatable, Sendable {
         let primaryMuscles: [String]
     }
 
-    /// The full local catalog, ordered by id so payloads are deterministic.
+    /// The local catalog ordered by id so payloads are deterministic —
+    /// every exercise when `muscle` is nil, the primary-muscle subset when
+    /// it is set. The response schema's id enum is built from this list, so
+    /// narrowing it narrows what the model can answer.
     let catalog: [CatalogEntry]
     /// JPEG-encoded photos, already downscaled by `PhotoPreprocessor`.
     /// Never persisted: they live only for the duration of one request.
     let photos: [Data]
+    /// Optional free-text hint from the user, already trimmed and capped by
+    /// `PhotoMatchRequestBuilder.payload`. Transient like the photos.
+    var userDescription: String?
+    /// Optional main muscle the user picked; the catalog above is already
+    /// filtered by it. Carried so the prompt can say why the list is short.
+    var muscle: Muscle?
 }
 
 /// How sure the model is about a match. A closed enum so the UI can badge

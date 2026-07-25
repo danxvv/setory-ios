@@ -152,7 +152,13 @@ struct LocalizationTests {
             "No matching exercises", "Try a photo that shows the whole machine or its label.",
             "Try Other Photos",
             "High match", "Possible match", "Weak match",
-            "When you request a suggestion, your exercise IDs, set counts, muscle data, session dates, and optional goal are sent to OpenRouter under your API key. When you request a photo match, the photos you attach are sent along with the exercise catalog (IDs, names, and muscle data); the app never stores them. Requests happen only when you ask for a suggestion or a photo match.",
+            // Optional description + main-muscle hints, and the privacy
+            // note they rewrote again.
+            "Details", "What the machine or exercise looks like",
+            "Main muscle", "Any muscle",
+            "No exercise in your library targets that muscle. Pick another main muscle or clear it.",
+            "Optional. Picking a main muscle sends only that muscle's exercises to OpenRouter.",
+            "When you request a suggestion, your exercise IDs, set counts, muscle data, session dates, and optional goal are sent to OpenRouter under your API key. When you request a photo match, the photos you attach are sent along with the exercise catalog (IDs, names, and muscle data) and the description or main muscle you add; the app never stores them. Requests happen only when you ask for a suggestion or a photo match.",
         ]
         let esBundle = try spanishBundle()
 

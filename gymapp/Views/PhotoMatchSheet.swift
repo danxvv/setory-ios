@@ -42,6 +42,14 @@ struct PhotoMatchSheet: View {
 
     @State private var phase: Phase = .capture
     @State private var photos: [UIImage] = []
+    /// Optional hints. Both survive a trip through the results phase and
+    /// die with the sheet — nothing here is ever persisted.
+    @State private var descriptionText = ""
+    @State private var selectedMuscle: Muscle?
+    /// How many stored exercises the selected muscle keeps. nil means no
+    /// muscle is selected; 0 means the selection is a dead end — sending it
+    /// would ship an empty schema enum, which OpenRouter rejects.
+    @State private var muscleMatchCount: Int?
     @State private var pickerItems: [PhotosPickerItem] = []
     @State private var selectedIds: Set<String> = []
     @State private var isMatching = false
@@ -58,6 +66,7 @@ struct PhotoMatchSheet: View {
                     switch phase {
                     case .capture:
                         photosSection
+                        detailsSection
                         matchSection
                     case .results(let matches):
                         resultsSection(matches)
@@ -119,6 +128,9 @@ struct PhotoMatchSheet: View {
             .onAppear(perform: refreshKeyState)
             .onChange(of: pickerItems) {
                 loadPickedPhotos()
+            }
+            .onChange(of: selectedMuscle) {
+                refreshMuscleMatchCount()
             }
         }
     }
@@ -222,6 +234,64 @@ struct PhotoMatchSheet: View {
             }
     }
 
+    /// Optional context the photos can't carry: a line of prose and the
+    /// muscle the machine trains. The muscle is the sharper tool — it
+    /// shrinks the catalog the model may answer from.
+    private var detailsSection: some View {
+        Section {
+            TextField("What the machine or exercise looks like", text: $descriptionText)
+                .disabled(isMatching)
+                .accessibilityIdentifier("photo-match-description-field")
+
+            Menu {
+                Button("Any muscle") { selectedMuscle = nil }
+                ForEach(Muscle.allCases, id: \.self) { muscle in
+                    Button {
+                        selectedMuscle = muscle
+                    } label: {
+                        if selectedMuscle == muscle {
+                            Label(muscle.displayName, systemImage: "checkmark")
+                        } else {
+                            Text(muscle.displayName)
+                        }
+                    }
+                }
+            } label: {
+                // Concrete colors for the same reason as the result rows:
+                // inside a Form, .primary/.secondary resolve against the
+                // control's tint and render the whole label blue.
+                HStack {
+                    Text("Main muscle")
+                        .foregroundStyle(Color.primary)
+                    Spacer()
+                    Text(selectedMuscle?.displayName ?? String(localized: "Any muscle"))
+                        .foregroundStyle(Color.secondary)
+                    Image(systemName: "chevron.up.chevron.down")
+                        .font(.caption)
+                        .foregroundStyle(Color.secondary)
+                }
+                .contentShape(Rectangle())
+            }
+            .disabled(isMatching)
+            .accessibilityIdentifier("photo-match-muscle-menu")
+
+            if hasEmptyMuscleSelection {
+                Text("No exercise in your library targets that muscle. Pick another main muscle or clear it.")
+                    .font(.footnote)
+                    .foregroundStyle(Color.orange)
+                    .accessibilityIdentifier("photo-match-empty-muscle-note")
+            }
+        } header: {
+            Text("Details")
+        } footer: {
+            Text("Optional. Picking a main muscle sends only that muscle's exercises to OpenRouter.")
+        }
+    }
+
+    /// A muscle no stored exercise targets: the request is blocked rather
+    /// than sent with an empty id enum.
+    private var hasEmptyMuscleSelection: Bool { muscleMatchCount == 0 }
+
     private var matchSection: some View {
         Section {
             if isMatching {
@@ -243,7 +313,7 @@ struct PhotoMatchSheet: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .contentShape(Rectangle())
                 }
-                .disabled(photos.isEmpty)
+                .disabled(photos.isEmpty || hasEmptyMuscleSelection)
                 .accessibilityIdentifier("photo-match-find-button")
             }
         }
@@ -320,6 +390,20 @@ struct PhotoMatchSheet: View {
         hasKey = keyStore.read() != nil
     }
 
+    /// Recomputed whenever the selection changes so the blocked state shows
+    /// before the user taps send. The store is small enough to filter in
+    /// memory, and the sheet already fetches it wholesale to match.
+    private func refreshMuscleMatchCount() {
+        guard let selectedMuscle else {
+            muscleMatchCount = nil
+            return
+        }
+        let exercises = (try? modelContext.fetch(FetchDescriptor<Exercise>())) ?? []
+        muscleMatchCount = PhotoMatchRequestBuilder
+            .matchingExercises(exercises, muscle: selectedMuscle)
+            .count
+    }
+
     private func attach(_ image: UIImage) {
         guard canAttachMore else { return }
         photos.append(image)
@@ -344,7 +428,7 @@ struct PhotoMatchSheet: View {
 
     private func findMatches() {
         matchError = nil
-        guard !photos.isEmpty else { return }
+        guard !photos.isEmpty, !hasEmptyMuscleSelection else { return }
         isMatching = true
         matchTask = Task {
             defer { isMatching = false }
@@ -353,7 +437,18 @@ struct PhotoMatchSheet: View {
                 let jpegs = photos.compactMap(PhotoPreprocessor.jpegData(from:))
                 guard !jpegs.isEmpty else { throw SuggestionError.badResponse }
 
-                let payload = PhotoMatchRequestBuilder.payload(exercises: exercises, photos: jpegs)
+                let payload = PhotoMatchRequestBuilder.payload(
+                    exercises: exercises,
+                    photos: jpegs,
+                    description: descriptionText,
+                    muscle: selectedMuscle
+                )
+                // A muscle nothing targets would ship an empty id enum,
+                // which OpenRouter rejects; surface the note instead.
+                guard !payload.catalog.isEmpty else {
+                    muscleMatchCount = 0
+                    return
+                }
                 let result = try await matchService.matchExercises(request: payload)
 
                 // Resolve matched IDs to local records; name, muscles, and
