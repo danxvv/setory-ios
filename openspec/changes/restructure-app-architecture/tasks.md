@@ -78,10 +78,11 @@ scripts/uitest.sh
 
 ## 9. Move locale resolution to the presentation boundary
 
-- [ ] 9.1 Add `DesignSystem/ExerciseDisplay.swift` holding the ambient-locale conveniences (`localizedName`, `localizedSummary`, `localizedInstructionSteps`) and `matchesSearch(_:)`, with the current device-language and English-fallback behavior unchanged.
-- [ ] 9.2 Remove `contentLanguageCode` and the ambient conveniences from `Exercise`, keeping the explicit `languageCode:` accessors on the entity.
-- [ ] 9.3 Update `LocalizationTests`, `ExerciseCatalogSourceTests`, `CatalogSeederTests`, and `ExerciseOverrideTests` for the moved accessors, converting language-dependent assertions to explicit language codes where they were relying on the host language.
-- [ ] 9.4 Verify the boundary invariant: no `Locale.current` under `Domain/Entities/`. Build and run both suites, plus one Spanish-pinned UI run (`-AppleLanguages "(es)"`) to confirm display sites still localize.
+- [x] 9.1 Add `DesignSystem/ExerciseDisplay.swift` holding the ambient-locale conveniences (`localizedName`, `localizedSummary`, `localizedInstructionSteps`) and `matchesSearch(_:)`, with the current device-language and English-fallback behavior unchanged.
+- [x] 9.2 Remove `contentLanguageCode` and the ambient conveniences from `Exercise`, keeping the explicit `languageCode:` accessors on the entity.
+- [x] 9.3 Update `LocalizationTests`, `ExerciseCatalogSourceTests`, `CatalogSeederTests`, and `ExerciseOverrideTests` for the moved accessors, converting language-dependent assertions to explicit language codes where they were relying on the host language.
+  - Those four already passed explicit language codes and needed no edits. The file that actually depended on the host simulator being Spanish was `ExerciseSearchTests`, which is now fully explicit; `ExerciseFilters.apply` gained a `languageCode:` parameter (defaulted to the device language) so the filter pipeline is testable per language too. Whole unit suite now passes under `-testLanguage en` as well as the host default.
+- [x] 9.4 Verify the boundary invariant: no `Locale.current` under `Domain/Entities/`. Build and run both suites, plus one Spanish-pinned UI run (`-AppleLanguages "(es)"`) to confirm display sites still localize.
 
 ## 10. Quarantine the test scaffolding
 

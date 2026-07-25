@@ -17,11 +17,20 @@ struct ExerciseFilters: Equatable {
     var isActive: Bool { muscle != nil || equipment != nil }
 
     /// Case- and diacritic-insensitive search (see Exercise.matchesSearch)
-    /// combined with the active filters. Filtering runs on locale-independent
-    /// raw values, so a filtered set is identical in every language — only
-    /// its ordering localizes, via the callers' sort.
+    /// combined with the active filters. Muscle and equipment filtering runs
+    /// on locale-independent raw values, so those results are identical in
+    /// every language; only search consults the display vocabulary, and only
+    /// the ordering localizes, via the callers' sort.
     /// Preserves the input order (callers sort).
-    func apply(to exercises: [Exercise], searchText: String) -> [Exercise] {
+    ///
+    /// `languageCode` defaults to the device language so view call sites read
+    /// unchanged; tests pass it explicitly so results don't depend on the
+    /// test host's configured language.
+    func apply(
+        to exercises: [Exercise],
+        searchText: String,
+        languageCode: String = Exercise.contentLanguageCode
+    ) -> [Exercise] {
         var result = exercises
         if let muscle {
             result = result.filter { $0.primaryMuscles.contains(muscle) }
@@ -30,7 +39,7 @@ struct ExerciseFilters: Equatable {
             result = result.filter { $0.equipment == equipment }
         }
         if !searchText.isEmpty {
-            result = result.filter { $0.matchesSearch(searchText) }
+            result = result.filter { $0.matchesSearch(searchText, languageCode: languageCode) }
         }
         return result
     }

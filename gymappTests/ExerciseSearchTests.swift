@@ -7,6 +7,11 @@
 //  the canonical English one, so a Spanish user finds an exercise by its
 //  Spanish name and by the English name printed on the machine.
 //
+//  Every assertion that depends on which vocabulary resolves passes its
+//  language code explicitly. These tests used to rely on the host simulator
+//  being configured in Spanish, which made them pass here and fail on an
+//  English machine.
+//
 
 import Foundation
 import Testing
@@ -47,59 +52,84 @@ struct ExerciseSearchTests {
         )
     }
 
-    @Test func canonicalQueryMatches() {
-        #expect(makeBenchPress().matchesSearch("bench press"))
+    /// The canonical English name is searchable in every language, which is
+    /// what lets a Spanish user find an exercise off the machine's label.
+    @Test(arguments: ["en", "es", "fr"])
+    func canonicalQueryMatchesInAnyLanguage(languageCode: String) {
+        #expect(makeBenchPress().matchesSearch("bench press", languageCode: languageCode))
+        #expect(makeSquat().matchesSearch("squat", languageCode: languageCode))
     }
 
     @Test func localizedQueryMatchesViaTheTranslation() {
         // "sentadilla" appears only in the Spanish name.
         let squat = makeSquat()
-        #expect(squat.matchesSearch("sentadilla"))
+        #expect(squat.matchesSearch("sentadilla", languageCode: "es"))
         #expect(!squat.name.localizedStandardContains("sentadilla"))
     }
 
+    /// The other side of the same seam: with English resolved, the Spanish
+    /// vocabulary is not searchable.
+    @Test func localizedQueryDoesNotMatchUnderAnotherLanguage() {
+        #expect(!makeSquat().matchesSearch("sentadilla", languageCode: "en"))
+        #expect(!makeSquat().matchesSearch("sentadilla", languageCode: "fr"))
+    }
+
     @Test func matchingIgnoresCaseAndDiacritics() {
-        #expect(makeSquat().matchesSearch("SENTADILLA"))
-        #expect(makeSquat().matchesSearch("Sentadilla Completa"))
-        #expect(makeBenchPress().matchesSearch("BARBELL"))
+        #expect(makeSquat().matchesSearch("SENTADILLA", languageCode: "es"))
+        #expect(makeSquat().matchesSearch("Sentadilla Completa", languageCode: "es"))
+        #expect(makeBenchPress().matchesSearch("BARBELL", languageCode: "en"))
+        #expect(makeBenchPress().matchesSearch("BARBELL", languageCode: "es"))
     }
 
-    @Test func emptyQueryMatchesEverything() {
-        #expect(makeBenchPress().matchesSearch(""))
-        #expect(makeRun().matchesSearch(""))
+    @Test(arguments: ["en", "es"])
+    func emptyQueryMatchesEverything(languageCode: String) {
+        #expect(makeBenchPress().matchesSearch("", languageCode: languageCode))
+        #expect(makeRun().matchesSearch("", languageCode: languageCode))
     }
 
-    @Test func unrelatedQueryDoesNotMatch() {
-        #expect(!makeBenchPress().matchesSearch("sentadilla"))
-        #expect(!makeRun().matchesSearch("press"))
+    @Test(arguments: ["en", "es"])
+    func unrelatedQueryDoesNotMatch(languageCode: String) {
+        #expect(!makeBenchPress().matchesSearch("sentadilla", languageCode: languageCode))
+        #expect(!makeRun().matchesSearch("press", languageCode: languageCode))
     }
 
-    @Test func customExerciseWithoutTranslationsStillMatchesItsName() {
+    /// The ambient convenience must agree with the explicit accessor for
+    /// whatever language the host happens to be running.
+    @Test func ambientConvenienceAgreesWithTheExplicitAccessor() {
+        let squat = makeSquat()
+        let code = Exercise.contentLanguageCode
+        #expect(squat.matchesSearch("squat") == squat.matchesSearch("squat", languageCode: code))
+        #expect(squat.matchesSearch("sentadilla") == squat.matchesSearch("sentadilla", languageCode: code))
+    }
+
+    @Test(arguments: ["en", "es"])
+    func customExerciseWithoutTranslationsStillMatchesItsName(languageCode: String) {
         let custom = Exercise(
             id: "my-custom-move",
             name: "My Custom Move",
             category: .strength,
             primaryMuscles: [.chest]
         )
-        #expect(custom.matchesSearch("custom"))
+        #expect(custom.matchesSearch("custom", languageCode: languageCode))
     }
 
-    @Test func userModifiedExerciseMatchesItsStoredName() {
+    @Test(arguments: ["en", "es"])
+    func userModifiedExerciseMatchesItsStoredName(languageCode: String) {
         let exercise = makeBenchPress()
         exercise.name = "Press banca plano"
         exercise.isUserModified = true
 
-        #expect(exercise.matchesSearch("banca plano"))
+        #expect(exercise.matchesSearch("banca plano", languageCode: languageCode))
         // The frozen exercise no longer resolves its catalog translation.
-        #expect(!exercise.matchesSearch("Press de Banca con Barra"))
+        #expect(!exercise.matchesSearch("Press de Banca con Barra", languageCode: languageCode))
     }
 
     @Test func filtersApplySearchInBothVocabularies() {
         let exercises = [makeBenchPress(), makeSquat(), makeRun()]
         let filters = ExerciseFilters()
 
-        let spanish = filters.apply(to: exercises, searchText: "sentadilla")
-        let english = filters.apply(to: exercises, searchText: "squat")
+        let spanish = filters.apply(to: exercises, searchText: "sentadilla", languageCode: "es")
+        let english = filters.apply(to: exercises, searchText: "squat", languageCode: "es")
 
         #expect(spanish.map(\.id) == ["gv0043"])
         #expect(english.map(\.id) == ["gv0043"])
@@ -110,9 +140,9 @@ struct ExerciseSearchTests {
         var filters = ExerciseFilters()
         filters.muscle = .chest
 
-        #expect(filters.apply(to: exercises, searchText: "banca").map(\.id) == ["gv0025"])
+        #expect(filters.apply(to: exercises, searchText: "banca", languageCode: "es").map(\.id) == ["gv0025"])
         // The muscle filter still wins over a name that matches elsewhere.
-        #expect(filters.apply(to: exercises, searchText: "sentadilla").isEmpty)
+        #expect(filters.apply(to: exercises, searchText: "sentadilla", languageCode: "es").isEmpty)
     }
 
     @Test func searchCombinesWithEquipmentFilter() {
@@ -121,9 +151,9 @@ struct ExerciseSearchTests {
         filters.equipment = .barbell
 
         // Both vocabularies survive the equipment filter.
-        #expect(filters.apply(to: exercises, searchText: "barra").map(\.id) == ["gv0025", "gv0043"])
-        #expect(filters.apply(to: exercises, searchText: "barbell").map(\.id) == ["gv0025", "gv0043"])
-        #expect(filters.apply(to: exercises, searchText: "correr").isEmpty)
+        #expect(filters.apply(to: exercises, searchText: "barra", languageCode: "es").map(\.id) == ["gv0025", "gv0043"])
+        #expect(filters.apply(to: exercises, searchText: "barbell", languageCode: "es").map(\.id) == ["gv0025", "gv0043"])
+        #expect(filters.apply(to: exercises, searchText: "correr", languageCode: "es").isEmpty)
     }
 
     @Test func filterResultsAreLanguageIndependent() {
@@ -132,6 +162,8 @@ struct ExerciseSearchTests {
         var filters = ExerciseFilters()
         filters.muscle = .quads
 
-        #expect(filters.apply(to: exercises, searchText: "").map(\.id) == ["gv0043"])
+        for languageCode in ["en", "es", "fr"] {
+            #expect(filters.apply(to: exercises, searchText: "", languageCode: languageCode).map(\.id) == ["gv0043"])
+        }
     }
 }

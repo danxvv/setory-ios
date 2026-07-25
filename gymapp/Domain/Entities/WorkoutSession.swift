@@ -22,25 +22,12 @@ final class WorkoutSession {
 
     /// Names of the exercises involved, deduplicated, in series order.
     /// Series without an exercise are skipped. Canonical (stored) names;
-    /// views should display `localizedExerciseNames`.
+    /// views should display `localizedExerciseNames` (see ExerciseDisplay).
     var exerciseNames: [String] {
         var seen = Set<String>()
         var names: [String] = []
         for series in orderedSeries {
             if let name = series.exercise?.name, seen.insert(name).inserted {
-                names.append(name)
-            }
-        }
-        return names
-    }
-
-    /// Localized display names of the exercises involved, deduplicated,
-    /// in series order. Series without an exercise are skipped.
-    var localizedExerciseNames: [String] {
-        var seen = Set<String>()
-        var names: [String] = []
-        for series in orderedSeries {
-            if let name = series.exercise?.localizedName, seen.insert(name).inserted {
                 names.append(name)
             }
         }

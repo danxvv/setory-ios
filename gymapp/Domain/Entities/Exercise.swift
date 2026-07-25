@@ -44,19 +44,6 @@ final class Exercise {
     /// Instruction-step translations keyed by language code ("es").
     var instructionTranslations: [String: [String]] = [:]
 
-    /// Language whose content translations should render: the device
-    /// language, falling back to canonical English for unsupported ones.
-    static var contentLanguageCode: String {
-        Locale.current.language.languageCode?.identifier ?? "en"
-    }
-
-    /// Display name in the current device language, falling back to the
-    /// canonical English name. User-modified exercises show their stored
-    /// name verbatim.
-    var localizedName: String {
-        localizedName(languageCode: Self.contentLanguageCode)
-    }
-
     /// An empty translation falls back rather than rendering a nameless row,
     /// which is why this guards on non-empty where the content accessors
     /// below can afford not to.
@@ -68,35 +55,28 @@ final class Exercise {
         return name
     }
 
-    /// Case- and diacritic-insensitive search match. Both the resolved name
-    /// and the canonical English one are tested: the dataset vocabulary is
-    /// English, so a Spanish-device user searching "bench press" — off the
-    /// machine's label, or out of an AI match result — must still find it.
-    func matchesSearch(_ text: String) -> Bool {
+    /// Case- and diacritic-insensitive search match against the given
+    /// language. Both the resolved name and the canonical English one are
+    /// tested: the dataset vocabulary is English, so a Spanish-device user
+    /// searching "bench press" — off the machine's label, or out of an AI
+    /// match result — must still find it.
+    func matchesSearch(_ text: String, languageCode: String) -> Bool {
         guard !text.isEmpty else { return true }
-        return localizedName.localizedStandardContains(text)
+        return localizedName(languageCode: languageCode).localizedStandardContains(text)
             || name.localizedStandardContains(text)
     }
 
-    /// Description in the current device language, falling back to the
-    /// canonical English summary. User-modified exercises show their stored
-    /// text verbatim.
-    var localizedSummary: String {
-        localizedSummary(languageCode: Self.contentLanguageCode)
-    }
-
+    /// Description for the given language, falling back to the canonical
+    /// English summary. User-modified exercises show their stored text
+    /// verbatim.
     func localizedSummary(languageCode: String) -> String {
         guard !isUserModified else { return summary }
         return summaryTranslations[languageCode] ?? summary
     }
 
-    /// Instruction steps in the current device language, falling back to the
+    /// Instruction steps for the given language, falling back to the
     /// canonical English steps. User-modified exercises show their stored
     /// steps verbatim.
-    var localizedInstructionSteps: [String] {
-        localizedInstructionSteps(languageCode: Self.contentLanguageCode)
-    }
-
     func localizedInstructionSteps(languageCode: String) -> [String] {
         guard !isUserModified else { return instructionSteps }
         if let translated = instructionTranslations[languageCode], !translated.isEmpty {
