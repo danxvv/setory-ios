@@ -207,18 +207,9 @@ struct TemplateEditForm: View {
 
     private func save() {
         guard draft.isSavable else { return }
-        let target = template ?? {
-            let created = RoutineTemplate(name: draft.trimmedName)
-            modelContext.insert(created)
-            return created
-        }()
-        draft.apply(to: target, in: modelContext)
-        do {
-            try modelContext.save()
+        persisting("save routine template") {
+            try TemplateStore(context: modelContext).save(draft, to: template)
             dismiss()
-        } catch {
-            modelContext.rollback()
-            assertionFailure("Failed to save routine template: \(error)")
         }
     }
 }

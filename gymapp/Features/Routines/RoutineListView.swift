@@ -161,28 +161,14 @@ struct RoutineListView: View {
     }
 
     private func duplicate(_ template: RoutineTemplate) {
-        let copy = RoutineTemplate(name: String(localized: "\(template.name) copy"))
-        modelContext.insert(copy)
-        for item in template.orderedItems {
-            let copiedItem = RoutineTemplateItem(order: item.order, targetSets: item.targetSets, exercise: item.exercise)
-            copiedItem.template = copy
-            modelContext.insert(copiedItem)
-        }
-        do {
-            try modelContext.save()
-        } catch {
-            modelContext.rollback()
-            assertionFailure("Failed to duplicate template: \(error)")
+        persisting("duplicate template") {
+            try TemplateStore(context: modelContext).duplicate(template)
         }
     }
 
     private func delete(_ template: RoutineTemplate) {
-        modelContext.delete(template)
-        do {
-            try modelContext.save()
-        } catch {
-            modelContext.rollback()
-            assertionFailure("Failed to delete template: \(error)")
+        persisting("delete template") {
+            try TemplateStore(context: modelContext).delete(template)
         }
     }
 

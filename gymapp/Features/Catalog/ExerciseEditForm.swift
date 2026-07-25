@@ -46,10 +46,6 @@ struct ExerciseEditForm: View {
         name.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    private var isValid: Bool {
-        !trimmedName.isEmpty && !primarySelection.isEmpty
-    }
-
     var body: some View {
         Form {
             Section {
@@ -120,7 +116,7 @@ struct ExerciseEditForm: View {
                 Button("Save") {
                     save()
                 }
-                .disabled(!isValid)
+                .disabled(!edit.isValid)
                 .accessibilityIdentifier("save-exercise-button")
             }
         }
@@ -163,41 +159,45 @@ struct ExerciseEditForm: View {
         }
     }
 
+    /// What the form currently holds, normalized.
+    private var edit: ExerciseEdit {
+        ExerciseEdit(
+            name: name,
+            category: category,
+            primarySelection: primarySelection,
+            secondarySelection: secondarySelection,
+            summary: summary,
+            steps: steps.map(\.text)
+        )
+    }
+
+    /// The values the form was opened with, normalized the same way, so the
+    /// no-op comparison is like-for-like.
+    private var displayedEdit: ExerciseEdit {
+        ExerciseEdit(
+            name: exercise.localizedName,
+            category: exercise.category,
+            primarySelection: Set(exercise.primaryMuscles),
+            secondarySelection: Set(exercise.secondaryMuscles),
+            summary: exercise.localizedSummary,
+            steps: exercise.localizedInstructionSteps
+        )
+    }
+
     private func save() {
-        guard isValid else { return }
-        let orderedPrimary = Muscle.allCases.filter(primarySelection.contains)
-        let orderedSecondary = Muscle.allCases.filter { secondarySelection.contains($0) && !primarySelection.contains($0) }
-        let cleanedSteps = steps
-            .map { $0.text.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { !$0.isEmpty }
-        let cleanedSummary = summary.trimmingCharacters(in: .whitespacesAndNewlines)
+        let edit = edit
+        guard edit.isValid else { return }
 
         // A save with nothing actually changed stays a no-op so merely
         // visiting edit mode doesn't freeze the exercise's localization.
-        let unchanged = trimmedName == exercise.localizedName
-            && category == exercise.category
-            && orderedPrimary == exercise.primaryMuscles
-            && orderedSecondary == exercise.secondaryMuscles
-            && cleanedSummary == exercise.localizedSummary
-            && cleanedSteps == exercise.localizedInstructionSteps
-        guard !unchanged else {
+        guard !edit.changesNothing(comparedToDisplayed: displayedEdit) else {
             onDone()
             return
         }
 
-        exercise.name = trimmedName
-        exercise.category = category
-        exercise.primaryMuscles = orderedPrimary
-        exercise.secondaryMuscles = orderedSecondary
-        exercise.summary = cleanedSummary
-        exercise.instructionSteps = cleanedSteps
-        exercise.isUserModified = true
-        do {
-            try modelContext.save()
+        persisting("save exercise edits") {
+            try ExerciseStore(context: modelContext).save(edit, to: exercise)
             onDone()
-        } catch {
-            modelContext.rollback()
-            assertionFailure("Failed to save exercise edits: \(error)")
         }
     }
 }

@@ -360,30 +360,16 @@ struct ContentView: View {
         let dayDrafts = draftsForSelectedDay
         guard !dayDrafts.isEmpty, savedSession == nil else { return }
 
-        let session = WorkoutSession(date: selectedDate)
-        modelContext.insert(session)
-        for (index, draft) in dayDrafts.enumerated() {
-            let series = WorkoutSeries(
-                order: index,
-                exercise: draft.exercise,
-                reps: draft.reps,
-                weightKg: draft.weightKg,
-                durationSeconds: draft.durationSeconds
+        persisting("save workout session") {
+            try WorkoutStore(context: modelContext).finishDay(
+                date: selectedDate, drafts: dayDrafts
             )
-            series.session = session
-            modelContext.insert(series)
-        }
-        do {
-            try modelContext.save()
             // Only logged drafts were persisted; the plan's unmet targets
             // are guidance and vanish with it.
             withAnimation {
                 drafts[selectedDate] = nil
                 plans[selectedDate] = nil
             }
-        } catch {
-            modelContext.rollback()
-            assertionFailure("Failed to save workout session: \(error)")
         }
     }
 }

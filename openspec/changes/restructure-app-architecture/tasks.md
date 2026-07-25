@@ -64,10 +64,10 @@ scripts/uitest.sh
 
 ## 7. Switch views onto the stores
 
-- [ ] 7.1 Replace the save logic in the logging screen with `WorkoutStore` + `persisting`.
-- [ ] 7.2 Replace the save logic in `TemplateEditForm` and `RoutineListView` with `TemplateStore` + `persisting`.
-- [ ] 7.3 Replace the save logic in `ExerciseEditForm` with `ExerciseStore` + `persisting`.
-- [ ] 7.4 Verify the boundary invariant: no `modelContext.save/rollback/insert` remains under `Features/`. Build and run both suites.
+- [x] 7.1 Replace the save logic in the logging screen with `WorkoutStore` + `persisting`.
+- [x] 7.2 Replace the save logic in `TemplateEditForm` and `RoutineListView` with `TemplateStore` + `persisting`.
+- [x] 7.3 Replace the save logic in `ExerciseEditForm` with `ExerciseStore` + `persisting`.
+- [x] 7.4 Verify the boundary invariant: no `modelContext.save/rollback/insert` remains under `Features/`. Build and run both suites.
 
 ## 8. Unify navigation routes
 
