@@ -15,7 +15,7 @@ struct CatalogSeeder {
     /// Must match the `version` in the bundled exercise-catalog.json
     /// (CATALOG_VERSION in tools/catalog/transform.py). Bump both together
     /// so upgraded installs reseed exactly once.
-    static let bundledCatalogVersion = 1
+    static let bundledCatalogVersion = 2
     /// UserDefaults key holding the last successfully seeded version.
     static let catalogVersionKey = "exerciseCatalogVersion"
 
@@ -68,6 +68,7 @@ struct CatalogSeeder {
                     instructionSteps: entry.instructions,
                     equipment: entry.equipment,
                     gifFileName: entry.gifFileName,
+                    nameTranslations: entry.localizedNames,
                     summaryTranslations: entry.localizedSummaries,
                     instructionTranslations: entry.localizedInstructions
                 ))
@@ -117,6 +118,7 @@ struct CatalogSeeder {
         if exercise.instructionSteps != entry.instructions { exercise.instructionSteps = entry.instructions; changed = true }
         if exercise.equipment != entry.equipment { exercise.equipment = entry.equipment; changed = true }
         if exercise.gifFileName != entry.gifFileName { exercise.gifFileName = entry.gifFileName; changed = true }
+        if exercise.nameTranslations != entry.localizedNames { exercise.nameTranslations = entry.localizedNames; changed = true }
         if exercise.summaryTranslations != entry.localizedSummaries { exercise.summaryTranslations = entry.localizedSummaries; changed = true }
         if exercise.instructionTranslations != entry.localizedInstructions { exercise.instructionTranslations = entry.localizedInstructions; changed = true }
         return changed

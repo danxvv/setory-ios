@@ -22,15 +22,26 @@ struct ExerciseOverrideTests {
             secondaryMuscles: [.triceps, .shoulders],
             summary: "Catalog summary.",
             instructionSteps: ["Catalog step one.", "Catalog step two."],
+            nameTranslations: ["es": "Press de Banca con Barra"],
             summaryTranslations: ["es": "Resumen del catálogo."],
             instructionTranslations: ["es": ["Paso uno.", "Paso dos."]]
         )
     }
 
-    @Test func displayNameIsAlwaysTheStoredName() {
-        // Catalog names are English-only by design; there is no name table.
+    @Test func nameResolvesPerLanguageWithEnglishFallback() {
         let exercise = makeCatalogExercise()
-        #expect(exercise.localizedName == "Barbell Bench Press")
+
+        #expect(exercise.localizedName(languageCode: "es") == "Press de Banca con Barra")
+        #expect(exercise.localizedName(languageCode: "en") == "Barbell Bench Press")
+        // Unsupported languages fall back to the canonical name.
+        #expect(exercise.localizedName(languageCode: "fr") == "Barbell Bench Press")
+    }
+
+    @Test func emptyNameTranslationFallsBackRatherThanRenderingBlank() {
+        let exercise = makeCatalogExercise()
+        exercise.nameTranslations = ["es": ""]
+
+        #expect(exercise.localizedName(languageCode: "es") == "Barbell Bench Press")
     }
 
     @Test func contentResolvesPerLanguageWithEnglishFallback() {
@@ -46,8 +57,11 @@ struct ExerciseOverrideTests {
     }
 
     @Test func currentLanguageAccessorMatchesExplicitLookup() {
+        // Holds in any device language, which matters: unit tests run in the
+        // host app and inherit the simulator's language.
         let exercise = makeCatalogExercise()
         let code = Exercise.contentLanguageCode
+        #expect(exercise.localizedName == exercise.localizedName(languageCode: code))
         #expect(exercise.localizedSummary == exercise.localizedSummary(languageCode: code))
         #expect(exercise.localizedInstructionSteps == exercise.localizedInstructionSteps(languageCode: code))
     }
@@ -59,9 +73,10 @@ struct ExerciseOverrideTests {
         exercise.instructionSteps = ["Do it my way."]
         exercise.isUserModified = true
 
-        #expect(exercise.localizedName == "Press banca plano")
         // Translations still stored, but the override bypasses them in
         // every language.
+        #expect(exercise.localizedName(languageCode: "es") == "Press banca plano")
+        #expect(exercise.localizedName(languageCode: "en") == "Press banca plano")
         #expect(exercise.localizedSummary(languageCode: "es") == "My own notes.")
         #expect(exercise.localizedSummary(languageCode: "en") == "My own notes.")
         #expect(exercise.localizedInstructionSteps(languageCode: "es") == ["Do it my way."])
@@ -77,7 +92,7 @@ struct ExerciseOverrideTests {
             instructionSteps: ["Custom step."]
         )
 
-        #expect(exercise.localizedName == "My Custom Move")
+        #expect(exercise.localizedName(languageCode: "es") == "My Custom Move")
         #expect(exercise.localizedSummary(languageCode: "es") == "Custom summary.")
         #expect(exercise.localizedInstructionSteps(languageCode: "es") == ["Custom step."])
     }

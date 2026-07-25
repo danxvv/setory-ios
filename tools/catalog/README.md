@@ -18,17 +18,26 @@ curl -sL "https://github.com/hasaneyldrm/exercises-dataset/archive/<SHA>.tar.gz"
 python3 tools/catalog/transform.py exercises-dataset-<SHA>
 ```
 
+Inputs beside the script (hand-curated, checked in — not derived from the dataset):
+- `legacy-mapping.json` — the hand-reviewed legacy-id migration table
+- `name-translations.json` — Spanish display names keyed by exercise id
+  (`{"gv0001": {"es": "Sit-Up 3/4"}, ...}`). The dataset ships English names only,
+  so these are merged in as each entry's `localizedNames`. **A dataset upgrade that
+  introduces new exercise ids must add their translations here**: the script fails
+  on any emitted exercise without a non-empty Spanish name rather than shipping a
+  catalog that would show English names to Spanish users. Descriptions and
+  instruction steps need no sidecar — the dataset carries those in both languages.
+
 Outputs:
-- `gymapp/Resources/exercise-catalog.json` — 1,324 exercises, en/es content,
+- `gymapp/Resources/exercise-catalog.json` — 1,324 exercises, en/es names and content,
   taxonomy mapped onto the app's `Muscle`/`ExerciseCategory`/`Equipment` vocabulary
 - `gymapp/Resources/ExerciseThumbnails/` — 180×180 JPGs renamed `<exercise-id>.jpg`
-- `gymapp/Resources/legacy-mapping.json` — copy of `legacy-mapping.json` (the
-  hand-reviewed legacy-id migration table used by `LegacyCatalogMigrator`)
+- `gymapp/Resources/legacy-mapping.json` — copy of `legacy-mapping.json`
 
 The script fails loudly on unmapped taxonomy values, missing instructions, missing
-images, or legacy-mapping targets absent from the catalog. Bump `CATALOG_VERSION`
-(and `CatalogSeeder.bundledCatalogVersion`) whenever the emitted catalog changes so
-seeding re-runs on upgraded installs.
+images, missing Spanish names, or legacy-mapping targets absent from the catalog.
+Bump `CATALOG_VERSION` (and `CatalogSeeder.bundledCatalogVersion`) whenever the
+emitted catalog changes so seeding re-runs on upgraded installs.
 
 ## Licensing
 

@@ -22,6 +22,9 @@ struct CatalogExercise: Equatable {
     let summary: String
     /// Canonical English step-by-step instructions, in order.
     let instructions: [String]
+    /// Display-name translations keyed by language code ("es"). English stays
+    /// canonical in `name`.
+    let localizedNames: [String: String]
     /// Description translations keyed by language code ("es").
     let localizedSummaries: [String: String]
     /// Instruction-step translations keyed by language code ("es").
@@ -37,6 +40,7 @@ struct CatalogExercise: Equatable {
         gifFileName: String? = nil,
         summary: String,
         instructions: [String],
+        localizedNames: [String: String] = [:],
         localizedSummaries: [String: String] = [:],
         localizedInstructions: [String: [String]] = [:]
     ) {
@@ -49,6 +53,7 @@ struct CatalogExercise: Equatable {
         self.gifFileName = gifFileName
         self.summary = summary
         self.instructions = instructions
+        self.localizedNames = localizedNames
         self.localizedSummaries = localizedSummaries
         self.localizedInstructions = localizedInstructions
     }
@@ -69,6 +74,7 @@ extension CatalogExercise: Codable {
             gifFileName: try container.decodeIfPresent(String.self, forKey: .gifFileName),
             summary: try container.decode(String.self, forKey: .summary),
             instructions: try container.decode([String].self, forKey: .instructions),
+            localizedNames: try container.decodeIfPresent([String: String].self, forKey: .localizedNames) ?? [:],
             localizedSummaries: try container.decodeIfPresent([String: String].self, forKey: .localizedSummaries) ?? [:],
             localizedInstructions: try container.decodeIfPresent([String: [String]].self, forKey: .localizedInstructions) ?? [:]
         )

@@ -56,8 +56,20 @@ struct ExerciseCatalogSourceTests {
         let entry = try JSONDecoder().decode(CatalogExercise.self, from: Data(json.utf8))
         #expect(entry.equipment == nil)
         #expect(entry.gifFileName == nil)
+        #expect(entry.localizedNames.isEmpty)
         #expect(entry.localizedSummaries.isEmpty)
         #expect(entry.localizedInstructions.isEmpty)
+    }
+
+    @Test func localizedNamesDecodeWhenPresent() throws {
+        let json = """
+        {"id": "x", "name": "Barbell Bench Press", "category": "strength",
+         "primaryMuscles": ["chest"], "secondaryMuscles": [], "summary": "s",
+         "instructions": ["i"], "localizedNames": {"es": "Press de Banca con Barra"}}
+        """
+        let entry = try JSONDecoder().decode(CatalogExercise.self, from: Data(json.utf8))
+        #expect(entry.name == "Barbell Bench Press")
+        #expect(entry.localizedNames == ["es": "Press de Banca con Barra"])
     }
 
     @Test func missingResourceThrows() {

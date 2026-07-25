@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 
 PINNED_COMMIT = "118e4bd6b14da6df0e36605d7169b65db18389a4"
-CATALOG_VERSION = 1
+CATALOG_VERSION = 2
 LANGS = ("en", "es")
 
 # Dataset target/secondary vocabulary -> gymapp Muscle raw values.
@@ -208,6 +208,15 @@ def main():
     records = json.loads((dataset_dir / "data" / "exercises.json").read_text())
     print(f"dataset records: {len(records)}")
 
+    # Hand-curated display-name translations keyed by exercise id. The
+    # dataset ships English names only, so these live beside this script
+    # (like legacy-mapping.json) instead of being derived — without the
+    # merge below, re-running the transform would silently drop them.
+    name_translations = json.loads(
+        (Path(__file__).parent / "name-translations.json").read_text()
+    )
+    print(f"name translations: {len(name_translations)}")
+
     thumbs_dir.mkdir(parents=True, exist_ok=True)
     for stale in thumbs_dir.glob("*.jpg"):
         stale.unlink()
@@ -248,6 +257,15 @@ def main():
             continue
         shutil.copyfile(image, thumbs_dir / f"{gvid}.jpg")
 
+        names_localized = {
+            lang: text.strip()
+            for lang, text in name_translations.get(gvid, {}).items()
+            if text.strip()
+        }
+        if not names_localized.get("es"):
+            problems.append(f"{gvid}: no Spanish name in name-translations.json")
+            continue
+
         entry = {
             "id": gvid,
             "name": clean_name(rec["name"]),
@@ -260,6 +278,8 @@ def main():
             "instructions": steps_en,
             "localizedSummaries": {"es": summary(category, rec["equipment"], primaries, secondaries, "es")},
             "localizedInstructions": {"es": steps_es} if steps_es else {},
+            # Key order matches the checked-in catalog so a re-run diffs cleanly.
+            "localizedNames": names_localized,
         }
         exercises.append(entry)
 

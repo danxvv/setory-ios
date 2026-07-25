@@ -44,6 +44,7 @@ struct CatalogSeederTests {
         gifFileName: "0025-test.gif",
         summary: "A chest press.",
         instructions: ["Lie down.", "Press the bar."],
+        localizedNames: ["es": "Press de Banca con Barra"],
         localizedSummaries: ["es": "Un press de pecho."],
         localizedInstructions: ["es": ["Túmbate.", "Empuja la barra."]]
     )
@@ -65,6 +66,10 @@ struct CatalogSeederTests {
             #expect(!exercise.instructionSteps.isEmpty)
             #expect(exercise.equipment != nil)
             #expect(exercise.hasMedia)
+            #expect(
+                exercise.nameTranslations["es"]?.isEmpty == false,
+                "'\(exercise.id)' seeded without a Spanish name"
+            )
         }
         #expect(exercises.contains { $0.category == .strength })
         #expect(exercises.contains { $0.category == .cardio })
@@ -140,6 +145,9 @@ struct CatalogSeederTests {
         #expect(exercises.count == 1)
         #expect(exercises[0].summary == benchPress.summary)
         #expect(exercises[0].instructionSteps == benchPress.instructions)
+        // The name-translation table lands on stores seeded before it existed.
+        #expect(exercises[0].nameTranslations == benchPress.localizedNames)
+        #expect(exercises[0].localizedName(languageCode: "es") == "Press de Banca con Barra")
     }
 
     @Test func backfillIsIdempotent() throws {
@@ -172,6 +180,9 @@ struct CatalogSeederTests {
         #expect(reloaded.name == "Press banca plano")
         #expect(reloaded.summary == "My own notes.")
         #expect(reloaded.instructionSteps == ["My way."])
+        // The stored translation survives but no longer resolves: the
+        // user's name wins in every language.
+        #expect(reloaded.localizedName(languageCode: "es") == "Press banca plano")
     }
 
     @Test func restorePristineCatalogRealignsEditedExercise() throws {
@@ -181,6 +192,7 @@ struct CatalogSeederTests {
         let exercise = try #require(try context.fetch(FetchDescriptor<Exercise>()).first)
         exercise.name = "Press banca plano"
         exercise.summary = "My own notes."
+        exercise.nameTranslations = [:]
         exercise.isUserModified = true
         try context.save()
 
@@ -189,6 +201,7 @@ struct CatalogSeederTests {
         let reloaded = try #require(try context.fetch(FetchDescriptor<Exercise>()).first)
         #expect(reloaded.name == benchPress.name)
         #expect(reloaded.summary == benchPress.summary)
+        #expect(reloaded.nameTranslations == benchPress.localizedNames)
         #expect(reloaded.isUserModified == false)
     }
 

@@ -2,10 +2,9 @@
 //  LocalizationTests.swift
 //  gymappTests
 //
-//  Guards catalog completeness: every catalog exercise must carry Spanish
-//  content translations (names are English-only by design — the dataset
-//  ships no translated names), and every UI string catalog key must have a
-//  Spanish value.
+//  Guards catalog completeness: every catalog exercise must carry a Spanish
+//  name, description, and instruction steps, and every UI string catalog key
+//  must have a Spanish value.
 //
 
 import Foundation
@@ -25,6 +24,10 @@ struct LocalizationTests {
         #expect(!entries.isEmpty)
 
         for entry in entries {
+            #expect(
+                entry.localizedNames["es"]?.isEmpty == false,
+                "Exercise id '\(entry.id)' has no Spanish name"
+            )
             #expect(
                 entry.localizedSummaries["es"]?.isEmpty == false,
                 "Exercise id '\(entry.id)' has no Spanish summary"

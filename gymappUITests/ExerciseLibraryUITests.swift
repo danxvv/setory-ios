@@ -109,21 +109,27 @@ final class ExerciseLibraryUITests: XCTestCase {
         app.launchArguments = ["-uitest-reset", "-uitest-offline-media", "-AppleLanguages", "(es)", "-AppleLocale", "es_ES"]
         app.launch()
 
-        // Tab label is Spanish; exercise names stay English by design
-        // (the dataset ships no translated names).
         let tabButton = app.tabBars.buttons["Ejercicios"]
         XCTAssertTrue(tabButton.waitForExistence(timeout: 5))
         tabButton.tap()
-        XCTAssertTrue(app.staticTexts["3/4 Sit-Up"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.searchFields.firstMatch.waitForExistence(timeout: 5))
+        // Rows render Spanish names and sort by them, so gv0001 — which
+        // leads the list in English as "3/4 Sit-Up" — is nowhere in view.
+        XCTAssertFalse(app.staticTexts["3/4 Sit-Up"].exists)
 
-        // Locale-independent identifiers reach the detail screen.
+        // Search spans both vocabularies: the Spanish name the user reads
+        // and the canonical English one off the machine both find gv0031.
+        search(app: app, text: "curl con barra")
+        XCTAssertTrue(element(in: app, withIdentifier: "exercise-row-gv0031").waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Curl con Barra"].exists)
+        clearSearch(app: app)
         search(app: app, text: "barbell curl")
         let row = element(in: app, withIdentifier: "exercise-row-gv0031")
         XCTAssertTrue(row.waitForExistence(timeout: 5))
         row.tap()
 
-        // English name; Spanish UI labels and Spanish per-locale content.
-        XCTAssertTrue(app.navigationBars["Barbell Curl"].waitForExistence(timeout: 5))
+        // Spanish name, Spanish UI labels, Spanish per-locale content.
+        XCTAssertTrue(app.navigationBars["Curl con Barra"].waitForExistence(timeout: 5))
         XCTAssertTrue(element(in: app, withIdentifier: "exercise-equipment").exists)
         XCTAssertTrue(app.staticTexts["Fuerza"].exists)
         XCTAssertTrue(app.staticTexts["Músculos principales"].exists)

@@ -1,0 +1,3974 @@
+{
+ "gv0001": {
+  "es": "Sit-Up 3/4"
+ },
+ "gv0002": {
+  "es": "Flexión Lateral a 45°"
+ },
+ "gv0003": {
+  "es": "Bicicleta en el Aire"
+ },
+ "gv0006": {
+  "es": "Toques de Talón Alternados"
+ },
+ "gv0007": {
+  "es": "Jalón Lateral Alternado"
+ },
+ "gv0009": {
+  "es": "Fondo de Pecho Asistido (de Rodillas)"
+ },
+ "gv0010": {
+  "es": "Elevación de Rodillas Colgado Asistida con Lanzamiento"
+ },
+ "gv0011": {
+  "es": "Elevación de Rodillas Colgado Asistida"
+ },
+ "gv0012": {
+  "es": "Elevación de Piernas Acostado Asistida con Lanzamiento Lateral"
+ },
+ "gv0013": {
+  "es": "Elevación de Piernas Acostado Asistida con Lanzamiento"
+ },
+ "gv0014": {
+  "es": "Russian Twist con Movimiento Asistido"
+ },
+ "gv0015": {
+  "es": "Dominada Paralela con Agarre Cerrado Asistida"
+ },
+ "gv0016": {
+  "es": "Isquiotibiales Boca Abajo Asistido"
+ },
+ "gv0017": {
+  "es": "Dominada Asistida"
+ },
+ "gv0018": {
+  "es": "Extensión de Tríceps de Pie Asistida (con Toalla)"
+ },
+ "gv0019": {
+  "es": "Fondo de Tríceps Asistido (de Rodillas)"
+ },
+ "gv0020": {
+  "es": "Tabla de Equilibrio"
+ },
+ "gv0022": {
+  "es": "Pullover a Press con Barra"
+ },
+ "gv0023": {
+  "es": "Curl de Bíceps Alternado con Barra"
+ },
+ "gv0024": {
+  "es": "Sentadilla Frontal en Banco con Barra"
+ },
+ "gv0025": {
+  "es": "Press de Banca con Barra"
+ },
+ "gv0026": {
+  "es": "Sentadilla en Banco con Barra"
+ },
+ "gv0027": {
+  "es": "Remo Inclinado con Barra"
+ },
+ "gv0028": {
+  "es": "Clean and Press con Barra"
+ },
+ "gv0029": {
+  "es": "Sentadilla Frontal con Agarre de Clean con Barra"
+ },
+ "gv0030": {
+  "es": "Press de Banca con Agarre Cerrado con Barra"
+ },
+ "gv0031": {
+  "es": "Curl con Barra"
+ },
+ "gv0032": {
+  "es": "Peso Muerto con Barra"
+ },
+ "gv0033": {
+  "es": "Press de Banca Declinado con Barra"
+ },
+ "gv0034": {
+  "es": "Pullover Declinado con Brazos Flexionados con Barra"
+ },
+ "gv0035": {
+  "es": "Press a la Frente Declinado con Agarre Cerrado con Barra"
+ },
+ "gv0036": {
+  "es": "Press Declinado con Agarre Ancho con Barra"
+ },
+ "gv0037": {
+  "es": "Pullover Declinado con Agarre Ancho con Barra"
+ },
+ "gv0038": {
+  "es": "Drag Curl con Barra"
+ },
+ "gv0039": {
+  "es": "Sentadilla Frontal al Pecho con Barra"
+ },
+ "gv0040": {
+  "es": "Elevación Frontal y Pullover con Barra"
+ },
+ "gv0041": {
+  "es": "Elevación Frontal con Barra"
+ },
+ "gv0042": {
+  "es": "Sentadilla Frontal con Barra"
+ },
+ "gv0043": {
+  "es": "Sentadilla Completa con Barra"
+ },
+ "gv0044": {
+  "es": "Good Morning con Barra"
+ },
+ "gv0045": {
+  "es": "Press Guillotina con Barra"
+ },
+ "gv0046": {
+  "es": "Hack Squat con Barra"
+ },
+ "gv0047": {
+  "es": "Press de Banca Inclinado con Barra"
+ },
+ "gv0048": {
+  "es": "Press Inclinado con Agarre Inverso con Barra"
+ },
+ "gv0049": {
+  "es": "Remo Inclinado con Barra"
+ },
+ "gv0050": {
+  "es": "Elevación de Hombros Inclinada con Barra"
+ },
+ "gv0051": {
+  "es": "Sentadilla Jefferson con Barra"
+ },
+ "gv0052": {
+  "es": "Press JM con Barra"
+ },
+ "gv0053": {
+  "es": "Sentadilla con Salto con Barra"
+ },
+ "gv0054": {
+  "es": "Zancada con Barra"
+ },
+ "gv0055": {
+  "es": "Press Acostado de Agarre Cerrado con Barra"
+ },
+ "gv0056": {
+  "es": "Extensión de Tríceps Acostado de Agarre Cerrado con Barra"
+ },
+ "gv0057": {
+  "es": "Extensión Acostado con Barra"
+ },
+ "gv0058": {
+  "es": "Elevación Acostado con Barra (en Cadera)"
+ },
+ "gv0059": {
+  "es": "Curl Predicador Acostado con Barra"
+ },
+ "gv0060": {
+  "es": "Extensión de Tríceps Acostado Skull Crusher con Barra"
+ },
+ "gv0061": {
+  "es": "Extensión de Tríceps Acostado con Barra"
+ },
+ "gv0063": {
+  "es": "Sentadilla de Postura Estrecha con Barra"
+ },
+ "gv0064": {
+  "es": "Remo Inclinado a Un Brazo con Barra"
+ },
+ "gv0065": {
+  "es": "Press de Piso a Un Brazo con Barra"
+ },
+ "gv0066": {
+  "es": "Peso Muerto Lateral a Un Brazo con Barra"
+ },
+ "gv0067": {
+  "es": "Arrancada a Un Brazo con Barra"
+ },
+ "gv0068": {
+  "es": "Sentadilla a Una Pierna con Barra"
+ },
+ "gv0069": {
+  "es": "Sentadilla Overhead con Barra"
+ },
+ "gv0070": {
+  "es": "Curl Predicador con Barra"
+ },
+ "gv0071": {
+  "es": "Sit-Up con Press de Barra"
+ },
+ "gv0072": {
+  "es": "Curl Inclinado Prono con Barra"
+ },
+ "gv0073": {
+  "es": "Pullover con Barra"
+ },
+ "gv0074": {
+  "es": "Rack Pull con Barra"
+ },
+ "gv0075": {
+  "es": "Elevación de Deltoides Posterior con Barra"
+ },
+ "gv0076": {
+  "es": "Remo de Deltoides Posterior con Barra"
+ },
+ "gv0077": {
+  "es": "Zancada Trasera con Barra v. 2"
+ },
+ "gv0078": {
+  "es": "Zancada Trasera con Barra"
+ },
+ "gv0079": {
+  "es": "Curl de Muñeca Inverso con Barra v. 2"
+ },
+ "gv0080": {
+  "es": "Curl Inverso con Barra"
+ },
+ "gv0081": {
+  "es": "Curl Predicador Inverso con Barra"
+ },
+ "gv0082": {
+  "es": "Curl de Muñeca Inverso con Barra"
+ },
+ "gv0083": {
+  "es": "Rollout con Barra desde Banco"
+ },
+ "gv0084": {
+  "es": "Rollout con Barra"
+ },
+ "gv0085": {
+  "es": "Peso Muerto Rumano con Barra"
+ },
+ "gv0086": {
+  "es": "Press Militar Sentado Tras la Cabeza con Barra"
+ },
+ "gv0087": {
+  "es": "Press Bradford Rocky Sentado con Barra"
+ },
+ "gv0088": {
+  "es": "Elevación de Gemelos Sentado con Barra"
+ },
+ "gv0089": {
+  "es": "Curl de Concentración Sentado de Agarre Cerrado con Barra"
+ },
+ "gv0090": {
+  "es": "Good Morning Sentado con Barra"
+ },
+ "gv0091": {
+  "es": "Press Overhead Sentado con Barra"
+ },
+ "gv0092": {
+  "es": "Extensión de Tríceps Overhead Sentado con Barra"
+ },
+ "gv0094": {
+  "es": "Giro Sentado con Barra"
+ },
+ "gv0095": {
+  "es": "Encogimiento con Barra"
+ },
+ "gv0096": {
+  "es": "Flexión Lateral con Barra v. 2"
+ },
+ "gv0097": {
+  "es": "Sentadilla Split Lateral con Barra v. 2"
+ },
+ "gv0098": {
+  "es": "Sentadilla Split Lateral con Barra"
+ },
+ "gv0099": {
+  "es": "Sentadilla Split a Una Pierna con Barra"
+ },
+ "gv0100": {
+  "es": "Esquiador con Barra"
+ },
+ "gv0101": {
+  "es": "Sentadilla de Velocidad con Barra"
+ },
+ "gv0102": {
+  "es": "Sentadilla con Barra (de Rodillas)"
+ },
+ "gv0103": {
+  "es": "Rollout Abdominal de Pie con Barra"
+ },
+ "gv0104": {
+  "es": "Curl de Muñeca Trasero de Pie con Barra"
+ },
+ "gv0105": {
+  "es": "Press Bradford de Pie con Barra"
+ },
+ "gv0106": {
+  "es": "Curl de Agarre Cerrado de Pie con Barra"
+ },
+ "gv0107": {
+  "es": "Elevación Frontal de Pie con Barra por Encima de la Cabeza"
+ },
+ "gv0108": {
+  "es": "Elevación de Gemelos de Pie con Barra"
+ },
+ "gv0109": {
+  "es": "Extensión de Tríceps de Pie por Encima de la Cabeza con Barra"
+ },
+ "gv0110": {
+  "es": "Curl de Pie con Barra Agarre Inverso"
+ },
+ "gv0111": {
+  "es": "Elevación de Gemelos Oscilante de Pie con Barra"
+ },
+ "gv0112": {
+  "es": "Giro de Pie con Barra"
+ },
+ "gv0113": {
+  "es": "Curl de Pie con Barra Agarre Amplio"
+ },
+ "gv0114": {
+  "es": "Step-Up con Barra"
+ },
+ "gv0115": {
+  "es": "Good Morning con Piernas Rígidas con Barra"
+ },
+ "gv0116": {
+  "es": "Peso Muerto con Piernas Rectas con Barra"
+ },
+ "gv0117": {
+  "es": "Peso Muerto Sumo con Barra"
+ },
+ "gv0118": {
+  "es": "Remo Inclinado con Barra Agarre Inverso"
+ },
+ "gv0119": {
+  "es": "Remo al Mentón con Barra v. 2"
+ },
+ "gv0120": {
+  "es": "Remo al Mentón con Barra"
+ },
+ "gv0121": {
+  "es": "Remo al Mentón con Barra v. 3"
+ },
+ "gv0122": {
+  "es": "Press de Banca con Barra Agarre Amplio"
+ },
+ "gv0123": {
+  "es": "Remo al Mentón con Barra Agarre Amplio"
+ },
+ "gv0124": {
+  "es": "Sentadilla Amplia con Barra"
+ },
+ "gv0125": {
+  "es": "Curl de Muñeca con Barra v. 2"
+ },
+ "gv0126": {
+  "es": "Curl de Muñeca con Barra"
+ },
+ "gv0127": {
+  "es": "Sentadilla Zercher con Barra"
+ },
+ "gv0128": {
+  "es": "Cuerdas de Batalla"
+ },
+ "gv0129": {
+  "es": "Fondo en Banco (Rodillas Dobladas)"
+ },
+ "gv0130": {
+  "es": "Extensión de Cadera en Banco"
+ },
+ "gv0137": {
+  "es": "Body-Up"
+ },
+ "gv0138": {
+  "es": "Bottoms-Up"
+ },
+ "gv0139": {
+  "es": "Dominadas de Bíceps Agarre Estrecho"
+ },
+ "gv0140": {
+  "es": "Dominada de Bíceps"
+ },
+ "gv0148": {
+  "es": "Press de Hombros Alternado con Cable"
+ },
+ "gv0149": {
+  "es": "Extensión de Tríceps Alternada con Cable"
+ },
+ "gv0150": {
+  "es": "Jalón Lateral con Barra en Cable"
+ },
+ "gv0151": {
+  "es": "Press de Banca con Cable"
+ },
+ "gv0152": {
+  "es": "Extensión de Concentración con Cable (en Rodilla)"
+ },
+ "gv0153": {
+  "es": "Jalón Lateral Cross-Over con Cable"
+ },
+ "gv0154": {
+  "es": "Fly Invertido Cross-Over con Cable"
+ },
+ "gv0155": {
+  "es": "Variación de Cross-Over con Cable"
+ },
+ "gv0157": {
+  "es": "Peso Muerto con Cable"
+ },
+ "gv0158": {
+  "es": "Fly Declinado con Cable"
+ },
+ "gv0159": {
+  "es": "Remo Sentado Declinado con Cable Agarre Amplio"
+ },
+ "gv0160": {
+  "es": "Remo Sentado en el Suelo con Cable Agarre Amplio"
+ },
+ "gv0161": {
+  "es": "Elevación Frontal con Cable"
+ },
+ "gv0162": {
+  "es": "Elevación Frontal con Cable"
+ },
+ "gv0164": {
+  "es": "Elevación Frontal de Hombros con Cable"
+ },
+ "gv0165": {
+  "es": "Curl Martillo con Cable (con Cuerda)"
+ },
+ "gv0167": {
+  "es": "Remo Alto con Cable (de Rodillas)"
+ },
+ "gv0168": {
+  "es": "Aducción de Cadera con Cable"
+ },
+ "gv0169": {
+  "es": "Press de Banca Inclinado con Cable"
+ },
+ "gv0170": {
+  "es": "Fly Inclinado con Cable (en Pelota de Estabilidad)"
+ },
+ "gv0171": {
+  "es": "Fly Inclinado con Cable"
+ },
+ "gv0172": {
+  "es": "Pushdown Inclinado con Cable"
+ },
+ "gv0173": {
+  "es": "Extensión de Tríceps Inclinada en Polea"
+ },
+ "gv0174": {
+  "es": "Judo Flip en Polea"
+ },
+ "gv0175": {
+  "es": "Crunch de Rodillas en Polea"
+ },
+ "gv0176": {
+  "es": "Extensión de Tríceps de Rodillas en Polea"
+ },
+ "gv0177": {
+  "es": "Jalón Lateral en Polea (con Cuerda)"
+ },
+ "gv0178": {
+  "es": "Elevación Lateral en Polea"
+ },
+ "gv0179": {
+  "es": "Aperturas Bajas en Polea"
+ },
+ "gv0180": {
+  "es": "Remo Bajo Sentado en Polea"
+ },
+ "gv0182": {
+  "es": "Curl Acostado de Agarre Cerrado en Polea"
+ },
+ "gv0184": {
+  "es": "Pullover de Extensión Acostado en Polea (con Cuerda)"
+ },
+ "gv0185": {
+  "es": "Aperturas Acostado en Polea"
+ },
+ "gv0186": {
+  "es": "Extensión de Tríceps Acostado en Polea v. 2"
+ },
+ "gv0188": {
+  "es": "Aperturas Medias en Polea"
+ },
+ "gv0189": {
+  "es": "Remo Inclinado a Un Brazo en Polea"
+ },
+ "gv0190": {
+  "es": "Curl a Un Brazo en Polea"
+ },
+ "gv0191": {
+  "es": "Elevación Lateral Inclinada a Un Brazo en Polea"
+ },
+ "gv0192": {
+  "es": "Elevación Lateral a Un Brazo en Polea"
+ },
+ "gv0193": {
+  "es": "Remo Alto de Espalda Recta a Un Brazo en Polea (de Rodillas)"
+ },
+ "gv0194": {
+  "es": "Extensión de Tríceps por Encima de la Cabeza en Polea (con Cuerda)"
+ },
+ "gv0195": {
+  "es": "Curl Predicador en Polea"
+ },
+ "gv0196": {
+  "es": "Pull Through en Polea (con Cuerda)"
+ },
+ "gv0197": {
+  "es": "Jalón en Polea (Barra Pro Lat)"
+ },
+ "gv0198": {
+  "es": "Jalón en Polea"
+ },
+ "gv0199": {
+  "es": "Pushdown en Polea (Brazo Recto) v. 2"
+ },
+ "gv0200": {
+  "es": "Pushdown en Polea (con Cuerda)"
+ },
+ "gv0201": {
+  "es": "Pushdown en Polea"
+ },
+ "gv0202": {
+  "es": "Remo de Deltoides Posterior en Polea (Estribos)"
+ },
+ "gv0203": {
+  "es": "Remo de Deltoides Posterior en Polea (con Cuerda)"
+ },
+ "gv0204": {
+  "es": "Drive Posterior en Polea"
+ },
+ "gv0205": {
+  "es": "Jalón Trasero en Polea"
+ },
+ "gv0206": {
+  "es": "Curl Invertido en Polea"
+ },
+ "gv0207": {
+  "es": "Pushdown de Agarre Invertido en Polea"
+ },
+ "gv0208": {
+  "es": "Remo Alto Sentado de Espalda Recta con Agarre Invertido en Polea"
+ },
+ "gv0209": {
+  "es": "Curl Predicador Invertido en Polea"
+ },
+ "gv0210": {
+  "es": "Curl de Muñeca Invertido en Polea"
+ },
+ "gv0211": {
+  "es": "Giros Rusos en Polea (en Pelota de Estabilidad)"
+ },
+ "gv0212": {
+  "es": "Crunch Sentado en Polea"
+ },
+ "gv0213": {
+  "es": "Remo Alto Sentado en Polea (Barra V)"
+ },
+ "gv0214": {
+  "es": "Remo Alternado a Un Brazo Sentado en Polea"
+ },
+ "gv0215": {
+  "es": "Elevación Lateral Trasera Sentado en Polea"
+ },
+ "gv0216": {
+  "es": "Rotación Interna de Hombro Sentado en Polea"
+ },
+ "gv0218": {
+  "es": "Remo de Agarre Ancho Sentado en Polea"
+ },
+ "gv0219": {
+  "es": "Press de Hombros en Polea"
+ },
+ "gv0220": {
+  "es": "Encogimiento en Polea"
+ },
+ "gv0221": {
+  "es": "Crunch con Flexión Lateral en Polea (Pelota Bosu)"
+ },
+ "gv0222": {
+  "es": "Flexión Lateral en Polea"
+ },
+ "gv0223": {
+  "es": "Crunch Lateral en Polea"
+ },
+ "gv0224": {
+  "es": "Curl de Muñeca Posterior de Pie en Polea"
+ },
+ "gv0225": {
+  "es": "Aperturas Inversas Altas Cruzadas de Pie en Polea"
+ },
+ "gv0226": {
+  "es": "Crunch de Pie en Polea"
+ },
+ "gv0227": {
+  "es": "Fly de Pie con Cable"
+ },
+ "gv0228": {
+  "es": "Extensión de Cadera de Pie con Cable"
+ },
+ "gv0229": {
+  "es": "Curl Interior de Pie con Cable"
+ },
+ "gv0230": {
+  "es": "Levantamiento de Pie con Cable"
+ },
+ "gv0231": {
+  "es": "Extensión de Tríceps a Un Brazo de Pie con Cable"
+ },
+ "gv0232": {
+  "es": "Pulldown de Pie con Cable (con Cuerda)"
+ },
+ "gv0233": {
+  "es": "Remo de Deltoides Posterior de Pie con Cable (con Cuerda)"
+ },
+ "gv0234": {
+  "es": "Remo de Pie con Cable (Barra V)"
+ },
+ "gv0235": {
+  "es": "Rotación Externa de Hombro de Pie con Cable"
+ },
+ "gv0236": {
+  "es": "Remo con Giro de Pie con Cable (Barra V)"
+ },
+ "gv0237": {
+  "es": "Pulldown de Brazos Rectos con Cable (con Cuerda)"
+ },
+ "gv0238": {
+  "es": "Pulldown de Brazos Rectos con Cable"
+ },
+ "gv0239": {
+  "es": "Remo Sentado con Espalda Recta con Cable"
+ },
+ "gv0240": {
+  "es": "Fly Inverso Supino con Cable"
+ },
+ "gv0241": {
+  "es": "Pushdown de Tríceps con Cable (Barra V)"
+ },
+ "gv0242": {
+  "es": "Crunch Inverso Tuck con Cable"
+ },
+ "gv0243": {
+  "es": "Twist con Cable"
+ },
+ "gv0244": {
+  "es": "Jalón con Giro con Cable"
+ },
+ "gv0245": {
+  "es": "Pulldown con Agarre Supino con Cable"
+ },
+ "gv0246": {
+  "es": "Remo al Mentón con Cable"
+ },
+ "gv0247": {
+  "es": "Curl de Muñeca con Cable"
+ },
+ "gv0248": {
+  "es": "Remo Acostado con Barra Camber"
+ },
+ "gv0251": {
+  "es": "Dip de Pecho"
+ },
+ "gv0253": {
+  "es": "Dominadas (Agarre Paralelo Estrecho)"
+ },
+ "gv0257": {
+  "es": "Estiramiento de Rodilla en Círculos"
+ },
+ "gv0258": {
+  "es": "Push-Up Reloj"
+ },
+ "gv0259": {
+  "es": "Push-Up de Agarre Cerrado"
+ },
+ "gv0260": {
+  "es": "Cocoons"
+ },
+ "gv0262": {
+  "es": "Crunch Cruzado"
+ },
+ "gv0267": {
+  "es": "Crunch (Manos por Encima de la Cabeza)"
+ },
+ "gv0271": {
+  "es": "Crunch (en Balón de Estabilidad)"
+ },
+ "gv0272": {
+  "es": "Crunch (en Balón de Estabilidad, Brazos Rectos)"
+ },
+ "gv0274": {
+  "es": "Crunch en el Piso"
+ },
+ "gv0276": {
+  "es": "Dead Bug"
+ },
+ "gv0277": {
+  "es": "Crunch Declinado"
+ },
+ "gv0279": {
+  "es": "Push-Up Declinado"
+ },
+ "gv0282": {
+  "es": "Sit-Up Declinado"
+ },
+ "gv0283": {
+  "es": "Push-Up Diamante"
+ },
+ "gv0284": {
+  "es": "Elevación de Gemelos Burro"
+ },
+ "gv0285": {
+  "es": "Curl de Bíceps Alternado con Mancuerna"
+ },
+ "gv0286": {
+  "es": "Press Lateral Alternado con Mancuerna"
+ },
+ "gv0287": {
+  "es": "Press Arnold con Mancuerna v. 2"
+ },
+ "gv0288": {
+  "es": "Pullover Circular con Mancuerna"
+ },
+ "gv0289": {
+  "es": "Press de Banca con Mancuerna"
+ },
+ "gv0290": {
+  "es": "Press Sentado en Banco con Mancuerna"
+ },
+ "gv0291": {
+  "es": "Sentadilla en Banco con Mancuerna"
+ },
+ "gv0292": {
+  "es": "Remo Inclinado a Un Brazo con Mancuerna"
+ },
+ "gv0293": {
+  "es": "Remo Inclinado con Mancuerna"
+ },
+ "gv0294": {
+  "es": "Curl de Bíceps con Mancuerna"
+ },
+ "gv0295": {
+  "es": "Clean con Mancuerna"
+ },
+ "gv0296": {
+  "es": "Press Agarre Cerrado con Mancuernas"
+ },
+ "gv0297": {
+  "es": "Curl de Concentración con Mancuerna"
+ },
+ "gv0298": {
+  "es": "Curl Martillo Cruzado al Cuerpo con Mancuerna"
+ },
+ "gv0299": {
+  "es": "Press Cubano con Mancuernas"
+ },
+ "gv0300": {
+  "es": "Peso Muerto con Mancuernas"
+ },
+ "gv0301": {
+  "es": "Press de Banca Declinado con Mancuernas"
+ },
+ "gv0302": {
+  "es": "Fly Declinado con Mancuernas"
+ },
+ "gv0303": {
+  "es": "Press Martillo Declinado con Mancuernas"
+ },
+ "gv0304": {
+  "es": "Encogimiento Declinado con Mancuernas v. 2"
+ },
+ "gv0305": {
+  "es": "Encogimiento Declinado con Mancuernas"
+ },
+ "gv0306": {
+  "es": "Extensión de Tríceps Declinada con Mancuernas"
+ },
+ "gv0307": {
+  "es": "Fly Declinado con Giro con Mancuernas"
+ },
+ "gv0308": {
+  "es": "Fly con Mancuernas"
+ },
+ "gv0309": {
+  "es": "Elevación Frontal con Mancuernas v. 2"
+ },
+ "gv0310": {
+  "es": "Elevación Frontal con Mancuernas"
+ },
+ "gv0311": {
+  "es": "Elevación Lateral Full Can con Mancuernas"
+ },
+ "gv0312": {
+  "es": "Curl Martillo con Mancuernas v. 2"
+ },
+ "gv0313": {
+  "es": "Curl Martillo con Mancuernas"
+ },
+ "gv0314": {
+  "es": "Press de Banca Inclinado con Mancuernas"
+ },
+ "gv0315": {
+  "es": "Curl de Bíceps Inclinado con Mancuernas"
+ },
+ "gv0316": {
+  "es": "Breeding Inclinado con Mancuernas"
+ },
+ "gv0317": {
+  "es": "Curl Inclinado con Mancuernas v. 2"
+ },
+ "gv0318": {
+  "es": "Curl Inclinado con Mancuernas"
+ },
+ "gv0319": {
+  "es": "Fly Inclinado con Mancuernas"
+ },
+ "gv0320": {
+  "es": "Curl Martillo Inclinado con Mancuernas"
+ },
+ "gv0321": {
+  "es": "Press Martillo Inclinado con Mancuernas"
+ },
+ "gv0322": {
+  "es": "Curl de Bíceps Interno Inclinado con Mancuernas"
+ },
+ "gv0323": {
+  "es": "Elevación Lateral a Un Brazo Inclinada con Mancuerna"
+ },
+ "gv0324": {
+  "es": "Press Inclinado Palmas Hacia Adentro con Mancuernas"
+ },
+ "gv0325": {
+  "es": "Elevación Inclinada con Mancuernas"
+ },
+ "gv0326": {
+  "es": "Elevación Lateral Posterior Inclinada con Mancuernas"
+ },
+ "gv0327": {
+  "es": "Remo Inclinado con Mancuernas"
+ },
+ "gv0328": {
+  "es": "Elevación de Hombros Inclinada con Mancuernas"
+ },
+ "gv0329": {
+  "es": "Encogimiento Inclinado con Mancuernas"
+ },
+ "gv0330": {
+  "es": "Extensión de Tríceps Inclinada con Mancuernas"
+ },
+ "gv0331": {
+  "es": "Flyes Inclinados con Giro con Mancuernas"
+ },
+ "gv0332": {
+  "es": "Cruz de Hierro con Mancuernas"
+ },
+ "gv0333": {
+  "es": "Kickback con Mancuerna"
+ },
+ "gv0334": {
+  "es": "Elevación Lateral con Mancuernas"
+ },
+ "gv0335": {
+  "es": "Elevación Lateral a Frontal con Mancuernas"
+ },
+ "gv0336": {
+  "es": "Zancada con Mancuernas"
+ },
+ "gv0337": {
+  "es": "Extensión Acostado con Mancuerna (a Través de la Cara)"
+ },
+ "gv0338": {
+  "es": "Press de Codo Acostado con Mancuernas"
+ },
+ "gv0339": {
+  "es": "Femoral Acostado con Mancuernas"
+ },
+ "gv0340": {
+  "es": "Press Martillo Acostado con Mancuernas"
+ },
+ "gv0341": {
+  "es": "Deltoides Posterior a Un Brazo Acostado con Mancuerna"
+ },
+ "gv0342": {
+  "es": "Press a Un Brazo Acostado con Mancuerna v. 2"
+ },
+ "gv0343": {
+  "es": "Press a Un Brazo Acostado con Mancuerna"
+ },
+ "gv0344": {
+  "es": "Extensión de Tríceps Pronada a Un Brazo Acostado con Mancuerna"
+ },
+ "gv0345": {
+  "es": "Elevación Lateral Posterior a Un Brazo Acostado con Mancuerna"
+ },
+ "gv0346": {
+  "es": "Extensión de Tríceps Supinada a Un Brazo con Mancuerna Acostado"
+ },
+ "gv0347": {
+  "es": "Pronación con Mancuerna Acostado"
+ },
+ "gv0348": {
+  "es": "Elevación Lateral Posterior con Mancuerna Acostado"
+ },
+ "gv0349": {
+  "es": "Supinación con Mancuerna Acostado"
+ },
+ "gv0350": {
+  "es": "Curl Supino con Mancuerna Acostado"
+ },
+ "gv0351": {
+  "es": "Extensión de Tríceps con Mancuerna Acostado"
+ },
+ "gv0352": {
+  "es": "Press de Banca con Mancuernas Agarre Neutro"
+ },
+ "gv0353": {
+  "es": "Curl de Concentración a Un Brazo con Mancuerna (en Pelota de Estabilidad)"
+ },
+ "gv0354": {
+  "es": "Kickback a Un Brazo con Mancuerna"
+ },
+ "gv0355": {
+  "es": "Elevación Lateral a Un Brazo con Mancuerna"
+ },
+ "gv0356": {
+  "es": "Elevación Lateral a Un Brazo con Mancuerna con Apoyo"
+ },
+ "gv0358": {
+  "es": "Curl de Muñeca Invertido a Un Brazo con Mancuerna"
+ },
+ "gv0359": {
+  "es": "Reverse Fly a Un Brazo con Mancuerna (con Apoyo)"
+ },
+ "gv0360": {
+  "es": "Press de Hombro a Un Brazo con Mancuerna v. 2"
+ },
+ "gv0361": {
+  "es": "Press de Hombro a Un Brazo con Mancuerna"
+ },
+ "gv0362": {
+  "es": "Extensión de Tríceps a Un Brazo con Mancuerna (en Banco)"
+ },
+ "gv0363": {
+  "es": "Remo al Mentón a Un Brazo con Mancuerna"
+ },
+ "gv0364": {
+  "es": "Curl de Muñeca a Un Brazo con Mancuerna"
+ },
+ "gv0365": {
+  "es": "Curl de Muñeca Neutro con Mancuerna sobre Banco"
+ },
+ "gv0366": {
+  "es": "Curl de Muñeca Neutro a Un Brazo con Mancuerna sobre Banco"
+ },
+ "gv0367": {
+  "es": "Curl de Muñeca a Un Brazo con Mancuerna sobre Banco"
+ },
+ "gv0368": {
+  "es": "Curl de Muñeca Invertido con Mancuerna sobre Banco"
+ },
+ "gv0369": {
+  "es": "Curl de Muñeca con Mancuerna sobre Banco"
+ },
+ "gv0370": {
+  "es": "Curl Martillo en Predicador con Mancuerna"
+ },
+ "gv0371": {
+  "es": "Sentadilla Pliométrica con Mancuerna"
+ },
+ "gv0372": {
+  "es": "Curl en Predicador con Mancuerna"
+ },
+ "gv0373": {
+  "es": "Extensión de Tríceps con Mancuerna Agarre Prono"
+ },
+ "gv0374": {
+  "es": "Curl Inclinado Prono con Mancuerna"
+ },
+ "gv0375": {
+  "es": "Pullover con Mancuerna"
+ },
+ "gv0376": {
+  "es": "Elevación con Mancuerna"
+ },
+ "gv0377": {
+  "es": "Remo de Deltoides Posterior con Mancuerna"
+ },
+ "gv0378": {
+  "es": "Rear Fly con Mancuerna"
+ },
+ "gv0379": {
+  "es": "Elevación Lateral Posterior con Mancuerna (Apoyo de Cabeza)"
+ },
+ "gv0380": {
+  "es": "Elevación Lateral Posterior con Mancuerna"
+ },
+ "gv0381": {
+  "es": "Zancada Trasera con Mancuerna"
+ },
+ "gv0382": {
+  "es": "Curl de Bíceps Agarre Invertido con Mancuerna"
+ },
+ "gv0383": {
+  "es": "Reverse Fly con Mancuerna"
+ },
+ "gv0384": {
+  "es": "Curl en Predicador Invertido con Mancuerna"
+ },
+ "gv0385": {
+  "es": "Curl de Muñeca Invertido con Mancuerna"
+ },
+ "gv0386": {
+  "es": "Reverse Fly con Rotación con Mancuerna"
+ },
+ "gv0387": {
+  "es": "Elevación Frontal Alternada Sentado con Mancuerna"
+ },
+ "gv0388": {
+  "es": "Press Alternado Sentado con Mancuerna"
+ },
+ "gv0389": {
+  "es": "Extensión en Banco Sentado con Mancuerna"
+ },
+ "gv0390": {
+  "es": "Curl de Bíceps Sentado con Mancuerna (en Pelota de Estabilidad)"
+ },
+ "gv0391": {
+  "es": "Curl Sentado con Mancuerna"
+ },
+ "gv0392": {
+  "es": "Elevación Frontal Sentado con Mancuerna"
+ },
+ "gv0393": {
+  "es": "Curl de Bíceps Interno Sentado con Mancuerna"
+ },
+ "gv0394": {
+  "es": "Kickback Sentado con Mancuerna"
+ },
+ "gv0395": {
+  "es": "Elevación Lateral Sentado con Mancuerna v. 2"
+ },
+ "gv0396": {
+  "es": "Elevación Lateral Sentado con Mancuerna"
+ },
+ "gv0397": {
+  "es": "Curl de Muñeca Neutro Sentado con Mancuerna"
+ },
+ "gv0398": {
+  "es": "Kickback a Un Brazo Sentado con Mancuerna"
+ },
+ "gv0399": {
+  "es": "Rotación a Un Brazo Sentado con Mancuerna"
+ },
+ "gv0400": {
+  "es": "Elevación de Pantorrilla a Una Pierna Sentado con Mancuerna"
+ },
+ "gv0401": {
+  "es": "Curl de Muñeca Palmas Arriba Sentado con Mancuerna"
+ },
+ "gv0402": {
+  "es": "Curl Predicador Sentado con Mancuerna"
+ },
+ "gv0403": {
+  "es": "Curl de Concentración Agarre Invertido Sentado con Mancuerna"
+ },
+ "gv0404": {
+  "es": "Press de Hombros Sentado con Mancuerna (Agarre Paralelo)"
+ },
+ "gv0405": {
+  "es": "Press de Hombros Sentado con Mancuerna"
+ },
+ "gv0406": {
+  "es": "Encogimiento con Mancuernas"
+ },
+ "gv0407": {
+  "es": "Inclinación Lateral con Mancuerna"
+ },
+ "gv0408": {
+  "es": "Elevación a Una Mano Acostado de Lado con Mancuerna"
+ },
+ "gv0409": {
+  "es": "Elevación de Pantorrilla a Una Pierna con Mancuerna"
+ },
+ "gv0410": {
+  "es": "Sentadilla Split a Una Pierna con Mancuerna"
+ },
+ "gv0411": {
+  "es": "Sentadilla a Una Pierna con Mancuerna"
+ },
+ "gv0413": {
+  "es": "Sentadilla con Mancuernas"
+ },
+ "gv0414": {
+  "es": "Press Overhead Alternado de Pie con Mancuernas"
+ },
+ "gv0415": {
+  "es": "Elevación Alternada de Pie con Mancuernas"
+ },
+ "gv0416": {
+  "es": "Curl de Bíceps de Pie con Mancuernas"
+ },
+ "gv0417": {
+  "es": "Elevación de Pantorrilla de Pie con Mancuerna"
+ },
+ "gv0418": {
+  "es": "Curl de Concentración de Pie con Mancuerna"
+ },
+ "gv0419": {
+  "es": "Elevación Frontal por Encima de la Cabeza de Pie con Mancuernas"
+ },
+ "gv0420": {
+  "es": "Kickback de Pie con Mancuerna"
+ },
+ "gv0421": {
+  "es": "Curl de Concentración a Un Brazo de Pie con Mancuerna"
+ },
+ "gv0422": {
+  "es": "Curl a Un Brazo de Pie con Mancuerna (sobre Banco Inclinado)"
+ },
+ "gv0423": {
+  "es": "Extensión a Un Brazo de Pie con Mancuerna"
+ },
+ "gv0424": {
+  "es": "Press a Un Brazo Palmas Adentro de Pie con Mancuerna"
+ },
+ "gv0425": {
+  "es": "Curl Invertido a Un Brazo de Pie con Mancuerna"
+ },
+ "gv0426": {
+  "es": "Press Overhead de Pie con Mancuernas"
+ },
+ "gv0427": {
+  "es": "Press Palmas Adentro de Pie con Mancuernas"
+ },
+ "gv0428": {
+  "es": "Curl Predicador de Pie con Mancuerna"
+ },
+ "gv0429": {
+  "es": "Curl Invertido de Pie con Mancuernas"
+ },
+ "gv0430": {
+  "es": "Extensión de Tríceps de Pie con Mancuerna"
+ },
+ "gv0431": {
+  "es": "Step-Up con Mancuernas"
+ },
+ "gv0432": {
+  "es": "Peso Muerto de Piernas Rígidas con Mancuernas"
+ },
+ "gv0433": {
+  "es": "Pullover de Brazos Rectos con Mancuerna"
+ },
+ "gv0434": {
+  "es": "Peso Muerto de Piernas Rectas con Mancuernas"
+ },
+ "gv0436": {
+  "es": "Press Tate con Mancuernas"
+ },
+ "gv0437": {
+  "es": "Remo al Mentón con Mancuernas"
+ },
+ "gv0438": {
+  "es": "W-Press con Mancuernas"
+ },
+ "gv0439": {
+  "es": "Curl Zottman con Mancuernas"
+ },
+ "gv0443": {
+  "es": "Codo a Rodilla"
+ },
+ "gv0445": {
+  "es": "Press Anti Gravity con Barra EZ"
+ },
+ "gv0446": {
+  "es": "Curl Agarre Cerrado con Barra EZ"
+ },
+ "gv0447": {
+  "es": "Curl con Barra EZ"
+ },
+ "gv0448": {
+  "es": "Press a la Cara Agarre Cerrado en Declinado con Barra EZ"
+ },
+ "gv0449": {
+  "es": "Extensión de Tríceps en Inclinado con Barra EZ"
+ },
+ "gv0450": {
+  "es": "Press JM con Barra EZ"
+ },
+ "gv0451": {
+  "es": "Curl Agarre Invertido con Barra EZ"
+ },
+ "gv0452": {
+  "es": "Curl Predicador Agarre Invertido con Barra EZ"
+ },
+ "gv0453": {
+  "es": "Extensión de Tríceps Sentado con Barra EZ"
+ },
+ "gv0454": {
+  "es": "Spider Curl con Barra EZ"
+ },
+ "gv0455": {
+  "es": "Curl de Dedos"
+ },
+ "gv0456": {
+  "es": "Sit-Up con Flexión de Pierna (Rodilla Doblada)"
+ },
+ "gv0457": {
+  "es": "Sit-Up con Flexión de Pierna (Brazo Recto)"
+ },
+ "gv0458": {
+  "es": "Aperturas en el Suelo (con Barra)"
+ },
+ "gv0459": {
+  "es": "Flutter Kicks"
+ },
+ "gv0464": {
+  "es": "Plancha Frontal con Giro"
+ },
+ "gv0466": {
+  "es": "Dominada a Esternón Gironda"
+ },
+ "gv0467": {
+  "es": "Dominada Gorila"
+ },
+ "gv0469": {
+  "es": "Crunch de Ingles"
+ },
+ "gv0471": {
+  "es": "Flexión en Parada de Manos"
+ },
+ "gv0472": {
+  "es": "Elevación de Piernas Colgado"
+ },
+ "gv0473": {
+  "es": "Pike Colgado"
+ },
+ "gv0474": {
+  "es": "Elevación de Cadera con Piernas Rectas Colgado"
+ },
+ "gv0475": {
+  "es": "Elevación de Piernas Rectas Colgado"
+ },
+ "gv0476": {
+  "es": "Elevación de Cadera con Piernas Rectas y Giro Colgado"
+ },
+ "gv0484": {
+  "es": "Elevación de Cadera (Rodilla Doblada)"
+ },
+ "gv0488": {
+  "es": "Hiperextensión (en Banco)"
+ },
+ "gv0489": {
+  "es": "Hiperextensión"
+ },
+ "gv0490": {
+  "es": "Flexión Inclinada con Agarre Cerrado"
+ },
+ "gv0491": {
+  "es": "Elevación de Cadera con Piernas en Inclinado (Pierna Recta)"
+ },
+ "gv0492": {
+  "es": "Salto en Profundidad con Flexión Inclinada"
+ },
+ "gv0493": {
+  "es": "Flexión Inclinada"
+ },
+ "gv0494": {
+  "es": "Flexión Inclinada con Agarre Inverso"
+ },
+ "gv0495": {
+  "es": "Sit-Up Inclinado con Giro"
+ },
+ "gv0496": {
+  "es": "Curl Femoral Inverso (Apoyo en Banco)"
+ },
+ "gv0497": {
+  "es": "Remo Invertido v. 2"
+ },
+ "gv0498": {
+  "es": "Remo Invertido con Correas"
+ },
+ "gv0499": {
+  "es": "Remo Invertido"
+ },
+ "gv0500": {
+  "es": "Limpiaparabrisas Isométricos"
+ },
+ "gv0501": {
+  "es": "Jack Burpee"
+ },
+ "gv0507": {
+  "es": "Sit-Up Jackknife"
+ },
+ "gv0508": {
+  "es": "Sit-Up Janda"
+ },
+ "gv0513": {
+  "es": "Sentadilla con Salto v. 2"
+ },
+ "gv0514": {
+  "es": "Sentadilla con Salto"
+ },
+ "gv0517": {
+  "es": "Windmill Avanzado con Kettlebell"
+ },
+ "gv0518": {
+  "es": "Clean Colgado Alterno con Kettlebell"
+ },
+ "gv0519": {
+  "es": "Press Alterno en el Suelo con Kettlebell"
+ },
+ "gv0520": {
+  "es": "Press Alterno con Kettlebell"
+ },
+ "gv0521": {
+  "es": "Remo Renegade Alterno con Kettlebell"
+ },
+ "gv0522": {
+  "es": "Remo Alterno con Kettlebell"
+ },
+ "gv0523": {
+  "es": "Arnold Press con Kettlebell"
+ },
+ "gv0524": {
+  "es": "Bent Press con Kettlebell"
+ },
+ "gv0525": {
+  "es": "Clean Bottoms Up desde Posición Colgada con Kettlebell"
+ },
+ "gv0526": {
+  "es": "Clean Colgado Doble Alterno con Kettlebell"
+ },
+ "gv0527": {
+  "es": "Jerk Doble con Kettlebell"
+ },
+ "gv0528": {
+  "es": "Push Press Doble con Kettlebell"
+ },
+ "gv0529": {
+  "es": "Snatch Doble con Kettlebell"
+ },
+ "gv0530": {
+  "es": "Windmill Doble con Kettlebell"
+ },
+ "gv0531": {
+  "es": "Press a Un Brazo con Kettlebell en Rango Extendido en el Piso"
+ },
+ "gv0532": {
+  "es": "Figura 8 con Kettlebell"
+ },
+ "gv0533": {
+  "es": "Sentadilla Frontal con Kettlebell"
+ },
+ "gv0534": {
+  "es": "Sentadilla Goblet con Kettlebell"
+ },
+ "gv0535": {
+  "es": "Hang Clean con Kettlebell"
+ },
+ "gv0536": {
+  "es": "Zancada con Pase de Kettlebell"
+ },
+ "gv0537": {
+  "es": "Clean and Jerk a Un Brazo con Kettlebell"
+ },
+ "gv0538": {
+  "es": "Jerk a Un Brazo con Kettlebell"
+ },
+ "gv0539": {
+  "es": "Press Militar a Un Brazo con Kettlebell hacia el Lado"
+ },
+ "gv0540": {
+  "es": "Push Press a Un Brazo con Kettlebell"
+ },
+ "gv0541": {
+  "es": "Remo a Un Brazo con Kettlebell"
+ },
+ "gv0542": {
+  "es": "Snatch a Un Brazo con Kettlebell"
+ },
+ "gv0543": {
+  "es": "Super Piernas Pirata con Kettlebell"
+ },
+ "gv0544": {
+  "es": "Sentadilla Pistol con Kettlebell"
+ },
+ "gv0545": {
+  "es": "Flexión Pliométrica con Kettlebell"
+ },
+ "gv0546": {
+  "es": "Press Sentado con Kettlebell"
+ },
+ "gv0547": {
+  "es": "Press Seesaw con Kettlebell"
+ },
+ "gv0548": {
+  "es": "High Pull Sumo con Kettlebell"
+ },
+ "gv0549": {
+  "es": "Swing con Kettlebell"
+ },
+ "gv0550": {
+  "es": "Thruster con Kettlebell"
+ },
+ "gv0551": {
+  "es": "Turkish Get Up con Kettlebell (Estilo Sentadilla)"
+ },
+ "gv0552": {
+  "es": "Clean a Dos Brazos con Kettlebell"
+ },
+ "gv0553": {
+  "es": "Press Militar a Dos Brazos con Kettlebell"
+ },
+ "gv0554": {
+  "es": "Windmill con Kettlebell"
+ },
+ "gv0555": {
+  "es": "Sit con Patada Afuera"
+ },
+ "gv0558": {
+  "es": "Muscle Up con Kipping"
+ },
+ "gv0562": {
+  "es": "Landmine 180"
+ },
+ "gv0570": {
+  "es": "Encogimiento de Piernas en Banco Plano"
+ },
+ "gv0571": {
+  "es": "Remo Sentado Agarre Estrecho Alternado en Palanca"
+ },
+ "gv0572": {
+  "es": "Dominada Asistida en Palanca"
+ },
+ "gv0573": {
+  "es": "Extensión de Espalda en Palanca"
+ },
+ "gv0574": {
+  "es": "Remo Inclinado en Palanca"
+ },
+ "gv0575": {
+  "es": "Curl de Bíceps en Palanca"
+ },
+ "gv0576": {
+  "es": "Press de Pecho en Palanca"
+ },
+ "gv0577": {
+  "es": "Press de Pecho en Palanca"
+ },
+ "gv0578": {
+  "es": "Peso Muerto en Palanca"
+ },
+ "gv0579": {
+  "es": "Jalón Frontal en Palanca"
+ },
+ "gv0580": {
+  "es": "Encogimiento sin Agarre en Palanca"
+ },
+ "gv0581": {
+  "es": "Remo Alto en Palanca"
+ },
+ "gv0582": {
+  "es": "Curl de Pierna Arrodillado en Palanca"
+ },
+ "gv0583": {
+  "es": "Rotación Arrodillada en Palanca"
+ },
+ "gv0584": {
+  "es": "Elevación Lateral en Palanca"
+ },
+ "gv0585": {
+  "es": "Extensión de Piernas en Palanca"
+ },
+ "gv0586": {
+  "es": "Curl de Pierna Acostado en Palanca"
+ },
+ "gv0587": {
+  "es": "Press Militar en Palanca"
+ },
+ "gv0588": {
+  "es": "Remo Sentado Agarre Estrecho en Palanca"
+ },
+ "gv0589": {
+  "es": "Remo Inclinado a Un Brazo en Palanca"
+ },
+ "gv0590": {
+  "es": "Press de Hombro a Un Brazo en Palanca"
+ },
+ "gv0591": {
+  "es": "Fondo de Tríceps Agarre Prono en Palanca"
+ },
+ "gv0592": {
+  "es": "Curl Predicador en Palanca"
+ },
+ "gv0593": {
+  "es": "Hiperextensión Inversa en Máquina"
+ },
+ "gv0594": {
+  "es": "Elevación de Gemelos Sentado en Máquina"
+ },
+ "gv0595": {
+  "es": "Crunch Sentado en Máquina (Pad de Pecho)"
+ },
+ "gv0596": {
+  "es": "Fly Sentado en Máquina"
+ },
+ "gv0597": {
+  "es": "Abducción de Cadera Sentado en Máquina"
+ },
+ "gv0598": {
+  "es": "Aducción de Cadera Sentado en Máquina"
+ },
+ "gv0599": {
+  "es": "Curl de Piernas Sentado en Máquina"
+ },
+ "gv0600": {
+  "es": "Crunch con Elevación de Piernas Sentado en Máquina"
+ },
+ "gv0601": {
+  "es": "Reverse Fly Sentado en Máquina (Agarre Paralelo)"
+ },
+ "gv0602": {
+  "es": "Reverse Fly Sentado en Máquina"
+ },
+ "gv0603": {
+  "es": "Press de Hombros en Máquina"
+ },
+ "gv0604": {
+  "es": "Encogimiento en Máquina"
+ },
+ "gv0605": {
+  "es": "Elevación de Gemelos de Pie en Máquina"
+ },
+ "gv0606": {
+  "es": "Remo en T en Máquina"
+ },
+ "gv0607": {
+  "es": "Extensión de Tríceps en Máquina"
+ },
+ "gv0609": {
+  "es": "Puente London"
+ },
+ "gv0613": {
+  "es": "Estiramiento de Cuádriceps Acostado (de Lado)"
+ },
+ "gv0620": {
+  "es": "Elevación de Piernas Acostado en Banco Plano"
+ },
+ "gv0624": {
+  "es": "Wall Sit con Marcha"
+ },
+ "gv0627": {
+  "es": "Dominada con Agarre Mixto"
+ },
+ "gv0628": {
+  "es": "Monster Walk"
+ },
+ "gv0630": {
+  "es": "Escalador"
+ },
+ "gv0631": {
+  "es": "Muscle Up"
+ },
+ "gv0634": {
+  "es": "Crunch Negativo"
+ },
+ "gv0635": {
+  "es": "Crunches Oblicuos en el Suelo"
+ },
+ "gv0636": {
+  "es": "Curl Martillo con Barra Olímpica"
+ },
+ "gv0637": {
+  "es": "Extensión de Tríceps con Barra Olímpica"
+ },
+ "gv0638": {
+  "es": "Dominada a Un Brazo"
+ },
+ "gv0639": {
+  "es": "Fondo a Un Brazo"
+ },
+ "gv0640": {
+  "es": "Slam a Un Brazo (con Balón Medicinal)"
+ },
+ "gv0641": {
+  "es": "Otis Up"
+ },
+ "gv0642": {
+  "es": "Flexión con Patada de Pierna Exterior"
+ },
+ "gv0643": {
+  "es": "Estiramiento de Tríceps por Encima de la Cabeza"
+ },
+ "gv0648": {
+  "es": "Power Clean"
+ },
+ "gv0650": {
+  "es": "Pull-In (en Pelota de Estabilidad)"
+ },
+ "gv0651": {
+  "es": "Dominada (Agarre Neutro)"
+ },
+ "gv0652": {
+  "es": "Dominada"
+ },
+ "gv0653": {
+  "es": "Flexión (Pelota Bosu)"
+ },
+ "gv0655": {
+  "es": "Flexión (en Pelota de Estabilidad)"
+ },
+ "gv0656": {
+  "es": "Flexión (en Pelota de Estabilidad)"
+ },
+ "gv0658": {
+  "es": "Flexión (Pared) v. 2"
+ },
+ "gv0659": {
+  "es": "Flexión (Pared)"
+ },
+ "gv0660": {
+  "es": "Flexión de Agarre Cerrado sobre Mancuerna"
+ },
+ "gv0661": {
+  "es": "Flexión con Patada de Pierna Interior"
+ },
+ "gv0662": {
+  "es": "Flexión"
+ },
+ "gv0663": {
+  "es": "Flexión con Balón Medicinal"
+ },
+ "gv0664": {
+  "es": "Flexión a Plancha Lateral"
+ },
+ "gv0666": {
+  "es": "Flexión con Elevación a Un Brazo"
+ },
+ "gv0668": {
+  "es": "Puente Declinado Posterior"
+ },
+ "gv0669": {
+  "es": "Estiramiento de Deltoides Posterior"
+ },
+ "gv0670": {
+  "es": "Dominada Trasera"
+ },
+ "gv0672": {
+  "es": "Fondo Invertido"
+ },
+ "gv0673": {
+  "es": "Jalón al Pecho en Máquina con Agarre Invertido"
+ },
+ "gv0674": {
+  "es": "Dominada con Agarre Invertido"
+ },
+ "gv0675": {
+  "es": "Hiperextensión Inversa (en Pelota de Estabilidad)"
+ },
+ "gv0677": {
+  "es": "Dips en Anillas"
+ },
+ "gv0678": {
+  "es": "Jalón Pull-Up Rocky"
+ },
+ "gv0680": {
+  "es": "Escalada de Cuerda"
+ },
+ "gv0684": {
+  "es": "Correr (Equipo)"
+ },
+ "gv0685": {
+  "es": "Correr"
+ },
+ "gv0687": {
+  "es": "Russian Twist"
+ },
+ "gv0688": {
+  "es": "Dominada Escapular"
+ },
+ "gv0689": {
+  "es": "Elevación de Piernas Sentado"
+ },
+ "gv0690": {
+  "es": "Estiramiento de Zona Lumbar Sentado"
+ },
+ "gv0691": {
+  "es": "Crunch Lateral Sentado (Pared)"
+ },
+ "gv0696": {
+  "es": "Curl Femoral Inverso Autoasistido (en Suelo)"
+ },
+ "gv0697": {
+  "es": "Curl Femoral Inverso Autoasistido"
+ },
+ "gv0699": {
+  "es": "Flexión con Toque de Hombro"
+ },
+ "gv0705": {
+  "es": "Puente Lateral v. 2"
+ },
+ "gv0709": {
+  "es": "Cadera Lateral (en Barras Paralelas)"
+ },
+ "gv0710": {
+  "es": "Abducción de Cadera Lateral"
+ },
+ "gv0716": {
+  "es": "Estiramiento de Cuello con Empuje Lateral"
+ },
+ "gv0717": {
+  "es": "Flexión Lateral"
+ },
+ "gv0720": {
+  "es": "Mentón de Lado a Lado"
+ },
+ "gv0721": {
+  "es": "Estiramiento de Muñeca con Tirón Lateral"
+ },
+ "gv0725": {
+  "es": "Flexión a Un Brazo"
+ },
+ "gv0727": {
+  "es": "Elevación de Gemelo a Una Pierna (sobre una Mancuerna)"
+ },
+ "gv0730": {
+  "es": "Deslizamiento en Plataforma a Una Pierna"
+ },
+ "gv0735": {
+  "es": "Sit-Up v. 2"
+ },
+ "gv0738": {
+  "es": "Press de Gemelos en Trineo a 45°"
+ },
+ "gv0739": {
+  "es": "Prensa de Piernas en Trineo a 45°"
+ },
+ "gv0740": {
+  "es": "Prensa de Piernas Abierta en Trineo a 45°"
+ },
+ "gv0741": {
+  "es": "Hack Squat Cerrado en Trineo"
+ },
+ "gv0742": {
+  "es": "Elevación de Gemelos Inclinada hacia Adelante en Trineo"
+ },
+ "gv0743": {
+  "es": "Hack Squat en Trineo"
+ },
+ "gv0744": {
+  "es": "Sentadilla Acostado en Trineo"
+ },
+ "gv0746": {
+  "es": "Encogimiento de Hombros Posterior en Smith"
+ },
+ "gv0747": {
+  "es": "Press Tras Nuca en Smith"
+ },
+ "gv0748": {
+  "es": "Press de Banca en Smith"
+ },
+ "gv0749": {
+  "es": "Good Morning con Rodillas Flexionadas en Smith"
+ },
+ "gv0750": {
+  "es": "Sentadilla en Silla en Smith"
+ },
+ "gv0751": {
+  "es": "Press de Banca con Agarre Cerrado en Smith"
+ },
+ "gv0752": {
+  "es": "Peso Muerto en Smith"
+ },
+ "gv0753": {
+  "es": "Press de Banca Declinado en Smith"
+ },
+ "gv0754": {
+  "es": "Press Declinado con Agarre Invertido en Smith"
+ },
+ "gv0755": {
+  "es": "Hack Squat en Smith"
+ },
+ "gv0756": {
+  "es": "Elevación de Cadera en Smith"
+ },
+ "gv0757": {
+  "es": "Press de Banca Inclinado en Smith"
+ },
+ "gv0758": {
+  "es": "Press Inclinado con Agarre Invertido en Smith"
+ },
+ "gv0759": {
+  "es": "Elevaciones de Hombros Inclinadas en Smith"
+ },
+ "gv0760": {
+  "es": "Press de Piernas en Smith"
+ },
+ "gv0761": {
+  "es": "Remo Cerrado en Smith"
+ },
+ "gv0762": {
+  "es": "Remo para Deltoides Posterior en Smith"
+ },
+ "gv0763": {
+  "es": "Elevaciones de Gemelos Invertidas en Smith"
+ },
+ "gv0764": {
+  "es": "Press con Agarre Invertido en Smith"
+ },
+ "gv0765": {
+  "es": "Press de Hombros Sentado en Smith"
+ },
+ "gv0766": {
+  "es": "Press de Hombros en Smith"
+ },
+ "gv0767": {
+  "es": "Encogimientos en Smith"
+ },
+ "gv0768": {
+  "es": "Sentadilla Búlgara a Una Pierna en Smith"
+ },
+ "gv0769": {
+  "es": "Zancada Sprint en Smith"
+ },
+ "gv0770": {
+  "es": "Sentadilla en Smith"
+ },
+ "gv0771": {
+  "es": "Curl de Muñeca Posterior de Pie en Smith"
+ },
+ "gv0772": {
+  "es": "Press Militar Detrás de la Cabeza de Pie en Smith"
+ },
+ "gv0773": {
+  "es": "Elevación de Gemelos de Pie en Smith"
+ },
+ "gv0774": {
+  "es": "Press Militar de Pie en Smith"
+ },
+ "gv0775": {
+  "es": "Remo al Mentón en Smith"
+ },
+ "gv0776": {
+  "es": "Pull de Arrancada"
+ },
+ "gv0777": {
+  "es": "Spell Caster"
+ },
+ "gv0778": {
+  "es": "Flexión Spider Crawl"
+ },
+ "gv0786": {
+  "es": "Squat Jerk"
+ },
+ "gv0788": {
+  "es": "Press Detrás de la Nuca de Pie"
+ },
+ "gv0794": {
+  "es": "Estiramiento Lateral de Pie"
+ },
+ "gv0795": {
+  "es": "Curl de Pierna a Una Pierna de Pie"
+ },
+ "gv0796": {
+  "es": "Rollout con Rueda de Pie"
+ },
+ "gv0798": {
+  "es": "Caminata en Bicicleta Estacionaria"
+ },
+ "gv0803": {
+  "es": "Flexión Superman"
+ },
+ "gv0805": {
+  "es": "Fallout Abdominal Suspendido"
+ },
+ "gv0806": {
+  "es": "Flexión Suspendida"
+ },
+ "gv0807": {
+  "es": "Crunch Inverso Suspendido"
+ },
+ "gv0808": {
+  "es": "Remo Suspendido"
+ },
+ "gv0809": {
+  "es": "Sentadilla Split Suspendida"
+ },
+ "gv0811": {
+  "es": "Peso Muerto con Trap Bar"
+ },
+ "gv0812": {
+  "es": "Fondo de Tríceps (Piernas en Banco)"
+ },
+ "gv0813": {
+  "es": "Fondo de Tríceps (Entre Bancos)"
+ },
+ "gv0814": {
+  "es": "Fondo de Tríceps"
+ },
+ "gv0815": {
+  "es": "Fondos de Tríceps en Suelo"
+ },
+ "gv0816": {
+  "es": "Press de Tríceps"
+ },
+ "gv0817": {
+  "es": "Estiramiento de Tríceps"
+ },
+ "gv0818": {
+  "es": "Jalón al Pecho con Agarre Paralelo de Dos Manijas"
+ },
+ "gv0826": {
+  "es": "Elevación Vertical de Piernas (en Barras Paralelas)"
+ },
+ "gv0830": {
+  "es": "Fondo en Banco con Peso"
+ },
+ "gv0832": {
+  "es": "Crunch con Peso"
+ },
+ "gv0833": {
+  "es": "Elevación de Gemelos Tipo Burro con Peso"
+ },
+ "gv0834": {
+  "es": "Elevación Frontal con Peso"
+ },
+ "gv0835": {
+  "es": "Hiperextensión con Peso (en Balón de Estabilidad)"
+ },
+ "gv0840": {
+  "es": "Crunch Overhead con Peso (en Balón de Estabilidad)"
+ },
+ "gv0841": {
+  "es": "Dominada con Peso"
+ },
+ "gv0844": {
+  "es": "Elevación Circular de Brazo con Peso"
+ },
+ "gv0845": {
+  "es": "Giro Ruso con Peso (Piernas Arriba)"
+ },
+ "gv0846": {
+  "es": "Giro Ruso con Peso"
+ },
+ "gv0847": {
+  "es": "Curl de Bíceps Sentado con Peso (en Pelota de Estabilidad)"
+ },
+ "gv0849": {
+  "es": "Twist Sentado con Peso (en Pelota de Estabilidad)"
+ },
+ "gv0850": {
+  "es": "Flexión Lateral con Peso (en Pelota de Estabilidad)"
+ },
+ "gv0851": {
+  "es": "Sissy Squat con Peso"
+ },
+ "gv0852": {
+  "es": "Sentadilla con Peso"
+ },
+ "gv0853": {
+  "es": "Curl de Pie con Peso"
+ },
+ "gv0854": {
+  "es": "Apretón de Manos de Pie con Peso"
+ },
+ "gv0856": {
+  "es": "Svend Press con Peso"
+ },
+ "gv0857": {
+  "es": "Rollout con Rueda"
+ },
+ "gv0858": {
+  "es": "Wind Sprints"
+ },
+ "gv0859": {
+  "es": "Rodillo de Muñeca"
+ },
+ "gv0860": {
+  "es": "Kickback en Polea"
+ },
+ "gv0861": {
+  "es": "Remo Sentado en Polea"
+ },
+ "gv0862": {
+  "es": "Twist en Polea (Arriba-Abajo)"
+ },
+ "gv0863": {
+  "es": "Rotación Externa de Hombro Acostado con Mancuerna"
+ },
+ "gv0864": {
+  "es": "Rotación Externa de Hombro de Pie con Mancuerna"
+ },
+ "gv0865": {
+  "es": "Elevación de Piernas y Cadera Acostado"
+ },
+ "gv0866": {
+  "es": "Elevación de Piernas y Cadera Colgado con Peso"
+ },
+ "gv0868": {
+  "es": "Curl en Polea"
+ },
+ "gv0869": {
+  "es": "Press de Hombros en Máquina v. 2"
+ },
+ "gv0870": {
+  "es": "Butt-Ups"
+ },
+ "gv0871": {
+  "es": "Crunch Encogido"
+ },
+ "gv0872": {
+  "es": "Crunch Inverso"
+ },
+ "gv0873": {
+  "es": "Crunch Inverso en Polea"
+ },
+ "gv0874": {
+  "es": "Crunch de Pie en Polea (con Cuerda)"
+ },
+ "gv0968": {
+  "es": "Curl de Bíceps Alternado con Banda"
+ },
+ "gv0969": {
+  "es": "V-Up Alternado con Banda"
+ },
+ "gv0970": {
+  "es": "Dominada Asistida con Banda"
+ },
+ "gv0971": {
+  "es": "Rollout con Rueda Asistido con Banda"
+ },
+ "gv0972": {
+  "es": "Crunch Bicicleta con Banda"
+ },
+ "gv0974": {
+  "es": "Jalón con Agarre Cerrado con Banda"
+ },
+ "gv0975": {
+  "es": "Flexión con Agarre Cerrado con Banda"
+ },
+ "gv0976": {
+  "es": "Curl de Concentración con Banda"
+ },
+ "gv0977": {
+  "es": "Elevación Frontal Lateral con Banda"
+ },
+ "gv0978": {
+  "es": "Elevación Frontal con Banda"
+ },
+ "gv0979": {
+  "es": "Pallof Press Horizontal con Banda"
+ },
+ "gv0980": {
+  "es": "Extensión de Cadera Inclinado con Banda"
+ },
+ "gv0981": {
+  "es": "Sit-Up Jack Knife con Banda"
+ },
+ "gv0983": {
+  "es": "Jalón a Un Brazo Arrodillado con Banda"
+ },
+ "gv0984": {
+  "es": "Rotación Interna de Cadera Acostado con Banda"
+ },
+ "gv0985": {
+  "es": "Crunch con Giro Arrodillado con Banda"
+ },
+ "gv0986": {
+  "es": "Curl de Bíceps a Un Brazo por Encima de la Cabeza con Banda"
+ },
+ "gv0987": {
+  "es": "Split Squat a Una Pierna a Un Brazo con Banda"
+ },
+ "gv0988": {
+  "es": "Remo Bajo de Pie a Un Brazo con Banda"
+ },
+ "gv0989": {
+  "es": "Press de Pecho con Giro a Un Brazo con Banda"
+ },
+ "gv0990": {
+  "es": "Remo Sentado con Giro a Un Brazo con Banda"
+ },
+ "gv0991": {
+  "es": "Pull Through con Banda"
+ },
+ "gv0992": {
+  "es": "Sit-Up con Empuje con Banda"
+ },
+ "gv0993": {
+  "es": "Reverse Fly con Banda"
+ },
+ "gv0994": {
+  "es": "Curl de Muñeca Inverso con Banda"
+ },
+ "gv0996": {
+  "es": "Banda Rotación Interna de Cadera Sentado"
+ },
+ "gv0997": {
+  "es": "Banda Press de Hombros"
+ },
+ "gv0998": {
+  "es": "Banda Extensión de Tríceps Lateral"
+ },
+ "gv0999": {
+  "es": "Banda Elevación de Gemelo a Una Pierna"
+ },
+ "gv1000": {
+  "es": "Banda Elevación de Gemelo Invertida a Una Pierna"
+ },
+ "gv1001": {
+  "es": "Banda Sentadilla Split a Una Pierna"
+ },
+ "gv1002": {
+  "es": "Banda Elevación de Pierna Recta Acostado"
+ },
+ "gv1003": {
+  "es": "Banda Remo con Sentadilla"
+ },
+ "gv1004": {
+  "es": "Banda Sentadilla"
+ },
+ "gv1005": {
+  "es": "Banda Crunch de Pie"
+ },
+ "gv1007": {
+  "es": "Banda Crunch con Giro de Pie"
+ },
+ "gv1008": {
+  "es": "Banda Step-Up"
+ },
+ "gv1009": {
+  "es": "Banda Peso Muerto con Piernas Rígidas"
+ },
+ "gv1010": {
+  "es": "Banda Peso Muerto con Piernas Rectas"
+ },
+ "gv1011": {
+  "es": "Banda Giro Sentado"
+ },
+ "gv1012": {
+  "es": "Banda Press Overhead con Giro"
+ },
+ "gv1013": {
+  "es": "Banda Jalón Agarre Supino"
+ },
+ "gv1014": {
+  "es": "Banda V-Up"
+ },
+ "gv1015": {
+  "es": "Banda Pallof Press Vertical"
+ },
+ "gv1016": {
+  "es": "Banda Curl de Muñeca"
+ },
+ "gv1017": {
+  "es": "Banda Elevación en Y"
+ },
+ "gv1018": {
+  "es": "Banda Encogimiento"
+ },
+ "gv1022": {
+  "es": "Banda Remo de Deltoides Posterior de Pie"
+ },
+ "gv1023": {
+  "es": "Banda Peso Muerto Piernas Rígidas Espalda Recta"
+ },
+ "gv1160": {
+  "es": "Burpee"
+ },
+ "gv1167": {
+  "es": "Estiramiento Dinámico de Pecho (hombre)"
+ },
+ "gv1201": {
+  "es": "Burpee con Mancuernas"
+ },
+ "gv1253": {
+  "es": "Elevación de Gemelos Donkey en Máquina"
+ },
+ "gv1254": {
+  "es": "Banda Press de Banca"
+ },
+ "gv1255": {
+  "es": "Barra Pullover Declinado"
+ },
+ "gv1256": {
+  "es": "Barra Press de Banca Declinado Agarre Invertido"
+ },
+ "gv1257": {
+  "es": "Barra Press de Banca Inclinado Agarre Invertido"
+ },
+ "gv1258": {
+  "es": "Barra Press de Banca Agarre Invertido Ancho"
+ },
+ "gv1259": {
+  "es": "Estiramiento de Pecho Detrás de la Cabeza"
+ },
+ "gv1260": {
+  "es": "Cable Press Declinado a Un Brazo"
+ },
+ "gv1261": {
+  "es": "Cable Press Declinado"
+ },
+ "gv1262": {
+  "es": "Cable Apertura Declinada de Pecho a Un Brazo"
+ },
+ "gv1263": {
+  "es": "Cable Apertura a Un Brazo en Pelota de Ejercicio"
+ },
+ "gv1264": {
+  "es": "Cable Apertura Inclinada a Un Brazo en Pelota de Ejercicio"
+ },
+ "gv1265": {
+  "es": "Cable Press Inclinado a Un Brazo"
+ },
+ "gv1266": {
+  "es": "Cable Press Inclinado a Un Brazo en Pelota de Ejercicio"
+ },
+ "gv1267": {
+  "es": "Cable Press a Un Brazo en Pelota de Ejercicio"
+ },
+ "gv1268": {
+  "es": "Cable Press en Pelota de Ejercicio"
+ },
+ "gv1269": {
+  "es": "Cable Crossovers de Pie Recto"
+ },
+ "gv1270": {
+  "es": "Cable Crossovers de Pecho Superior"
+ },
+ "gv1271": {
+  "es": "Estiramiento de Pecho y Frente del Hombro"
+ },
+ "gv1272": {
+  "es": "Estiramiento de Pecho con Pelota de Ejercicio"
+ },
+ "gv1273": {
+  "es": "Flexión con Palmada"
+ },
+ "gv1274": {
+  "es": "Flexión Profunda"
+ },
+ "gv1275": {
+  "es": "Flexión Drop"
+ },
+ "gv1276": {
+  "es": "Apertura Declinada a Un Brazo con Mancuerna"
+ },
+ "gv1277": {
+  "es": "Apertura con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1278": {
+  "es": "Apertura Inclinada con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1279": {
+  "es": "Apertura Inclinada a Un Brazo con Mancuerna"
+ },
+ "gv1280": {
+  "es": "Apertura Inclinada a Un Brazo con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1281": {
+  "es": "Press Inclinado a Un Brazo con Mancuerna"
+ },
+ "gv1282": {
+  "es": "Press Inclinado a Un Brazo con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1283": {
+  "es": "Press Inclinado con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1284": {
+  "es": "Pullover Acostado con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1285": {
+  "es": "Apertura en Banco a Un Brazo con Mancuerna"
+ },
+ "gv1286": {
+  "es": "Apertura de Pecho a Un Brazo con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1287": {
+  "es": "Press de Pecho Declinado a Un Brazo con Mancuerna"
+ },
+ "gv1288": {
+  "es": "Apertura a Un Brazo con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1289": {
+  "es": "Press de Pecho Inclinado a Un Brazo con Mancuerna"
+ },
+ "gv1290": {
+  "es": "Press a Un Brazo con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1291": {
+  "es": "Pullover a Un Brazo con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1292": {
+  "es": "Apertura a Una Pierna con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1293": {
+  "es": "Press con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1294": {
+  "es": "Pullover con Extensión de Cadera con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1295": {
+  "es": "Pullover con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1296": {
+  "es": "Flexión Pike en Pelota de Ejercicio"
+ },
+ "gv1297": {
+  "es": "Apretón Isométrico de Pecho"
+ },
+ "gv1298": {
+  "es": "Press de Piso a Un Brazo con Kettlebell"
+ },
+ "gv1299": {
+  "es": "Press de Pecho Inclinado en Máquina de Palanca"
+ },
+ "gv1300": {
+  "es": "Press de Pecho Declinado en Máquina de Palanca"
+ },
+ "gv1301": {
+  "es": "Press de Pecho Interior en Máquina"
+ },
+ "gv1302": {
+  "es": "Pase de Pecho con Balón Medicinal"
+ },
+ "gv1303": {
+  "es": "Empuje de Pecho con Balón Medicinal desde Posición de 3 Puntos"
+ },
+ "gv1304": {
+  "es": "Empuje de Pecho con Balón Medicinal de Respuesta Múltiple"
+ },
+ "gv1305": {
+  "es": "Empuje de Pecho con Balón Medicinal de Respuesta Simple"
+ },
+ "gv1306": {
+  "es": "Flexión Pliométrica"
+ },
+ "gv1307": {
+  "es": "Flexión en Bosu"
+ },
+ "gv1308": {
+  "es": "Press de Banca con Agarre Ancho en Smith"
+ },
+ "gv1309": {
+  "es": "Press de Banca Declinado con Agarre Ancho en Smith"
+ },
+ "gv1310": {
+  "es": "Flexión Drop con Peso"
+ },
+ "gv1311": {
+  "es": "Flexión con Manos Anchas"
+ },
+ "gv1312": {
+  "es": "Empuje de Pecho con Balón Medicinal con Soltura en Carrera"
+ },
+ "gv1313": {
+  "es": "Remo Unilateral en Máquina de Palanca"
+ },
+ "gv1314": {
+  "es": "Extensión de Espalda en Pelota de Ejercicio"
+ },
+ "gv1316": {
+  "es": "Pullover con Barra de Brazos Flexionados"
+ },
+ "gv1317": {
+  "es": "Remo en Banco Inclinado con Barra de Agarre Invertido"
+ },
+ "gv1318": {
+  "es": "Remo en Banco Inclinado con Cable"
+ },
+ "gv1319": {
+  "es": "Remo con Rotación de Palma con Cable"
+ },
+ "gv1320": {
+  "es": "Remo Sentado Cruzado con Cuerda en Cable"
+ },
+ "gv1321": {
+  "es": "Remo Sentado Elevado con Cuerda en Cable"
+ },
+ "gv1322": {
+  "es": "Remo en Banco Inclinado con Extensión de Cuerda en Cable"
+ },
+ "gv1323": {
+  "es": "Remo Sentado con Cuerda en Cable"
+ },
+ "gv1324": {
+  "es": "Remo Alto con Cable"
+ },
+ "gv1325": {
+  "es": "Jalón al Pecho Tras Nuca con Agarre Ancho en Cable"
+ },
+ "gv1326": {
+  "es": "Dominada Supina"
+ },
+ "gv1327": {
+  "es": "Dominada con Agarre Cerrado"
+ },
+ "gv1328": {
+  "es": "Remo para Deltoides Posterior Acostado con Mancuerna"
+ },
+ "gv1329": {
+  "es": "Remo Inclinado con Rotación de Palma con Mancuerna"
+ },
+ "gv1330": {
+  "es": "Remo a Un Brazo en Banco Inclinado con Agarre Invertido con Mancuerna"
+ },
+ "gv1331": {
+  "es": "Remo a Dos Brazos en Banco Inclinado con Agarre Invertido con Mancuerna"
+ },
+ "gv1332": {
+  "es": "Elevaciones Alternadas de Brazos en Pelota de Ejercicio"
+ },
+ "gv1333": {
+  "es": "Extensión de Espalda en Pelota de Ejercicio con Brazos Extendidos"
+ },
+ "gv1334": {
+  "es": "Extensión de Espalda en Pelota de Ejercicio con Manos Detrás de la Cabeza"
+ },
+ "gv1335": {
+  "es": "Extensión de Espalda en Pelota de Ejercicio con Rodillas Fuera del Suelo"
+ },
+ "gv1336": {
+  "es": "Extensión de Espalda en Pelota de Ejercicio con Rotación"
+ },
+ "gv1338": {
+  "es": "Abrazo con Pelota de Ejercicio"
+ },
+ "gv1339": {
+  "es": "Estiramiento de Dorsales con Pelota de Ejercicio"
+ },
+ "gv1341": {
+  "es": "Estiramiento de Zona Lumbar con Pelota de Ejercicio (pirámide)"
+ },
+ "gv1342": {
+  "es": "Estiramiento Lateral de Dorsales Acostado con Pelota de Ejercicio"
+ },
+ "gv1343": {
+  "es": "Elevación de Piernas Boca Abajo con Pelota de Ejercicio"
+ },
+ "gv1344": {
+  "es": "Remo Inclinado con Agarre Invertido con Barra EZ"
+ },
+ "gv1345": {
+  "es": "Remo a Dos Brazos con Kettlebell"
+ },
+ "gv1346": {
+  "es": "Estiramiento de Dorsales de Rodillas"
+ },
+ "gv1347": {
+  "es": "Jalón Lateral Ancho a Un Brazo en Máquina"
+ },
+ "gv1348": {
+  "es": "Remo Vertical con Agarre Invertido en Máquina"
+ },
+ "gv1349": {
+  "es": "Remo en T Invertido en Máquina"
+ },
+ "gv1350": {
+  "es": "Remo Sentado en Máquina"
+ },
+ "gv1351": {
+  "es": "Remo en T con Agarre Invertido en Máquina"
+ },
+ "gv1352": {
+  "es": "Curl de Zona Lumbar"
+ },
+ "gv1353": {
+  "es": "Atrapada y Lanzamiento por Encima con Balón Medicinal"
+ },
+ "gv1354": {
+  "es": "Slam por Encima de la Cabeza con Balón Medicinal"
+ },
+ "gv1355": {
+  "es": "Un Brazo Contra la Pared"
+ },
+ "gv1356": {
+  "es": "Remo Alto Lateral a Un Brazo en Máquina"
+ },
+ "gv1358": {
+  "es": "Estiramiento Acostado de Lado en el Suelo"
+ },
+ "gv1359": {
+  "es": "Remo Inclinado en Smith"
+ },
+ "gv1360": {
+  "es": "Remo a Un Brazo en Smith"
+ },
+ "gv1361": {
+  "es": "Remo Inclinado con Agarre Invertido en Smith"
+ },
+ "gv1362": {
+  "es": "Esfinge"
+ },
+ "gv1363": {
+  "es": "Estiramiento de Columna"
+ },
+ "gv1364": {
+  "es": "Inclinación Pélvica de Pie"
+ },
+ "gv1365": {
+  "es": "Estiramiento de Espalda Alta"
+ },
+ "gv1366": {
+  "es": "Perro Boca Arriba"
+ },
+ "gv1367": {
+  "es": "Dominada Posterior con Agarre Ancho"
+ },
+ "gv1368": {
+  "es": "Círculos de Tobillo"
+ },
+ "gv1369": {
+  "es": "Elevación de Gemelos a Dos Piernas con Banda - (banda Bajo Ambas Piernas) v. 2"
+ },
+ "gv1370": {
+  "es": "Elevación de Gemelos en el Suelo con Barra"
+ },
+ "gv1371": {
+  "es": "Elevación de Gemelos Sentado con Barra"
+ },
+ "gv1372": {
+  "es": "Elevación de Gemelos de Pie con Barra"
+ },
+ "gv1373": {
+  "es": "Elevación de Gemelos de Pie con Peso Corporal"
+ },
+ "gv1374": {
+  "es": "Bajada de Salto al Cajón con Estabilización a Una Pierna"
+ },
+ "gv1375": {
+  "es": "Elevación de Gemelos de Pie en Polea"
+ },
+ "gv1376": {
+  "es": "Elevación de Gemelos a Una Pierna de Pie en Polea"
+ },
+ "gv1377": {
+  "es": "Estiramiento de Gemelos con Manos Contra la Pared"
+ },
+ "gv1378": {
+  "es": "Estiramiento de Gemelos con Cuerda"
+ },
+ "gv1379": {
+  "es": "Elevación de Gemelos Sentado con Mancuerna"
+ },
+ "gv1380": {
+  "es": "Elevación de Gemelos Sentado a Una Pierna con Mancuerna - Agarre Martillo"
+ },
+ "gv1381": {
+  "es": "Elevación de Gemelos Sentado a Una Pierna con Mancuerna - Palma Arriba"
+ },
+ "gv1382": {
+  "es": "Elevación de Gemelos con Pelota de Ejercicio en la Pared"
+ },
+ "gv1383": {
+  "es": "Elevación de Gemelos en Hack"
+ },
+ "gv1384": {
+  "es": "Elevación de Gemelos a Una Pierna en Hack"
+ },
+ "gv1385": {
+  "es": "Elevación de Gemelos Sentado en Prensa de Piernas"
+ },
+ "gv1386": {
+  "es": "Elevación de Gemelos Donkey a Una Pierna"
+ },
+ "gv1387": {
+  "es": "Elevación de Gemelos en el Suelo a Una Pierna"
+ },
+ "gv1388": {
+  "es": "Estiramiento de Peroneos"
+ },
+ "gv1389": {
+  "es": "Estiramiento de Tibial Posterior"
+ },
+ "gv1390": {
+  "es": "Estiramiento de Gemelos Sentado (hombre)"
+ },
+ "gv1391": {
+  "es": "Press de Gemelos en Prensa de Piernas"
+ },
+ "gv1392": {
+  "es": "Press de Gemelos a Una Pierna en Prensa de Piernas"
+ },
+ "gv1393": {
+  "es": "Elevación de Gemelos en el Suelo a Una Pierna en Smith"
+ },
+ "gv1394": {
+  "es": "Elevaciones de Gemelos Inversas en Smith"
+ },
+ "gv1395": {
+  "es": "Elevación de Gemelos Sentado a Una Pierna en Smith"
+ },
+ "gv1396": {
+  "es": "Elevación de Puntas en Smith"
+ },
+ "gv1397": {
+  "es": "Gemelos de Pie"
+ },
+ "gv1398": {
+  "es": "Estiramiento de Gemelos de Pie"
+ },
+ "gv1399": {
+  "es": "Fondo en Banco en el Suelo"
+ },
+ "gv1401": {
+  "es": "Muscle-Up (en Barra Vertical)"
+ },
+ "gv1403": {
+  "es": "Estiramiento Lateral de Cuello"
+ },
+ "gv1405": {
+  "es": "Estiramiento de Pectorales"
+ },
+ "gv1407": {
+  "es": "Estiramiento de Gemelos Empujando con Manos contra la Pared"
+ },
+ "gv1408": {
+  "es": "Elevación de Cadera con Banda"
+ },
+ "gv1409": {
+  "es": "Puente de Glúteos con Barra"
+ },
+ "gv1410": {
+  "es": "Zancada Lateral con Barra"
+ },
+ "gv1411": {
+  "es": "Curl de Muñeca con Barra Palmas Abajo sobre un Banco"
+ },
+ "gv1412": {
+  "es": "Curl de Muñeca con Barra Palmas Arriba sobre un Banco"
+ },
+ "gv1413": {
+  "es": "Curl Inverso a Un Brazo en Polea"
+ },
+ "gv1414": {
+  "es": "Curl de Predicador Inverso a Un Brazo con Mancuerna"
+ },
+ "gv1415": {
+  "es": "Curl de Muñeca Neutro Sentado a Un Brazo con Mancuerna"
+ },
+ "gv1416": {
+  "es": "Rotación de Tren Inferior Prono a Una Pierna con Pelota de Ejercicio"
+ },
+ "gv1417": {
+  "es": "Curl de Isquiotibiales con Patada Diagonal a Una Pierna en Pelota de Ejercicio"
+ },
+ "gv1418": {
+  "es": "Abrazo de Rodillas al Pecho"
+ },
+ "gv1419": {
+  "es": "Estiramiento Cruz de Hierro"
+ },
+ "gv1420": {
+  "es": "Sentadilla con Salto Arrodillado"
+ },
+ "gv1421": {
+  "es": "Flexión Modificada hasta Antebrazos"
+ },
+ "gv1422": {
+  "es": "Inclinación Pélvica hacia Puente"
+ },
+ "gv1423": {
+  "es": "Hiperextensión Inversa en Banco Plano"
+ },
+ "gv1424": {
+  "es": "Estiramiento de Glúteos Sentado"
+ },
+ "gv1425": {
+  "es": "Prensa a 45 Grados a Una Pierna"
+ },
+ "gv1426": {
+  "es": "Curl de Muñeca Sentado en Smith"
+ },
+ "gv1427": {
+  "es": "Abductor de Cadera Exterior con Pierna Recta"
+ },
+ "gv1428": {
+  "es": "Círculos de Muñeca"
+ },
+ "gv1429": {
+  "es": "Dominada con Agarre Ancho"
+ },
+ "gv1430": {
+  "es": "Fondo de Pecho (en Jaula de Fondos y Dominadas)"
+ },
+ "gv1431": {
+  "es": "Dominada Supina Asistida de Pie"
+ },
+ "gv1432": {
+  "es": "Dominada Asistida de Pie"
+ },
+ "gv1433": {
+  "es": "Sentadilla Frontal en Smith (Agarre de Cargada)"
+ },
+ "gv1434": {
+  "es": "Sentadilla Low Bar en Smith"
+ },
+ "gv1435": {
+  "es": "Sentadilla Low Bar con Barra"
+ },
+ "gv1436": {
+  "es": "Sentadilla High Bar con Barra"
+ },
+ "gv1437": {
+  "es": "Curl de Dedos con Mancuernas"
+ },
+ "gv1438": {
+  "es": "Press Militar Sentado a Dos Brazos con Kettlebell"
+ },
+ "gv1439": {
+  "es": "Encogimiento sin Agarre en Máquina v. 2"
+ },
+ "gv1441": {
+  "es": "Curl de Muñeca Inverso a Un Brazo con Mancuerna sobre Banco"
+ },
+ "gv1451": {
+  "es": "Fondo Sentado en Máquina"
+ },
+ "gv1452": {
+  "es": "Crunch Sentado en Máquina"
+ },
+ "gv1456": {
+  "es": "Press Militar de Pie con Agarre Cerrado con Barra"
+ },
+ "gv1457": {
+  "es": "Press Militar de Pie con Agarre Ancho con Barra"
+ },
+ "gv1458": {
+  "es": "Curl Sentado con Barra EZ"
+ },
+ "gv1459": {
+  "es": "Peso Muerto Rumano con Mancuernas"
+ },
+ "gv1460": {
+  "es": "Zancada Caminando"
+ },
+ "gv1461": {
+  "es": "Sentadilla Completa con Barra (Vista Posterior)"
+ },
+ "gv1462": {
+  "es": "Sentadilla Completa con Barra (Vista Lateral)"
+ },
+ "gv1463": {
+  "es": "Prensa de Piernas 45° (Vista Lateral)"
+ },
+ "gv1464": {
+  "es": "Prensa de Piernas 45° (Vista Posterior)"
+ },
+ "gv1466": {
+  "es": "Elevación de Cadera con Giro"
+ },
+ "gv1467": {
+  "es": "Flexión sobre Antebrazos"
+ },
+ "gv1468": {
+  "es": "Toque de Puntera con Giro en Cangrejo"
+ },
+ "gv1471": {
+  "es": "Oruga"
+ },
+ "gv1472": {
+  "es": "Salto Hacia Adelante"
+ },
+ "gv1473": {
+  "es": "Salto Hacia Atrás"
+ },
+ "gv1476": {
+  "es": "Sentadilla a Una Pierna"
+ },
+ "gv1479": {
+  "es": "Press de Pecho Inclinado en Máquina v. 2"
+ },
+ "gv1489": {
+  "es": "Sentadilla Sissy"
+ },
+ "gv1490": {
+  "es": "Elevación de Gemelos de Pie (en Escalera)"
+ },
+ "gv1494": {
+  "es": "Postura de Mariposa de Yoga"
+ },
+ "gv1495": {
+  "es": "Crunch Oblicuo v. 2"
+ },
+ "gv1496": {
+  "es": "Sledge Hammer"
+ },
+ "gv1511": {
+  "es": "Estiramiento de Isquiotibiales"
+ },
+ "gv1512": {
+  "es": "Estiramiento de Cuádriceps a Cuatro Patas"
+ },
+ "gv1545": {
+  "es": "Sentadilla Zercher Completa con Barra"
+ },
+ "gv1548": {
+  "es": "Estiramiento de Pierna Extendida en Silla"
+ },
+ "gv1559": {
+  "es": "Estiramiento de Flexores de Cadera con Pelota de Ejercicio"
+ },
+ "gv1560": {
+  "es": "Estiramiento de Isquiotibiales Sentado con Pelota de Ejercicio"
+ },
+ "gv1564": {
+  "es": "Estiramiento Intermedio de Flexores de Cadera y Cuádriceps"
+ },
+ "gv1576": {
+  "es": "Estiramiento de Isquiotibiales con Pierna Elevada"
+ },
+ "gv1582": {
+  "es": "Postura del Dedo Gordo Reclinada con Cuerda"
+ },
+ "gv1585": {
+  "es": "Estiramiento del Corredor"
+ },
+ "gv1587": {
+  "es": "Secuencia de Postura de Ángulo Ancho Sentado"
+ },
+ "gv1599": {
+  "es": "Estiramiento de Isquiotibiales y Gemelos de Pie con Cinta"
+ },
+ "gv1604": {
+  "es": "El Mejor Estiramiento del Mundo"
+ },
+ "gv1614": {
+  "es": "Curl Predicador en Máquina v. 2"
+ },
+ "gv1615": {
+  "es": "Curl Predicador con Agarre Martillo en Máquina"
+ },
+ "gv1616": {
+  "es": "Curl Predicador con Agarre Inverso en Máquina"
+ },
+ "gv1617": {
+  "es": "Press Martillo a Un Brazo Declinado con Mancuerna"
+ },
+ "gv1618": {
+  "es": "Press Martillo Inclinado con Mancuernas en Pelota de Ejercicio"
+ },
+ "gv1619": {
+  "es": "Press Martillo a Un Brazo Inclinado con Mancuerna"
+ },
+ "gv1620": {
+  "es": "Press Martillo Inclinado a Un Brazo con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1621": {
+  "es": "Press Martillo a Un Brazo con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1622": {
+  "es": "Press Agarre Inverso a Un Brazo con Mancuerna"
+ },
+ "gv1623": {
+  "es": "Press de Banca Inclinado Palmas Hacia Adentro con Mancuernas"
+ },
+ "gv1624": {
+  "es": "Press de Banca Invertido con Mancuernas"
+ },
+ "gv1625": {
+  "es": "Press de Banca Declinado Agarre Cerrado en Máquina Smith"
+ },
+ "gv1626": {
+  "es": "Press de Banca Declinado Agarre Cerrado Invertido en Máquina Smith"
+ },
+ "gv1627": {
+  "es": "Curl de Predicador Agarre Cerrado con Barra EZ"
+ },
+ "gv1628": {
+  "es": "Spider Curl con Barra EZ"
+ },
+ "gv1629": {
+  "es": "Curl de Bíceps de Pie Agarre Ancho con Barra"
+ },
+ "gv1630": {
+  "es": "Curl Agarre Cerrado en Polea"
+ },
+ "gv1631": {
+  "es": "Curl de Concentración en Polea"
+ },
+ "gv1632": {
+  "es": "Drag Curl en Polea"
+ },
+ "gv1633": {
+  "es": "Curl de Predicador a Un Brazo en Polea"
+ },
+ "gv1634": {
+  "es": "Curl de Bíceps Acostado en Polea"
+ },
+ "gv1635": {
+  "es": "Curl de Predicador Invertido a Un Brazo en Polea"
+ },
+ "gv1636": {
+  "es": "Curl Overhead en Polea"
+ },
+ "gv1637": {
+  "es": "Curl Overhead en Polea sobre Pelota de Ejercicio"
+ },
+ "gv1638": {
+  "es": "Curl de Bíceps en Pulldown con Polea"
+ },
+ "gv1639": {
+  "es": "Curl Martillo de Predicador con Cuerda en Polea"
+ },
+ "gv1640": {
+  "es": "Curl Martillo de Predicador a Un Brazo con Cuerda en Polea"
+ },
+ "gv1641": {
+  "es": "Curl Sentado en Polea"
+ },
+ "gv1642": {
+  "es": "Curl de Concentración Sentado a Un Brazo en Polea"
+ },
+ "gv1643": {
+  "es": "Curl Overhead Sentado en Polea"
+ },
+ "gv1644": {
+  "es": "Curl en Sentadilla en Polea"
+ },
+ "gv1645": {
+  "es": "Curl a Dos Brazos en Polea en Banco Inclinado"
+ },
+ "gv1646": {
+  "es": "Curl Martillo de Predicador Alternado con Mancuernas"
+ },
+ "gv1647": {
+  "es": "Curl de Predicador Alternado con Mancuernas"
+ },
+ "gv1648": {
+  "es": "Curl Martillo Sentado Alternado con Mancuernas"
+ },
+ "gv1649": {
+  "es": "Curl de Bíceps Alternado con Mancuerna con Pierna Elevada en Pelota de Ejercicio"
+ },
+ "gv1650": {
+  "es": "Curl de Bíceps Sentado Alternado con Mancuernas en Pelota de Ejercicio"
+ },
+ "gv1651": {
+  "es": "Curl de Bíceps en Zancada con Mancuerna con Movimiento de Bolos"
+ },
+ "gv1652": {
+  "es": "Curl de Bíceps con Mancuerna en Pelota de Ejercicio con Pierna Elevada"
+ },
+ "gv1653": {
+  "es": "Curl de Bíceps con Mancuerna en Postura de Cigüeña"
+ },
+ "gv1654": {
+  "es": "Curl de Bíceps Invertido con Mancuernas"
+ },
+ "gv1655": {
+  "es": "Curl de Bíceps en Sentadilla con Mancuernas"
+ },
+ "gv1656": {
+  "es": "Curl de Bíceps V-Sit con Mancuernas en Bosu"
+ },
+ "gv1657": {
+  "es": "Curl Martillo Cruzado al Cuerpo con Mancuerna v. 2"
+ },
+ "gv1658": {
+  "es": "Zancada con Curl de Bíceps con Mancuernas"
+ },
+ "gv1659": {
+  "es": "Curl Martillo con Mancuernas en Pelota de Ejercicio"
+ },
+ "gv1660": {
+  "es": "Curl de Bíceps Arrodillado con Mancuernas en Pelota de Ejercicio"
+ },
+ "gv1661": {
+  "es": "Curl de Bíceps Supino Acostado con Mancuernas"
+ },
+ "gv1662": {
+  "es": "Curl Ancho Acostado con Mancuernas"
+ },
+ "gv1663": {
+  "es": "Curl Martillo de Predicador a Un Brazo con Mancuerna"
+ },
+ "gv1664": {
+  "es": "Curl Alto con Mancuerna"
+ },
+ "gv1665": {
+  "es": "Curl Prono a Un Brazo con Mancuerna"
+ },
+ "gv1666": {
+  "es": "Curl Martillo Prono a Un Brazo con Mancuerna"
+ },
+ "gv1667": {
+  "es": "Spider Curl Invertido a Un Brazo con Mancuerna"
+ },
+ "gv1668": {
+  "es": "Curl de Bíceps Sentado a Un Brazo con Mancuerna en Pelota de Ejercicio"
+ },
+ "gv1669": {
+  "es": "Curl Martillo Sentado a Un Brazo con Mancuerna"
+ },
+ "gv1670": {
+  "es": "Curl de Pie a Un Brazo con Mancuerna"
+ },
+ "gv1671": {
+  "es": "Curl Martillo de Pie a Un Brazo con Mancuerna"
+ },
+ "gv1672": {
+  "es": "Curl Zottman en Banco Scott a Un Brazo con Mancuerna"
+ },
+ "gv1673": {
+  "es": "Curl en Banco Scott con Mancuerna sobre Pelota de Ejercicio"
+ },
+ "gv1674": {
+  "es": "Curl Martillo en Banco Inclinado Boca Abajo con Mancuerna"
+ },
+ "gv1675": {
+  "es": "Curl Araña Invertido con Mancuerna"
+ },
+ "gv1676": {
+  "es": "Curl Martillo Alternado Sentado con Mancuerna sobre Pelota de Ejercicio"
+ },
+ "gv1677": {
+  "es": "Curl de Bíceps Sentado con Mancuerna"
+ },
+ "gv1678": {
+  "es": "Curl Martillo Sentado con Mancuerna"
+ },
+ "gv1679": {
+  "es": "Curl de Bíceps a Un Brazo Sentado con Mancuerna sobre Pelota de Ejercicio con Pierna Elevada"
+ },
+ "gv1680": {
+  "es": "Curl de Pie a Un Brazo con Mancuerna sobre Banco Inclinado"
+ },
+ "gv1682": {
+  "es": "Curl de Concentración Agarre Cerrado Sentado con Barra EZ"
+ },
+ "gv1683": {
+  "es": "Curl de Bíceps en Máquina Smith"
+ },
+ "gv1684": {
+  "es": "Step Up a Una Pierna con Equilibrio y Curl de Bíceps con Mancuerna"
+ },
+ "gv1685": {
+  "es": "Sentadilla a Alcance por Encima de la Cabeza"
+ },
+ "gv1686": {
+  "es": "Sentadilla a Alcance por Encima de la Cabeza con Giro"
+ },
+ "gv1687": {
+  "es": "Paso Posterior a Alcance por Encima de la Cabeza"
+ },
+ "gv1688": {
+  "es": "Zancada con Giro"
+ },
+ "gv1689": {
+  "es": "Empuje y Jalón con Peso Corporal"
+ },
+ "gv1700": {
+  "es": "Push Press con Mancuerna"
+ },
+ "gv1701": {
+  "es": "Flexión Agarre Cerrado con Balón Medicinal"
+ },
+ "gv1705": {
+  "es": "Sentadilla en Bosu"
+ },
+ "gv1707": {
+  "es": "Giro Boca Abajo sobre Pelota de Estabilidad"
+ },
+ "gv1708": {
+  "es": "Estiramiento de Gemelos Acostado Asistido"
+ },
+ "gv1709": {
+  "es": "Estiramiento de Glúteos Acostado Asistido"
+ },
+ "gv1710": {
+  "es": "Estiramiento de Glúteo y Piriforme Acostado Asistido"
+ },
+ "gv1712": {
+  "es": "Estiramiento de Aductores Acostado de Lado Asistido"
+ },
+ "gv1713": {
+  "es": "Estiramiento de Cuádriceps Boca Abajo Asistido"
+ },
+ "gv1714": {
+  "es": "Estiramiento de Recto Femoral Boca Abajo Asistido"
+ },
+ "gv1716": {
+  "es": "Estiramiento de Pectoral Mayor Sentado Asistido con Pelota de Estabilidad"
+ },
+ "gv1717": {
+  "es": "Remo en Sentadilla con Cable (con Cuerda)"
+ },
+ "gv1718": {
+  "es": "Extensión de Tríceps Tras Nuca Agarre Cerrado Sentado con Barra"
+ },
+ "gv1719": {
+  "es": "Press de Banca Inclinado Agarre Cerrado con Barra"
+ },
+ "gv1720": {
+  "es": "Extensión de Tríceps Acostado Detrás de la Cabeza con Barra"
+ },
+ "gv1721": {
+  "es": "Skullcrusher Agarre Invertido con Barra"
+ },
+ "gv1722": {
+  "es": "Extensión de Tríceps Overhead en Polea Alta"
+ },
+ "gv1723": {
+  "es": "Pushdown de Tríceps a Un Brazo en Polea"
+ },
+ "gv1724": {
+  "es": "Extensión de Tríceps Overhead con Cuerda en Polea Alta"
+ },
+ "gv1725": {
+  "es": "Extensión de Tríceps Inclinada con Cuerda en Polea"
+ },
+ "gv1726": {
+  "es": "Extensión de Tríceps Acostado en el Suelo con Cuerda en Polea"
+ },
+ "gv1727": {
+  "es": "Extensión de Tríceps Overhead a Un Brazo Agarre Invertido de Pie en Polea"
+ },
+ "gv1728": {
+  "es": "Kickback de Tríceps a Dos Brazos en Polea"
+ },
+ "gv1729": {
+  "es": "Extensión Alternada Acostado con Mancuerna"
+ },
+ "gv1730": {
+  "es": "Kickback Alternado Inclinado Sentado con Mancuerna"
+ },
+ "gv1731": {
+  "es": "Press Agarre Cerrado con Mancuerna"
+ },
+ "gv1732": {
+  "es": "Extensión de Tríceps en Zancada Frontal con Mancuerna"
+ },
+ "gv1733": {
+  "es": "Extensión a Dos Brazos en Banco Inclinado con Mancuerna"
+ },
+ "gv1734": {
+  "es": "Kickbacks con Mancuerna sobre Pelota de Ejercicio"
+ },
+ "gv1735": {
+  "es": "Extensión Individual Acostado con Mancuerna"
+ },
+ "gv1736": {
+  "es": "Press Francés a Un Brazo con Mancuerna sobre Pelota de Ejercicio"
+ },
+ "gv1737": {
+  "es": "Extensión de Tríceps Sentado Inclinado con Mancuerna"
+ },
+ "gv1738": {
+  "es": "Extensión de Tríceps Overhead a un Brazo con Agarre Inverso Sentado con Mancuerna"
+ },
+ "gv1739": {
+  "es": "Kickback de Tríceps Alternado de Pie con Mancuerna"
+ },
+ "gv1740": {
+  "es": "Extensión de Tríceps Inclinado a un Brazo de Pie con Mancuerna"
+ },
+ "gv1741": {
+  "es": "Extensión de Tríceps Inclinado a Dos Brazos de Pie con Mancuerna"
+ },
+ "gv1742": {
+  "es": "Kickback de Tríceps con Mancuerna en Postura de Cigüeña"
+ },
+ "gv1743": {
+  "es": "Press de Banca con Giro con Mancuernas"
+ },
+ "gv1744": {
+  "es": "Fondo en Pelota de Ejercicio"
+ },
+ "gv1745": {
+  "es": "Estiramiento de Tríceps Sentado en Pelota de Ejercicio"
+ },
+ "gv1746": {
+  "es": "Extensión de Tríceps Supino en Pelota de Ejercicio"
+ },
+ "gv1747": {
+  "es": "French Press con Barra EZ en Pelota de Ejercicio"
+ },
+ "gv1748": {
+  "es": "Extensión de Tríceps Acostado con Agarre Cerrado Tras Nuca con Barra EZ"
+ },
+ "gv1749": {
+  "es": "French Press de Pie con Barra EZ"
+ },
+ "gv1750": {
+  "es": "Lanzamiento de Pecho Supino con Balón Medicinal"
+ },
+ "gv1751": {
+  "es": "Press en Pines con Barra"
+ },
+ "gv1752": {
+  "es": "Extensión de Tríceps Inclinada en Máquina Smith"
+ },
+ "gv1753": {
+  "es": "Fondo en Tres Bancos"
+ },
+ "gv1754": {
+  "es": "Fondos en Tres Bancos con Peso"
+ },
+ "gv1755": {
+  "es": "Fondos de Tríceps con Peso"
+ },
+ "gv1756": {
+  "es": "Peso Muerto a una Pierna con Barra"
+ },
+ "gv1757": {
+  "es": "Peso Muerto a una Pierna con Mancuerna"
+ },
+ "gv1758": {
+  "es": "Sit-Up Asistido"
+ },
+ "gv1759": {
+  "es": "Sentadilla a una Pierna (Pistol) Masculino"
+ },
+ "gv1760": {
+  "es": "Sentadilla Goblet con Mancuerna"
+ },
+ "gv1761": {
+  "es": "Elevación de Rodillas Oblicuas Colgado"
+ },
+ "gv1763": {
+  "es": "Dominada con Agarre de Hombros"
+ },
+ "gv1764": {
+  "es": "Elevación de Piernas y Cadera Colgado"
+ },
+ "gv1765": {
+  "es": "Remo al Mentón con Mancuerna (Vista Posterior)"
+ },
+ "gv1766": {
+  "es": "Curl Femoral Inverso Autoasistido"
+ },
+ "gv1767": {
+  "es": "Fondo de Tríceps con Peso en Barras Paralelas Altas"
+ },
+ "gv1769": {
+  "es": "Curl de Bíceps Acostado de Lado con Peso Corporal"
+ },
+ "gv1770": {
+  "es": "Curl de Concentración de Bíceps con Pierna"
+ },
+ "gv1771": {
+  "es": "Extensión de Tríceps de Rodillas con Peso Corporal"
+ },
+ "gv1772": {
+  "es": "Elevación de Codos - Flexión Inversa"
+ },
+ "gv1773": {
+  "es": "Remo a un Brazo con Toalla"
+ },
+ "gv1774": {
+  "es": "Abducción de Cadera en Puente Lateral"
+ },
+ "gv1775": {
+  "es": "Aducción de Cadera en Plancha Lateral"
+ },
+ "gv2133": {
+  "es": "Farmers Walk"
+ },
+ "gv2135": {
+  "es": "Plancha Frontal con Peso"
+ },
+ "gv2136": {
+  "es": "Press Cubano con Mancuernas v. 2"
+ },
+ "gv2137": {
+  "es": "Press Arnold con Mancuernas"
+ },
+ "gv2138": {
+  "es": "Carrera en Bici Estática v. 3"
+ },
+ "gv2139": {
+  "es": "Bici de Manos"
+ },
+ "gv2141": {
+  "es": "Caminata en Elíptica"
+ },
+ "gv2142": {
+  "es": "Ergómetro de Esquí"
+ },
+ "gv2143": {
+  "es": "Alrededor del Mundo de Pie con Mancuernas"
+ },
+ "gv2144": {
+  "es": "Press de Pecho Sentado en Polea"
+ },
+ "gv2186": {
+  "es": "Extensión de Tríceps Declinada con Barra EZ"
+ },
+ "gv2187": {
+  "es": "Press de Banca con Agarre Cerrado Inverso con Barra"
+ },
+ "gv2188": {
+  "es": "Extensión de Tríceps Sentado con Mancuerna"
+ },
+ "gv2189": {
+  "es": "Extensión de Tríceps Sentado con Mancuernas"
+ },
+ "gv2202": {
+  "es": "Estiramiento de Cadera con Rodillo"
+ },
+ "gv2203": {
+  "es": "Flexor Depresor Retractor de Hombro Sentado con Rodillo"
+ },
+ "gv2204": {
+  "es": "Sierra Corporal con Rodillo"
+ },
+ "gv2205": {
+  "es": "Estiramiento de Cadera y Dorsal con Rodillo"
+ },
+ "gv2206": {
+  "es": "Crunch Inverso con Rodillo"
+ },
+ "gv2207": {
+  "es": "Estiramiento Lateral de Dorsal con Rodillo"
+ },
+ "gv2208": {
+  "es": "Estiramiento de Espalda con Rodillo"
+ },
+ "gv2209": {
+  "es": "Flexor Depresor Retractor de Hombro Sentado a Una Pierna con Rodillo"
+ },
+ "gv2271": {
+  "es": "Gancho Izquierdo. Boxeo"
+ },
+ "gv2285": {
+  "es": "Pullover en Máquina"
+ },
+ "gv2286": {
+  "es": "Extensión de Cadera en Máquina v. 2"
+ },
+ "gv2287": {
+  "es": "Press de Piernas Alternado en Máquina"
+ },
+ "gv2288": {
+  "es": "Agarre de Manos en Máquina"
+ },
+ "gv2289": {
+  "es": "Press de Pantorrillas en Máquina"
+ },
+ "gv2292": {
+  "es": "Elevación de Deltoides Posterior con Mancuerna"
+ },
+ "gv2293": {
+  "es": "Curl Zottman de Pie en Banco Scott con Mancuerna"
+ },
+ "gv2294": {
+  "es": "Curl Zottman en Banco Scott con Mancuerna"
+ },
+ "gv2297": {
+  "es": "Crunch en Pelota de Estabilidad (Rango Completo Manos Detrás de la Cabeza)"
+ },
+ "gv2298": {
+  "es": "Remo Invertido en Banco"
+ },
+ "gv2300": {
+  "es": "Remo Invertido con Rodillas Dobladas"
+ },
+ "gv2311": {
+  "es": "Caminata en Stepmill"
+ },
+ "gv2312": {
+  "es": "Codo a Rodilla Acostado"
+ },
+ "gv2315": {
+  "es": "Pantorrilla Rotatoria en Máquina"
+ },
+ "gv2317": {
+  "es": "Elevación Lateral con Brazo Doblado Sentado con Mancuerna"
+ },
+ "gv2318": {
+  "es": "Press de Hombros en Máquina v. 3"
+ },
+ "gv2321": {
+  "es": "Curl de Bíceps Interno de Pie con Mancuerna v. 2"
+ },
+ "gv2327": {
+  "es": "Remo con Agarre Inverso con Mancuerna (mujer)"
+ },
+ "gv2328": {
+  "es": "Flexión Cerrada sobre Pelota de Ejercicio"
+ },
+ "gv2329": {
+  "es": "Giro de Columna"
+ },
+ "gv2330": {
+  "es": "Jalón al Pecho en Polea Rango Completo de Movimiento"
+ },
+ "gv2331": {
+  "es": "Elíptica Cross Trainer"
+ },
+ "gv2333": {
+  "es": "Colgantes de Brazos con Piernas Rectas"
+ },
+ "gv2334": {
+  "es": "Press de Pantorrillas Acostado en Trineo"
+ },
+ "gv2335": {
+  "es": "Press de Pantorrillas Sentado en Máquina"
+ },
+ "gv2355": {
+  "es": "Colgantes de Brazos con Piernas Dobladas"
+ },
+ "gv2363": {
+  "es": "Fondo de Pecho con Agarre Ancho en Barras Paralelas Altas"
+ },
+ "gv2364": {
+  "es": "Fondo de Pecho con Agarre Ancho Asistido (de Rodillas)"
+ },
+ "gv2368": {
+  "es": "Split Squats"
+ },
+ "gv2371": {
+  "es": "Giro Ruso con Peso v. 2"
+ },
+ "gv2397": {
+  "es": "Press Scott con Mancuerna"
+ },
+ "gv2398": {
+  "es": "Flexión con Agarre Cerrado (de Rodillas)"
+ },
+ "gv2399": {
+  "es": "Giro Sentado en Polea"
+ },
+ "gv2400": {
+  "es": "Curl Femoral Inverso (en Máquina de Dominadas con Cable)"
+ },
+ "gv2401": {
+  "es": "Curl de Bíceps con Mancuerna (con Arm Blaster)"
+ },
+ "gv2402": {
+  "es": "Curl Martillo con Mancuernas (con Arm Blaster)"
+ },
+ "gv2403": {
+  "es": "Curl de Bíceps Alternado con Mancuerna (con Arm Blaster)"
+ },
+ "gv2404": {
+  "es": "Curl de Bíceps con Barra EZ (con Arm Blaster)"
+ },
+ "gv2405": {
+  "es": "Pushdown de Tríceps en Polea (Barra V) (con Arm Blaster)"
+ },
+ "gv2406": {
+  "es": "Pushdown de Tríceps con Agarre Inverso en Polea (Barra SZ) (con Arm Blaster)"
+ },
+ "gv2407": {
+  "es": "Curl de Bíceps con Barra (con Arm Blaster)"
+ },
+ "gv2414": {
+  "es": "Curl de Concentración con Barra de Pie"
+ },
+ "gv2429": {
+  "es": "Crunch Rana"
+ },
+ "gv2432": {
+  "es": "Press de Banca con Agarre Cerrado con Barra EZ"
+ },
+ "gv2459": {
+  "es": "Volteo de Neumático"
+ },
+ "gv2462": {
+  "es": "Fondo de Pecho en Barra Recta"
+ },
+ "gv2464": {
+  "es": "Remo Kayak Thibaudeau en Polea"
+ },
+ "gv2466": {
+  "es": "Puente - Escalador de Montaña (Cruzado)"
+ },
+ "gv2470": {
+  "es": "Elevación de Deltoides Posterior con Mancuerna Acostado en el Piso"
+ },
+ "gv2567": {
+  "es": "Estiramiento de Piriforme Sentado"
+ },
+ "gv2571": {
+  "es": "Estiramiento Rana con Balanceo"
+ },
+ "gv2611": {
+  "es": "Prensa Horizontal de Una Pierna en Máquina"
+ },
+ "gv2612": {
+  "es": "Salto de Cuerda"
+ },
+ "gv2616": {
+  "es": "Jalón Lateral en Polea con Barra en V"
+ },
+ "gv2705": {
+  "es": "Pronación con Mancuerna Acostado en el Piso"
+ },
+ "gv2706": {
+  "es": "Supinación con Mancuerna Acostado en el Piso"
+ },
+ "gv2736": {
+  "es": "Jalón Lateral con Agarre Invertido en Máquina"
+ },
+ "gv2741": {
+  "es": "Curl de Bíceps con Barra EZ de Pie Agarre Ancho"
+ },
+ "gv2796": {
+  "es": "Zancada Step-Up con Mancuerna"
+ },
+ "gv2798": {
+  "es": "Sentadilla con Salto y Zancada Trasera con Barra"
+ },
+ "gv2799": {
+  "es": "Elevación Alterna de Piernas Sentado con Barra"
+ },
+ "gv2800": {
+  "es": "Elevación Alterna de Piernas Sentado con Barra (mujer)"
+ },
+ "gv2801": {
+  "es": "Elevación de Piernas con Giro (mujer)"
+ },
+ "gv2802": {
+  "es": "Elevación de Piernas con Giro"
+ },
+ "gv2803": {
+  "es": "Sentadilla Asistida con Mancuerna"
+ },
+ "gv2805": {
+  "es": "Peso Muerto a Una Pierna con Mancuerna con Apoyo en Step"
+ },
+ "gv2808": {
+  "es": "Pull Through Sumo con Mancuerna"
+ },
+ "gv2810": {
+  "es": "Sentadilla Split con Barra v. 2"
+ },
+ "gv2812": {
+  "es": "Sentadilla Split Step-Up con Mancuerna"
+ },
+ "gv2963": {
+  "es": "Elevación de Piernas Rectas en Silla del Capitán"
+ },
+ "gv2987": {
+  "es": "Dominada con Agarre Cerrado Lastrada en Jaula de Fondos"
+ },
+ "gv3006": {
+  "es": "Abducción de Cadera Sentado con Banda de Resistencia"
+ },
+ "gv3007": {
+  "es": "Extensión de Pierna con Banda de Resistencia"
+ },
+ "gv3010": {
+  "es": "Pullover con Brazos Flexionados con Barra EZ Acostado"
+ },
+ "gv3011": {
+  "es": "Push-Up de Escápula en Inclinado"
+ },
+ "gv3012": {
+  "es": "Dips de Escápula"
+ },
+ "gv3013": {
+  "es": "Puente de Glúteos Bajo en el Piso"
+ },
+ "gv3016": {
+  "es": "Curl-Up"
+ },
+ "gv3017": {
+  "es": "Remo Pendlay con Barra"
+ },
+ "gv3019": {
+  "es": "Dominadas en Banco"
+ },
+ "gv3021": {
+  "es": "Push-Up de Escápula"
+ },
+ "gv3116": {
+  "es": "Jalón con Agarre Supino con Banda Fija en Espalda"
+ },
+ "gv3117": {
+  "es": "Jalón con Agarre Cerrado con Banda Fija en Espalda"
+ },
+ "gv3119": {
+  "es": "Sentadilla Potty"
+ },
+ "gv3122": {
+  "es": "Press de Hombros Sentado con Banda de Resistencia"
+ },
+ "gv3123": {
+  "es": "Curl de Bíceps Sentado con Banda de Resistencia"
+ },
+ "gv3124": {
+  "es": "Press de Pecho Sentado con Banda de Resistencia"
+ },
+ "gv3132": {
+  "es": "Sentadilla Potty con Apoyo"
+ },
+ "gv3142": {
+  "es": "Sentadilla Sumo en Smith"
+ },
+ "gv3144": {
+  "es": "Remo con Espalda Recta Sentado con Banda de Resistencia"
+ },
+ "gv3145": {
+  "es": "Push-Up Plus"
+ },
+ "gv3147": {
+  "es": "Inclinación Pélvica"
+ },
+ "gv3156": {
+  "es": "Remo a Un Brazo de Pie con Agarre Cerrado con Peso Corporal"
+ },
+ "gv3158": {
+  "es": "Remo de Pie con Agarre Cerrado con Peso Corporal"
+ },
+ "gv3161": {
+  "es": "Remo a Un Brazo de Pie con Peso Corporal (con Toalla)"
+ },
+ "gv3162": {
+  "es": "Remo a Un Brazo de Pie con Peso Corporal"
+ },
+ "gv3165": {
+  "es": "Remo de Pie con Peso Corporal (con Toalla)"
+ },
+ "gv3166": {
+  "es": "Remo de Pie con Peso Corporal"
+ },
+ "gv3167": {
+  "es": "Remo en Sentadilla con Peso Corporal (con Toalla)"
+ },
+ "gv3168": {
+  "es": "Remo en Sentadilla con Peso Corporal"
+ },
+ "gv3193": {
+  "es": "Glute-Ham Raise"
+ },
+ "gv3194": {
+  "es": "Sentadilla Frankenstein"
+ },
+ "gv3195": {
+  "es": "Curl de Piernas Acostado en Máquina Two-One"
+ },
+ "gv3200": {
+  "es": "Remo Inclinado en Máquina con Barra V"
+ },
+ "gv3201": {
+  "es": "Sit-Up de Cuarto"
+ },
+ "gv3202": {
+  "es": "Medio Sit-Up (hombre)"
+ },
+ "gv3203": {
+  "es": "Medio Sit-Up Prisionero (hombre)"
+ },
+ "gv3204": {
+  "es": "Sit-Up Completo con Brazos Arriba (hombre)"
+ },
+ "gv3211": {
+  "es": "Flexión de Rodillas (hombre)"
+ },
+ "gv3212": {
+  "es": "Toque de Punteras Básico (hombre)"
+ },
+ "gv3213": {
+  "es": "Toque de Punteras de Lado a Lado (hombre)"
+ },
+ "gv3214": {
+  "es": "Toque de Punteras Circular con Brazos Separados (hombre)"
+ },
+ "gv3215": {
+  "es": "Toque de Punteras Circular con Manos Entrelazadas Invertidas (hombre)"
+ },
+ "gv3216": {
+  "es": "Flexión con Toque al Pecho (hombre)"
+ },
+ "gv3217": {
+  "es": "Flexión Hindú Modificada (hombre)"
+ },
+ "gv3218": {
+  "es": "Toque de Punteras Circular con Manos Entrelazadas (hombre)"
+ },
+ "gv3219": {
+  "es": "Saltos de Tijera (hombre)"
+ },
+ "gv3220": {
+  "es": "Saltos a Horcajadas (hombre)"
+ },
+ "gv3221": {
+  "es": "Medias Flexiones de Rodilla (hombre)"
+ },
+ "gv3222": {
+  "es": "Salto en Semi Sentadilla (hombre)"
+ },
+ "gv3223": {
+  "es": "Salto Estrella (hombre)"
+ },
+ "gv3224": {
+  "es": "Salto Jack (hombre)"
+ },
+ "gv3231": {
+  "es": "Toque de Dos Punteras (hombre)"
+ },
+ "gv3234": {
+  "es": "Aperturas con Mancuernas Hyght"
+ },
+ "gv3235": {
+  "es": "Curl de Piernas Inverso Asistido en Cable"
+ },
+ "gv3236": {
+  "es": "Hip Thrusts con Banda de Resistencia de Rodillas (mujer)"
+ },
+ "gv3237": {
+  "es": "Elevación Lateral en Landmine"
+ },
+ "gv3239": {
+  "es": "Plancha de Rodillas con Toque de Hombro (hombre)"
+ },
+ "gv3240": {
+  "es": "Elevación de Gemelos con Pelota de Ejercicio en la Pared (Pelota de Tenis entre Rodillas)"
+ },
+ "gv3241": {
+  "es": "Elevación de Gemelos con Pelota de Ejercicio en la Pared (Pelota de Tenis entre Tobillos)"
+ },
+ "gv3281": {
+  "es": "Sentadilla Completa en Smith"
+ },
+ "gv3286": {
+  "es": "Muscle Up Lastrado"
+ },
+ "gv3287": {
+  "es": "Dips de Codo"
+ },
+ "gv3288": {
+  "es": "Dips Coreanos"
+ },
+ "gv3289": {
+  "es": "Dips Imposibles"
+ },
+ "gv3290": {
+  "es": "Dominada a Una Mano Lastrada"
+ },
+ "gv3291": {
+  "es": "Press Stalder"
+ },
+ "gv3292": {
+  "es": "Elevador"
+ },
+ "gv3293": {
+  "es": "Dominada Arquero"
+ },
+ "gv3294": {
+  "es": "Flexión Arquero"
+ },
+ "gv3295": {
+  "es": "Front Lever Repeticiones"
+ },
+ "gv3296": {
+  "es": "Front Lever"
+ },
+ "gv3297": {
+  "es": "Back Lever"
+ },
+ "gv3298": {
+  "es": "Planche Straddle"
+ },
+ "gv3299": {
+  "es": "Planche Completa"
+ },
+ "gv3300": {
+  "es": "Planche Lean"
+ },
+ "gv3301": {
+  "es": "Planche Frog"
+ },
+ "gv3302": {
+  "es": "Parada de Manos"
+ },
+ "gv3303": {
+  "es": "Flag"
+ },
+ "gv3304": {
+  "es": "Skin the Cat"
+ },
+ "gv3305": {
+  "es": "Thruster con Barra"
+ },
+ "gv3312": {
+  "es": "Muscle Up lastrado (en Barra)"
+ },
+ "gv3313": {
+  "es": "Fondo en Barra Recta Lastrado"
+ },
+ "gv3314": {
+  "es": "Maltese Straddle"
+ },
+ "gv3315": {
+  "es": "Maltese Completo"
+ },
+ "gv3318": {
+  "es": "Swing 360"
+ },
+ "gv3327": {
+  "es": "Flexión en Planche Completa"
+ },
+ "gv3360": {
+  "es": "Bear Crawl"
+ },
+ "gv3361": {
+  "es": "Saltos de Patinador"
+ },
+ "gv3418": {
+  "es": "Dominada en L"
+ },
+ "gv3419": {
+  "es": "L-Sit en Suelo"
+ },
+ "gv3420": {
+  "es": "V-Sit en Suelo"
+ },
+ "gv3433": {
+  "es": "Patadas de Nadador v. 2 (male)"
+ },
+ "gv3470": {
+  "es": "Zancada Frontal (male)"
+ },
+ "gv3523": {
+  "es": "Puente de Glúteos dos Piernas en Banco (male)"
+ },
+ "gv3533": {
+  "es": "Cuádriceps"
+ },
+ "gv3541": {
+  "es": "Elevación Y con Mancuernas en Banco Incline"
+ },
+ "gv3542": {
+  "es": "Elevación T con Mancuernas en Banco Incline"
+ },
+ "gv3543": {
+  "es": "Sentadilla con Salto Drop con Peso Corporal"
+ },
+ "gv3544": {
+  "es": "Plancha Lateral Inclinada con Peso Corporal"
+ },
+ "gv3545": {
+  "es": "Press Alternado con Mancuernas en Banco Incline"
+ },
+ "gv3546": {
+  "es": "Hombro Alternado con Mancuernas Sentado"
+ },
+ "gv3547": {
+  "es": "Curl de Bíceps a Press de Hombros con Mancuernas Sentado"
+ },
+ "gv3548": {
+  "es": "Acarreo Overhead a Un Brazo con Mancuerna"
+ },
+ "gv3552": {
+  "es": "Pies Rápidos v. 2"
+ },
+ "gv3560": {
+  "es": "Curl Martillo Alternado y Press con Mancuernas de Pie"
+ },
+ "gv3561": {
+  "es": "Marcha en Puente de Glúteos"
+ },
+ "gv3562": {
+  "es": "Puente de Glúteos con Barra dos Piernas en Banco (male)"
+ },
+ "gv3563": {
+  "es": "Jalón a Un Brazo en Polea"
+ },
+ "gv3582": {
+  "es": "Zancada con Salto"
+ },
+ "gv3635": {
+  "es": "Zancada Frontal Contralateral con mancuerna"
+ },
+ "gv3636": {
+  "es": "Rodilla Alta contra la Pared"
+ },
+ "gv3637": {
+  "es": "Wheel Run"
+ },
+ "gv3638": {
+  "es": "Push to Run"
+ },
+ "gv3639": {
+  "es": "Giro Acostado con Rodilla Flexionada (male)"
+ },
+ "gv3640": {
+  "es": "Crunch Tocando la Rodilla"
+ },
+ "gv3641": {
+  "es": "Paso de Rodillas con Balanceo Lastrado"
+ },
+ "gv3642": {
+  "es": "Zancada con Estiramiento Lastrada"
+ },
+ "gv3643": {
+  "es": "Sentadillas Cosacas Lastradas (male)"
+ },
+ "gv3644": {
+  "es": "Zancada con Balanceo Lastrada"
+ },
+ "gv3645": {
+  "es": "Puente a Una Pierna con Pierna Extendida"
+ },
+ "gv3655": {
+  "es": "Zancada Caminando con Rodillas Altas"
+ },
+ "gv3656": {
+  "es": "Carrera de Zancada Corta"
+ },
+ "gv3662": {
+  "es": "Flexión Pike a Cobra"
+ },
+ "gv3663": {
+  "es": "Plancha Invertida con Elevación de Pierna"
+ },
+ "gv3664": {
+  "es": "Plancha Lateral con Mancuerna y Fly Posterior"
+ },
+ "gv3665": {
+  "es": "Plancha Power Point"
+ },
+ "gv3666": {
+  "es": "Caminata en Cinta Inclinada"
+ },
+ "gv3667": {
+  "es": "Aducción de Cadera Acostado de Lado (hombre)"
+ },
+ "gv3669": {
+  "es": "Arquero de Pie"
+ },
+ "gv3670": {
+  "es": "Sit-Up Declinado con Peso"
+ },
+ "gv3671": {
+  "es": "Paso de Esquí"
+ },
+ "gv3672": {
+  "es": "Paso Adelante y Atrás"
+ },
+ "gv3679": {
+  "es": "Sit-Up con Brazos en el Pecho"
+ },
+ "gv3697": {
+  "es": "Remo de Deltoides Posterior Arrodillado en Polea (con Cuerda) (hombre)"
+ },
+ "gv3698": {
+  "es": "Gusano v. 2"
+ },
+ "gv3699": {
+  "es": "Toque de Hombro"
+ },
+ "gv3758": {
+  "es": "Press de Pecho de Pie en Máquina"
+ },
+ "gv3759": {
+  "es": "Good Morning Sentado en Máquina"
+ },
+ "gv3760": {
+  "es": "Crunch Sentado en Máquina v. 2"
+ },
+ "gv3769": {
+  "es": "Sentadilla Curtsey"
+ },
+ "gv3785": {
+  "es": "Flexión Inclinada (en Caja)"
+ },
+ "gv3888": {
+  "es": "Arrancada a Un Brazo con Mancuerna"
+ },
+ "gv5201": {
+  "es": "Curl de Bíceps de Mesero con Mancuerna"
+ }
+}

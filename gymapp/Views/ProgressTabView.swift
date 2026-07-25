@@ -163,10 +163,12 @@ struct ProgressTabView: View {
             .sorted { $0.localizedName.localizedStandardCompare($1.localizedName) == .orderedAscending }
     }
 
-    /// Case- and diacritic-insensitive match on the localized name.
+    /// Case- and diacritic-insensitive match on the localized or canonical
+    /// English name (see Exercise.matchesSearch) — the same predicate the
+    /// library and pickers use.
     private var filteredExercises: [Exercise] {
         guard !searchText.isEmpty else { return performedExercises }
-        return performedExercises.filter { $0.localizedName.localizedStandardContains(searchText) }
+        return performedExercises.filter { $0.matchesSearch(searchText) }
     }
 
     private var progressionListSection: some View {

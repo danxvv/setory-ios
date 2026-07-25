@@ -48,11 +48,15 @@ final class VisualSmokeUITests: XCTestCase {
         let field = app.searchFields.firstMatch
         XCTAssertTrue(field.waitForExistence(timeout: 5))
         field.tap()
+        // A canonical English query on a Spanish device: search spans both
+        // vocabularies, so the English name off the machine still finds the
+        // row even though the row itself reads Spanish.
         field.typeText("barbell curl")
         let row = app.descendants(matching: .any).matching(identifier: "exercise-row-gv0031").firstMatch
         XCTAssertTrue(row.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Curl con Barra"].waitForExistence(timeout: 5))
         row.tap()
-        XCTAssertTrue(app.navigationBars["Barbell Curl"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.navigationBars["Curl con Barra"].waitForExistence(timeout: 5))
         app.swipeUp()
         attach(app: app, name: "es-detail-content")
 

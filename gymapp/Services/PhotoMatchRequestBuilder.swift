@@ -65,6 +65,12 @@ enum PhotoMatchRequestBuilder {
     /// here narrows the response schema's id enum too, so an off-muscle
     /// answer becomes unrepresentable rather than merely discouraged.
     /// Photos beyond `maxPhotos` are dropped.
+    ///
+    /// The listing carries the canonical `name`, never `localizedName`:
+    /// the model reasons over the English dataset vocabulary, so a Spanish
+    /// device must send the same bytes an English one does. Localizing it
+    /// here would degrade matches for Spanish users only — invisible to an
+    /// English test run. Display sites localize; this one must not.
     static func payload(
         exercises: [Exercise],
         photos: [Data],

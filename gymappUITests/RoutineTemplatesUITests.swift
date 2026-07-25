@@ -203,8 +203,10 @@ final class RoutineTemplatesUITests: XCTestCase {
         // A squat-only template suggests the localized "Leg Day".
         app.buttons["create-template-button"].tap()
         XCTAssertTrue(app.textFields["template-name-field"].waitForExistence(timeout: 5))
+        // The English query still finds the row (search spans both
+        // vocabularies); the editor then lists the Spanish name.
         addExercises(app: app, searches: [("full squat", "picker-exercise-gv0043")])
-        XCTAssertTrue(app.staticTexts["Barbell Full Squat"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Sentadilla Completa con Barra"].waitForExistence(timeout: 5))
         XCTAssertEqual(app.textFields["template-name-field"].value as? String, "Día de pierna")
         XCTAssertTrue(app.staticTexts["3 series"].exists)
         attachScreenshot(app: app, name: "es-editor")

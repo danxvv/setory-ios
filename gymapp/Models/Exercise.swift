@@ -35,6 +35,9 @@ final class Exercise {
     /// "0025-EIeI8Vf.gif"). Nil means the exercise has no media; the bundled
     /// thumbnail is looked up by exercise id instead.
     var gifFileName: String? = nil
+    /// Display-name translations keyed by language code ("es"). English stays
+    /// canonical in `name`. Empty for custom exercises.
+    var nameTranslations: [String: String] = [:]
     /// Description translations keyed by language code ("es"). English stays
     /// canonical in `summary`.
     var summaryTranslations: [String: String] = [:]
@@ -47,10 +50,33 @@ final class Exercise {
         Locale.current.language.languageCode?.identifier ?? "en"
     }
 
-    /// Display name. Catalog names are English-only by design (the dataset
-    /// ships no translated names), so this is always the stored name; the
-    /// accessor stays because call sites predate the catalog replacement.
-    var localizedName: String { name }
+    /// Display name in the current device language, falling back to the
+    /// canonical English name. User-modified exercises show their stored
+    /// name verbatim.
+    var localizedName: String {
+        localizedName(languageCode: Self.contentLanguageCode)
+    }
+
+    /// An empty translation falls back rather than rendering a nameless row,
+    /// which is why this guards on non-empty where the content accessors
+    /// below can afford not to.
+    func localizedName(languageCode: String) -> String {
+        guard !isUserModified else { return name }
+        if let translated = nameTranslations[languageCode], !translated.isEmpty {
+            return translated
+        }
+        return name
+    }
+
+    /// Case- and diacritic-insensitive search match. Both the resolved name
+    /// and the canonical English one are tested: the dataset vocabulary is
+    /// English, so a Spanish-device user searching "bench press" — off the
+    /// machine's label, or out of an AI match result — must still find it.
+    func matchesSearch(_ text: String) -> Bool {
+        guard !text.isEmpty else { return true }
+        return localizedName.localizedStandardContains(text)
+            || name.localizedStandardContains(text)
+    }
 
     /// Description in the current device language, falling back to the
     /// canonical English summary. User-modified exercises show their stored
@@ -114,6 +140,7 @@ final class Exercise {
         isUserModified: Bool = false,
         equipment: Equipment? = nil,
         gifFileName: String? = nil,
+        nameTranslations: [String: String] = [:],
         summaryTranslations: [String: String] = [:],
         instructionTranslations: [String: [String]] = [:]
     ) {
@@ -128,6 +155,7 @@ final class Exercise {
         self.isUserModified = isUserModified
         self.equipmentRaw = equipment?.rawValue
         self.gifFileName = gifFileName
+        self.nameTranslations = nameTranslations
         self.summaryTranslations = summaryTranslations
         self.instructionTranslations = instructionTranslations
     }

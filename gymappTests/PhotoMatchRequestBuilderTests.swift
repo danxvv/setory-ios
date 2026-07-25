@@ -134,6 +134,21 @@ struct PhotoMatchRequestBuilderTests {
         #expect(text.contains("\"id\":\"custom-row\""))
     }
 
+    @Test func catalogListingSendsCanonicalNamesNotTranslations() throws {
+        // The model reasons over the English dataset vocabulary, so the
+        // listing must be identical on a Spanish device. Localizing it here
+        // would degrade matches for Spanish users only.
+        let exercises = makeExercises()
+        exercises[1].nameTranslations = ["es": "Press de Banca con Barra"]
+
+        let payload = PhotoMatchRequestBuilder.payload(exercises: exercises, photos: [])
+        let text = try textPart(try sentBody(exercises: exercises, photos: [try makePhoto()]))
+
+        #expect(payload.catalog.first?.name == "Barbell Bench Press")
+        #expect(text.contains("\"name\":\"Barbell Bench Press\""))
+        #expect(!text.contains("Press de Banca con Barra"))
+    }
+
     // MARK: - Main-muscle narrowing
 
     @Test func mainMuscleNarrowsBothTheCatalogListingAndTheSchemaEnum() throws {
