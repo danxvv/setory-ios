@@ -53,12 +53,14 @@ scripts/uitest.sh
 
 ## 6. Add the persistence stores with tests
 
-- [ ] 6.1 Add `Persistence/WorkoutStore.swift` with `finishDay(date:drafts:)`, moving the draft→session conversion out of the logging screen's `finishDay()` verbatim (insert session, insert ordered series, save, rollback and rethrow on failure).
-- [ ] 6.2 Add unit tests for `WorkoutStore`: order and values preserved across drafts, and a failing save leaves the store at its pre-operation contents.
-- [ ] 6.3 Add `Persistence/TemplateStore.swift` with `save(_:to:)`, `duplicate(_:)`, and `delete(_:)`, moving the bodies from `TemplateEditForm.save()` and `RoutineListView.duplicate/delete` verbatim.
-- [ ] 6.4 Add unit tests for `TemplateStore`: duplicate preserves item order and target sets and derives the same primary/secondary muscle coverage; delete leaves saved sessions untouched.
-- [ ] 6.5 Add `Persistence/ExerciseStore.swift` for the exercise-edit save path, with a unit test covering the user-modified flag and that a save failure rolls back.
-- [ ] 6.6 Add the shared `persisting(_:_:)` helper preserving today's `assertionFailure`-on-throw policy. Build and run both suites (no view changes yet).
+- [x] 6.1 Add `Persistence/WorkoutStore.swift` with `finishDay(date:drafts:)`, moving the draft→session conversion out of the logging screen's `finishDay()` verbatim (insert session, insert ordered series, save, rollback and rethrow on failure).
+- [x] 6.2 Add unit tests for `WorkoutStore`: order and values preserved across drafts, and a failing save leaves the store at its pre-operation contents.
+  - Probed first: SwiftData **upserts** on a unique-constraint conflict (duplicate session date collapses to one row, `save()` does not throw), so there is no natural way to make a real save fail. Stores therefore take an injectable `commit` seam, and the failure policy lives once in the `PersistenceStore` protocol extension.
+  - Also found: `rollback()` guarantees nothing was *persisted*, but does not revert in-memory mutations on an already-saved object. Pre-existing behavior, preserved; rollback assertions read through a fresh context.
+- [x] 6.3 Add `Persistence/TemplateStore.swift` with `save(_:to:)`, `duplicate(_:)`, and `delete(_:)`, moving the bodies from `TemplateEditForm.save()` and `RoutineListView.duplicate/delete` verbatim.
+- [x] 6.4 Add unit tests for `TemplateStore`: duplicate preserves item order and target sets and derives the same primary/secondary muscle coverage; delete leaves saved sessions untouched.
+- [x] 6.5 Add `Persistence/ExerciseStore.swift` for the exercise-edit save path, with a unit test covering the user-modified flag and that a save failure rolls back.
+- [x] 6.6 Add the shared `persisting(_:_:)` helper preserving today's `assertionFailure`-on-throw policy. Build and run both suites (no view changes yet).
 
 ## 7. Switch views onto the stores
 
