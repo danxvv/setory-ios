@@ -11,13 +11,18 @@
 # Usage:
 #   scripts/uitest.sh                                 # whole UI suite
 #   scripts/uitest.sh -only-testing:gymappUITests/WorkoutLoggingUITests
-#   WORKERS=4 scripts/uitest.sh                       # more clones
+#   WORKERS=3 scripts/uitest.sh                       # fewer clones
+#   DERIVED_DATA=/tmp/gymapp-dd-mybranch scripts/uitest.sh
+#
+# Give concurrent sessions their own DERIVED_DATA: two runs sharing one path
+# compile into the same test bundle, so one branch's in-progress tests show up
+# in the other's results.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 DEVICE="${DEVICE:-iPhone 17 Pro}"
 DERIVED_DATA="${DERIVED_DATA:-/tmp/gymapp-deriveddata}"
-WORKERS="${WORKERS:-3}"
+WORKERS="${WORKERS:-6}"
 
 ONLY_ARGS=("-only-testing:gymappUITests")
 for arg in "$@"; do

@@ -97,10 +97,13 @@ scripts/uitest.sh
 
 ## 11. Split the two oversized views
 
-- [ ] 11.1 Extract `DayPlanSection`, `DaySeriesSection`, and `TemplateApplyPicker` out of the logging screen as `@ViewBuilder` sections inside the same `List` — no new containers, no changed insets or spacing.
-- [ ] 11.2 Rename `ContentView` to `LogView` and update `RootTabView` and the preview.
+- [x] 11.1 Extract `DayPlanSection`, `DaySeriesSection`, and `TemplateApplyPicker` out of the logging screen as `@ViewBuilder` sections inside the same `List` — no new containers, no changed insets or spacing.
+- [x] 11.2 Rename `ContentView` to `LogView` and update `RootTabView` and the preview.
 - [ ] 11.3 Extract `PhotoMatchCaptureSection` and `PhotoMatchResultsSection` out of `PhotoMatchSheet` as sections inside the same `Form`.
-- [ ] 11.4 Run `scripts/uitest.sh -only-testing:gymappUITests/VisualSmokeUITests`, export the screenshot attachments, and compare them against the baseline from 1.1 for layout drift. Run both suites.
+  - **Deferred to after group 12 (deliberate reorder).** Group 12 moves `phase`, `isMatching`, `matchError`, and `matchTask` out of the sheet into the flow model; splitting first would mean threading ~10 bindings and then unthreading them.
+- [x] 11.4 Run `scripts/uitest.sh -only-testing:gymappUITests/VisualSmokeUITests`, export the screenshot attachments, and compare them against the baseline from 1.1 for layout drift. Run both suites.
+  - `VisualSmokeUITests` turns out not to screenshot the Log tab at all (it covers library, detail, picker, and the AI surfaces), so it cannot verify this split. Verified instead by a direct screenshot of the seeded Log tab — calendar, section grouping, numbered badges, thumbnails, and footer all unchanged — plus the functional `WorkoutLoggingUITests` and the finish-day template test.
+  - Worth adding a Log-tab case to `VisualSmokeUITests` so this gap closes; noted, not done here.
 
 ## 12. Extract the AI flow models
 

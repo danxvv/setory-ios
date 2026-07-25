@@ -9,13 +9,13 @@ import SwiftData
 /// App root: the "Log" tab (daily logging), the "Exercises" tab (catalog
 /// browser and detail screens), the "Routines" tab (saved session
 /// history), and the "Progress" tab (charts and stats). Each tab owns its
-/// own navigation stack — ContentView, ExerciseLibraryView, and
+/// own navigation stack — LogView, ExerciseLibraryView, and
 /// ProgressTabView bring their own; the Routines tab gets one here.
 struct RootTabView: View {
     var body: some View {
         TabView {
             Tab("Log", systemImage: "square.and.pencil") {
-                ContentView()
+                LogView()
             }
             Tab("Exercises", systemImage: "figure.strengthtraining.traditional") {
                 ExerciseLibraryView()
