@@ -48,8 +48,4 @@ struct MonthGrid: Equatable {
     func nextMonth() -> MonthGrid {
         MonthGrid(containing: calendar.date(byAdding: .month, value: 1, to: monthStart)!, calendar: calendar)
     }
-
-    func contains(_ date: Date) -> Bool {
-        calendar.isDate(date, equalTo: monthStart, toGranularity: .month)
-    }
 }

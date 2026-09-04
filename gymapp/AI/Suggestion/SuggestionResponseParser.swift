@@ -30,12 +30,6 @@ enum SuggestionResponseParser {
         return try validated(routine, validExerciseIds: validExerciseIds)
     }
 
-    /// Non-2xx statuses each map to a typed error; the response body's
-    /// error object adds nothing the UI needs beyond the status itself.
-    static func error(forStatusCode statusCode: Int) -> AIError? {
-        ChatCompletionResponse.error(forStatusCode: statusCode)
-    }
-
     /// Drops items with unknown exercise IDs, clamps target sets to the
     /// template range, and dedupes repeated exercises preserving first
     /// occurrence. Throws when nothing valid remains.

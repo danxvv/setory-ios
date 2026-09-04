@@ -173,15 +173,6 @@ struct OpenRouterSuggestionServiceTests {
         #expect(sent["model"] as? String == "custom/model-id")
     }
 
-    @Test func blankModelOverrideFallsBackToDefault() throws {
-        let suiteName = "OpenRouterSuggestionServiceTests-blank"
-        let defaults = try #require(UserDefaults(suiteName: suiteName))
-        defer { defaults.removePersistentDomain(forName: suiteName) }
-        defaults.set("   ", forKey: AIModelPreference.overrideDefaultsKey)
-
-        #expect(makeService(defaults: defaults).model == AIModelPreference.defaultModel)
-    }
-
     // MARK: - Key handling
 
     @Test func missingKeyFailsWithoutTouchingTheNetwork() async throws {

@@ -242,20 +242,6 @@ struct PhotoMatchRequestBuilderTests {
         #expect(body["model"] as? String == "vendor/vision-1")
     }
 
-    /// The photo client resolves the same model preference as suggestions,
-    /// so the override and its blank fallback are shared behavior.
-    @Test func modelOverrideIsHonoredAndBlankOverrideFallsBackToDefault() throws {
-        let suiteName = "PhotoMatchRequestBuilderTests-model"
-        let defaults = try #require(UserDefaults(suiteName: suiteName))
-        defer { defaults.removePersistentDomain(forName: suiteName) }
-
-        defaults.set("vendor/vision-override", forKey: AIModelPreference.overrideDefaultsKey)
-        #expect(OpenRouterPhotoMatchService(defaults: defaults).model == "vendor/vision-override")
-
-        defaults.set("   ", forKey: AIModelPreference.overrideDefaultsKey)
-        #expect(OpenRouterPhotoMatchService(defaults: defaults).model == AIModelPreference.defaultModel)
-    }
-
     // MARK: - Response schema
 
     @Test func schemaIsStrictAndConstrainsIdsToTheCatalogSent() throws {

@@ -67,9 +67,7 @@ enum ChatCompletionResponse {
     /// `finish_reason` and the error objects capture OpenRouter's
     /// embedded-error shape.
     private struct Envelope: Decodable {
-        struct ErrorObject: Decodable {
-            let message: String?
-        }
+        struct ErrorObject: Decodable {}
 
         struct Choice: Decodable {
             struct Message: Decodable {

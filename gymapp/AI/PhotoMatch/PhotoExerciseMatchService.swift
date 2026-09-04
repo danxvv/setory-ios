@@ -29,11 +29,6 @@ struct OpenRouterPhotoMatchService: PhotoExerciseMatchService {
         client = OpenRouterClient(keyStore: keyStore, session: session, defaults: defaults)
     }
 
-    /// The same model (and same user override) the suggestion client uses.
-    /// A text-only override fails at OpenRouter and maps to `badResponse`,
-    /// whose alert points the user back at AI Settings.
-    var model: String { client.model }
-
     func matchExercises(request payload: PhotoMatchRequestPayload) async throws -> PhotoMatchResult {
         let (data, statusCode) = try await client.send { model in
             try PhotoMatchRequestBuilder.requestBody(model: model, payload: payload)

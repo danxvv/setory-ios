@@ -47,7 +47,7 @@ struct RoutineSummaryTests {
         try context.save()
 
         #expect(session.series.count == 3)
-        #expect(session.exerciseNames == ["Squat", "Bench Press"])
+        #expect(session.localizedExerciseNames == ["Squat", "Bench Press"])
     }
 
     @Test func musclesWorkedAggregatesUniquePrimaryMuscles() throws {
@@ -93,7 +93,7 @@ struct RoutineSummaryTests {
 
         #expect(session.series.count == 2)
         #expect(session.orderedSeries.count == 2)
-        #expect(session.exerciseNames == ["Bench Press"])
+        #expect(session.localizedExerciseNames == ["Bench Press"])
         #expect(session.musclesWorked == [.chest])
     }
 
@@ -105,7 +105,7 @@ struct RoutineSummaryTests {
         context.insert(session)
         try context.save()
 
-        #expect(session.exerciseNames.isEmpty)
+        #expect(session.localizedExerciseNames.isEmpty)
         #expect(session.musclesWorked.isEmpty)
     }
 }

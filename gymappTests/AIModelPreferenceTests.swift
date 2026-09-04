@@ -61,17 +61,4 @@ struct AIModelPreferenceTests {
         defaults.set("  vendor/padded-model  ", forKey: AIModelPreference.overrideDefaultsKey)
         #expect(AIModelPreference.resolvedModel(defaults: defaults) == "vendor/padded-model")
     }
-
-    /// One model setting covers every AI feature: both clients must resolve
-    /// the same value from the same defaults.
-    @Test func bothAIClientsResolveTheSamePreference() throws {
-        let (defaults, cleanup) = try makeDefaults("shared")
-        defer { cleanup() }
-        defaults.set("vendor/shared-model", forKey: AIModelPreference.overrideDefaultsKey)
-
-        let suggestion = OpenRouterSuggestionService(defaults: defaults)
-        let photoMatch = OpenRouterPhotoMatchService(defaults: defaults)
-        #expect(suggestion.model == "vendor/shared-model")
-        #expect(photoMatch.model == "vendor/shared-model")
-    }
 }

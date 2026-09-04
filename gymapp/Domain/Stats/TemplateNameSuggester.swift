@@ -43,14 +43,9 @@ enum TemplateNameSuggester {
             return String(localized: "Cardio")
         }
 
-        // Top one or two muscles by votes; ties keep first-appearance order.
-        let rank = Dictionary(uniqueKeysWithValues: appearanceOrder.enumerated().map { ($1, $0) })
-        let ranked = appearanceOrder.sorted {
-            if votes[$0] != votes[$1] {
-                return votes[$0, default: 0] > votes[$1, default: 0]
-            }
-            return rank[$0, default: 0] < rank[$1, default: 0]
-        }
+        // Top one or two muscles by votes; sorted(by:) is stable, so ties
+        // keep first-appearance order.
+        let ranked = appearanceOrder.sorted { votes[$0, default: 0] > votes[$1, default: 0] }
         guard let top = ranked.first else { return nil }
         guard ranked.count > 1 else { return top.displayName }
         return String(localized: "\(top.displayName) & \(ranked[1].displayName)")

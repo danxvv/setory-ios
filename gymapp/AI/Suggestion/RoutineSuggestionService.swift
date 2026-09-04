@@ -27,8 +27,6 @@ struct OpenRouterSuggestionService: RoutineSuggestionService {
         client = OpenRouterClient(keyStore: keyStore, session: session, defaults: defaults)
     }
 
-    var model: String { client.model }
-
     func suggestRoutine(request payload: SuggestionRequestPayload) async throws -> SuggestedRoutine {
         let (data, statusCode) = try await client.send { model in
             // The device language travels in the prompt, not the payload:

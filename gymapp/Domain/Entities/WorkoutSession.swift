@@ -20,20 +20,6 @@ final class WorkoutSession {
         series.sorted { $0.order < $1.order }
     }
 
-    /// Names of the exercises involved, deduplicated, in series order.
-    /// Series without an exercise are skipped. Canonical (stored) names;
-    /// views should display `localizedExerciseNames` (see ExerciseDisplay).
-    var exerciseNames: [String] {
-        var seen = Set<String>()
-        var names: [String] = []
-        for series in orderedSeries {
-            if let name = series.exercise?.name, seen.insert(name).inserted {
-                names.append(name)
-            }
-        }
-        return names
-    }
-
     /// Primary muscles targeted across the session's exercises, deduplicated,
     /// in series order. Series without an exercise contribute nothing.
     var musclesWorked: [Muscle] {

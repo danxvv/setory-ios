@@ -69,13 +69,6 @@ struct MonthGridTests {
         }
     }
 
-    @Test func containsOnlyOwnMonth() {
-        let grid = MonthGrid(containing: date(2026, 7, 10), calendar: calendar)
-        #expect(grid.contains(date(2026, 7, 31)))
-        #expect(!grid.contains(date(2026, 8, 1)))
-        #expect(!grid.contains(date(2025, 7, 10)))
-    }
-
     @Test func weekdaySymbolsMatchColumnOrder() {
         let grid = MonthGrid(containing: date(2026, 7, 10), calendar: calendar)
         // Monday-first: symbols rotate so index 0 is Monday.
