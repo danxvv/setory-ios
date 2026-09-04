@@ -21,11 +21,6 @@ protocol PersistenceStore {
 }
 
 extension PersistenceStore {
-    /// The default commit: a plain context save.
-    static var defaultCommit: (ModelContext) throws -> Void {
-        { try $0.save() }
-    }
-
     func saveOrRollback() throws {
         do {
             try commit(context)

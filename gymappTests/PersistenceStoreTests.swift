@@ -329,9 +329,9 @@ struct PersistenceStoreTests {
     /// freeze its localization.
     @Test func anUnchangedEditIsDetectedAsChangingNothing() {
         let displayed = edit()
-        #expect(edit().changesNothing(comparedToDisplayed: displayed))
-        #expect(!edit(name: "Something Else").changesNothing(comparedToDisplayed: displayed))
-        #expect(!edit(steps: ["Lie down."]).changesNothing(comparedToDisplayed: displayed))
-        #expect(!edit(primary: [.chest, .shoulders]).changesNothing(comparedToDisplayed: displayed))
+        #expect(edit() == displayed)
+        #expect(edit(name: "Something Else") != displayed)
+        #expect(edit(steps: ["Lie down."]) != displayed)
+        #expect(edit(primary: [.chest, .shoulders]) != displayed)
     }
 }

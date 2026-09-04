@@ -190,7 +190,7 @@ struct ExerciseEditForm: View {
 
         // A save with nothing actually changed stays a no-op so merely
         // visiting edit mode doesn't freeze the exercise's localization.
-        guard !edit.changesNothing(comparedToDisplayed: displayedEdit) else {
+        guard edit != displayedEdit else {
             onDone()
             return
         }

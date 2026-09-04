@@ -14,15 +14,7 @@ import SwiftData
 
 struct ExerciseStore: PersistenceStore {
     let context: ModelContext
-    let commit: (ModelContext) throws -> Void
-
-    init(
-        context: ModelContext,
-        commit: @escaping (ModelContext) throws -> Void = ExerciseStore.defaultCommit
-    ) {
-        self.context = context
-        self.commit = commit
-    }
+    var commit: (ModelContext) throws -> Void = { try $0.save() }
 
     /// Applies `edit` to `exercise` and persists it, marking the exercise
     /// user-modified. Throws (after rolling back) when the save fails, so a

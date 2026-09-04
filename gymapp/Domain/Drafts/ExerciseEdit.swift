@@ -48,12 +48,4 @@ struct ExerciseEdit: Equatable {
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
     }
-
-    /// True when this edit would change nothing relative to the values the
-    /// form was opened with. A save with nothing actually changed stays a
-    /// no-op so merely visiting edit mode doesn't freeze the exercise's
-    /// localization (see Exercise.isUserModified).
-    func changesNothing(comparedToDisplayed displayed: ExerciseEdit) -> Bool {
-        self == displayed
-    }
 }

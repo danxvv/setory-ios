@@ -13,15 +13,7 @@ import SwiftData
 
 struct WorkoutStore: PersistenceStore {
     let context: ModelContext
-    let commit: (ModelContext) throws -> Void
-
-    init(
-        context: ModelContext,
-        commit: @escaping (ModelContext) throws -> Void = WorkoutStore.defaultCommit
-    ) {
-        self.context = context
-        self.commit = commit
-    }
+    var commit: (ModelContext) throws -> Void = { try $0.save() }
 
     /// Persists the day's drafts as one session, numbering the series in
     /// draft order. Throws (after rolling back) when the save fails, so the

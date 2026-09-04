@@ -13,15 +13,7 @@ import SwiftData
 
 struct TemplateStore: PersistenceStore {
     let context: ModelContext
-    let commit: (ModelContext) throws -> Void
-
-    init(
-        context: ModelContext,
-        commit: @escaping (ModelContext) throws -> Void = TemplateStore.defaultCommit
-    ) {
-        self.context = context
-        self.commit = commit
-    }
+    var commit: (ModelContext) throws -> Void = { try $0.save() }
 
     /// Writes `draft` into `template`, creating one when `template` is nil
     /// (the create flow). Returns the persisted template.
