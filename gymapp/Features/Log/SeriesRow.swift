@@ -20,12 +20,7 @@ struct SeriesRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Text("\(index + 1)")
-                .font(.footnote.weight(.bold))
-                .monospacedDigit()
-                .foregroundStyle(.secondary)
-                .frame(width: 26, height: 26)
-                .background(.quaternary, in: Circle())
+            NumberBadge(index: index)
             RoutineThumbnail(exercise: exercise, onShowMedia: onShowMedia)
             VStack(alignment: .leading, spacing: 2) {
                 Text(name)

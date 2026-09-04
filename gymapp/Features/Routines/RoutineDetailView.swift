@@ -50,22 +50,13 @@ struct RoutineDetailView: View {
 
     private func seriesRow(_ series: WorkoutSeries) -> some View {
         HStack(spacing: 12) {
-            Text("\(series.order + 1)")
-                .font(.footnote.weight(.bold))
-                .monospacedDigit()
-                .foregroundStyle(.secondary)
-                .frame(width: 26, height: 26)
-                .background(.quaternary, in: Circle())
+            NumberBadge(index: series.order)
             VStack(alignment: .leading, spacing: 2) {
                 Text(series.exercise?.localizedName ?? String(localized: "Exercise"))
                     .font(.body.weight(.medium))
-                Text(DraftSeries.summary(
-                    reps: series.reps,
-                    weightKg: series.weightKg,
-                    durationSeconds: series.durationSeconds
-                ))
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                Text(series.valueSummary)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
                 if let muscles = series.exercise?.primaryMuscles, !muscles.isEmpty {
                     Text(muscles.map(\.displayName).joined(separator: " · "))
                         .font(.caption.weight(.medium))

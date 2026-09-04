@@ -2,9 +2,7 @@
 //  ExercisePickerSheet.swift
 //  gymapp
 //
-//  Single-select exercise picker for the logging screen: searchable,
-//  filterable by muscle and equipment, thumbnail rows. Replaces the old
-//  Menu dropdown, which was unusable at catalog scale.
+//  Single-select exercise picker for the logging screen.
 //
 
 import SwiftUI
@@ -16,39 +14,13 @@ struct ExercisePickerSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Query private var exercises: [Exercise]
 
-    @State private var searchText = ""
-    @State private var filters = ExerciseFilters()
-
-    /// Sorted in memory with locale-aware comparison; display names are the
-    /// stored names but ordering still follows the device locale's rules.
-    private var filteredExercises: [Exercise] {
-        filters.apply(to: exercises, searchText: searchText).sorted {
-            $0.localizedName.localizedStandardCompare($1.localizedName) == .orderedAscending
-        }
-    }
-
     var body: some View {
         NavigationStack {
-            Group {
-                if filteredExercises.isEmpty {
-                    ContentUnavailableView(
-                        "No exercises found",
-                        systemImage: "magnifyingglass",
-                        description: Text("Try a different search.")
-                    )
-                } else {
-                    List(filteredExercises) { exercise in
-                        row(for: exercise)
-                    }
-                }
-            }
-            .safeAreaInset(edge: .top, spacing: 0) {
-                ExerciseFilterBar(filters: $filters)
-                    .background(.bar)
+            FilteredExerciseList(exercises: exercises) { exercise in
+                row(for: exercise)
             }
             .navigationTitle("Add Exercise")
             .navigationBarTitleDisplayMode(.inline)
-            .searchable(text: $searchText, prompt: Text("Search exercises"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", role: .cancel) {

@@ -37,3 +37,10 @@ struct DraftSeries: Identifiable, Equatable {
         return parts.joined(separator: " · ")
     }
 }
+
+extension WorkoutSeries {
+    /// Human-readable values, e.g. "10 reps · 40 kg" or "15 min".
+    var valueSummary: String {
+        DraftSeries.summary(reps: reps, weightKg: weightKg, durationSeconds: durationSeconds)
+    }
+}

@@ -46,6 +46,12 @@ extension Exercise {
     func matchesSearch(_ text: String) -> Bool {
         matchesSearch(text, languageCode: Self.contentLanguageCode)
     }
+
+    /// List order: localized display name, locale-aware. SwiftData can't sort
+    /// on a computed property, so lists sort in memory with this.
+    static func byLocalizedName(_ lhs: Exercise, _ rhs: Exercise) -> Bool {
+        lhs.localizedName.localizedStandardCompare(rhs.localizedName) == .orderedAscending
+    }
 }
 
 extension WorkoutSession {

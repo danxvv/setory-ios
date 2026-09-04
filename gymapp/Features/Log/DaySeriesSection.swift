@@ -37,11 +37,7 @@ struct DaySeriesSection: View {
                 SeriesRow(
                     exercise: series.exercise,
                     name: series.exercise?.localizedName ?? String(localized: "Exercise"),
-                    summary: DraftSeries.summary(
-                        reps: series.reps,
-                        weightKg: series.weightKg,
-                        durationSeconds: series.durationSeconds
-                    ),
+                    summary: series.valueSummary,
                     index: series.order,
                     onShowMedia: onShowMedia
                 )

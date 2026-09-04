@@ -152,7 +152,7 @@ struct ProgressTabView: View {
         let performedIds = Set(allSeries.compactMap { $0.exercise?.id })
         return exercises
             .filter { performedIds.contains($0.id) }
-            .sorted { $0.localizedName.localizedStandardCompare($1.localizedName) == .orderedAscending }
+            .sorted(by: Exercise.byLocalizedName)
     }
 
     /// Case- and diacritic-insensitive match on the localized or canonical

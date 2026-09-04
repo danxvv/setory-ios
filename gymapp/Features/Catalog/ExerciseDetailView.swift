@@ -27,7 +27,7 @@ struct ExerciseDetailView: View {
         let primaries = Set(exercise.primaryMuscles)
         return exercises
             .filter { $0.id != exercise.id && !primaries.isDisjoint(with: $0.primaryMuscles) }
-            .sorted { $0.localizedName.localizedStandardCompare($1.localizedName) == .orderedAscending }
+            .sorted(by: Exercise.byLocalizedName)
             .prefix(6)
             .map { $0 }
     }
@@ -138,12 +138,7 @@ struct ExerciseDetailView: View {
 
     private func instructionRow(index: Int, step: String) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 12) {
-            Text("\(index + 1)")
-                .font(.footnote.weight(.bold))
-                .monospacedDigit()
-                .foregroundStyle(.secondary)
-                .frame(width: 26, height: 26)
-                .background(.quaternary, in: Circle())
+            NumberBadge(index: index)
             Text(step)
         }
         .padding(.vertical, 2)
@@ -159,14 +154,14 @@ struct ExerciseDetailView: View {
                     Text(summary.lastPerformed.formatted(date: .abbreviated, time: .omitted))
                 }
                 LabeledContent("Best set") {
-                    Text(seriesSummary(summary.bestSet))
+                    Text(summary.bestSet.valueSummary)
                 }
                 .accessibilityIdentifier("history-best-set")
                 ForEach(summary.recentSessions) { session in
                     VStack(alignment: .leading, spacing: 2) {
                         Text(session.date.formatted(date: .abbreviated, time: .omitted))
                             .font(.subheadline.weight(.medium))
-                        Text(session.series.map(seriesSummary).joined(separator: " · "))
+                        Text(session.series.map(\.valueSummary).joined(separator: " · "))
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -182,14 +177,6 @@ struct ExerciseDetailView: View {
                     .accessibilityIdentifier("history-empty")
             }
         }
-    }
-
-    private func seriesSummary(_ series: WorkoutSeries) -> String {
-        DraftSeries.summary(
-            reps: series.reps,
-            weightKg: series.weightKg,
-            durationSeconds: series.durationSeconds
-        )
     }
 }
 

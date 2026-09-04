@@ -51,11 +51,7 @@ struct ExerciseProgressionView: View {
     private func bestSection(_ progression: ProgressStatsProvider.Progression) -> some View {
         Section {
             LabeledContent("Best set") {
-                Text(DraftSeries.summary(
-                    reps: progression.bestSet.reps,
-                    weightKg: progression.bestSet.weightKg,
-                    durationSeconds: progression.bestSet.durationSeconds
-                ))
+                Text(progression.bestSet.valueSummary)
             }
             .accessibilityIdentifier("progression-best")
         }

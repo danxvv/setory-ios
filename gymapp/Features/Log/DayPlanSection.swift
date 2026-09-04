@@ -72,13 +72,7 @@ struct DayPlanSection: View {
     /// The user's most recent recorded set for this exercise, formatted for
     /// the plan row's "Last: …" reference. Nil when never performed.
     private func lastReference(for exercise: Exercise) -> String? {
-        guard let summary = ExerciseHistoryProvider.summary(for: exercise, in: allSeries),
-              let lastSet = summary.recentSessions.first?.series.last
-        else { return nil }
-        return DraftSeries.summary(
-            reps: lastSet.reps,
-            weightKg: lastSet.weightKg,
-            durationSeconds: lastSet.durationSeconds
-        )
+        ExerciseHistoryProvider.summary(for: exercise, in: allSeries)?
+            .recentSessions.first?.series.last?.valueSummary
     }
 }
