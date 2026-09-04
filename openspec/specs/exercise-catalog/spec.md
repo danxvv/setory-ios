@@ -61,10 +61,6 @@ Every exercise in the bundled catalog SHALL carry a canonical English display na
 - **WHEN** an exercise the user has edited and renamed is displayed on a Spanish device
 - **THEN** the user's stored name is shown verbatim and the catalog's name variants no longer apply in any language
 
-#### Scenario: Custom exercise without variants
-- **WHEN** a user-created exercise with no name variants is displayed in any language
-- **THEN** its stored name is shown
-
 ### Requirement: Exercise descriptions and instructions
 Every exercise in the bundled catalog SHALL include a description and at least one step-by-step instruction. The canonical (English) description and instruction steps are stored with the exercise, alongside per-locale variants imported from the dataset for supported languages (Spanish). At display time, content MUST resolve in this order: stored values verbatim for user-modified exercises; the per-locale variant for the current device language when present; the canonical English values otherwise. Muscle-target metadata, category, equipment, and `id` remain locale-independent serialization values.
 
@@ -113,21 +109,3 @@ Catalog seeding and alignment SHALL be gated by a bundled catalog version stamp:
 - **WHEN** an install seeded before per-locale names existed launches with the newer bundled version
 - **THEN** its non-user-modified exercises are aligned to carry the catalog's name variants, and its user-modified exercises are left untouched
 
-### Requirement: Legacy catalog migration
-On first launch after the catalog replacement, before seeding, the app SHALL migrate exercises from the legacy 40-exercise catalog using a bundled legacy-id mapping: each legacy exercise whose id has a dataset equivalent MUST have its id rewritten in place to the dataset id, preserving all workout-series and template-item references. Legacy exercises without a dataset equivalent MUST be kept as user-space (custom) exercises when referenced by any workout series or template item, and deleted otherwise. The migration MUST be idempotent and MUST run at most once per store.
-
-#### Scenario: Mapped legacy exercise keeps its history
-- **WHEN** a store contains legacy exercise `bench-press` with logged series and the migration runs
-- **THEN** the same exercise row's id becomes the mapped dataset id, all its logged series still reference it, and no duplicate bench-press exercise is created by the subsequent seed
-
-#### Scenario: Unmapped legacy exercise with history is preserved
-- **WHEN** a store contains a legacy exercise with no dataset equivalent (e.g. `face-pull`) that is referenced by a logged series
-- **THEN** the exercise is kept, marked as a user-space exercise, and its logged series remain intact
-
-#### Scenario: Unmapped legacy exercise without references is removed
-- **WHEN** a store contains an unmapped legacy exercise referenced by no series and no template item
-- **THEN** the exercise is deleted during migration
-
-#### Scenario: Migration does not repeat
-- **WHEN** the app launches again after a completed migration
-- **THEN** no migration work is performed

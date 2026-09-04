@@ -20,20 +20,20 @@ struct LocalizationTests {
     }
 
     @Test func everyCatalogExerciseHasSpanishContent() throws {
-        let entries = try BundledCatalogSource().loadCatalog().exercises
+        let entries = try CatalogSeeder.loadBundledCatalog().exercises
         #expect(!entries.isEmpty)
 
         for entry in entries {
             #expect(
-                entry.localizedNames["es"]?.isEmpty == false,
+                entry.localizedNames?["es"]?.isEmpty == false,
                 "Exercise id '\(entry.id)' has no Spanish name"
             )
             #expect(
-                entry.localizedSummaries["es"]?.isEmpty == false,
+                entry.localizedSummaries?["es"]?.isEmpty == false,
                 "Exercise id '\(entry.id)' has no Spanish summary"
             )
             #expect(
-                entry.localizedInstructions["es"]?.isEmpty == false,
+                entry.localizedInstructions?["es"]?.isEmpty == false,
                 "Exercise id '\(entry.id)' has no Spanish instruction steps"
             )
         }

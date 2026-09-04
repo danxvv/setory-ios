@@ -6,7 +6,7 @@ Provide visual exercise media: bundled offline thumbnails for every catalog exer
 ## Requirements
 
 ### Requirement: Bundled exercise thumbnails
-Every catalog exercise SHALL have a thumbnail image (180×180) shipped in the app bundle and resolvable by the exercise's stable `id`. Thumbnails MUST display without network connectivity. An exercise without a media reference (e.g. a user-space exercise preserved from the legacy catalog) MUST fall back to its category icon wherever a thumbnail would appear, with no broken-image placeholder.
+Every catalog exercise SHALL have a thumbnail image (180×180) shipped in the app bundle and resolvable by the exercise's stable `id`. Thumbnails MUST display without network connectivity. An exercise without a media reference MUST fall back to its category icon wherever a thumbnail would appear, with no broken-image placeholder.
 
 #### Scenario: Thumbnails available offline
 - **WHEN** the user browses the exercise library in airplane mode

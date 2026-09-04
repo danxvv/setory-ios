@@ -35,7 +35,6 @@ struct ModelTests {
         #expect(fetched.first?.category == .strength)
         #expect(fetched.first?.primaryMuscles == [.chest])
         #expect(fetched.first?.secondaryMuscles == [.triceps, .shoulders])
-        #expect(fetched.first?.isCustom == false)
     }
 
     @Test func sessionDateIsNormalizedToStartOfDay() throws {

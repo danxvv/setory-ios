@@ -1,5 +1,5 @@
 //
-//  ExerciseCatalogSourceTests.swift
+//  ExerciseCatalogTests.swift
 //  gymappTests
 //
 
@@ -7,9 +7,9 @@ import Foundation
 import Testing
 @testable import gymapp
 
-struct ExerciseCatalogSourceTests {
-    @Test func bundledSourceDecodesFullCatalog() throws {
-        let catalog = try BundledCatalogSource().loadCatalog()
+struct ExerciseCatalogTests {
+    @Test func bundledCatalogDecodesInFull() throws {
+        let catalog = try CatalogSeeder.loadBundledCatalog()
         let entries = catalog.exercises
 
         #expect(catalog.version == CatalogSeeder.bundledCatalogVersion)
@@ -32,23 +32,12 @@ struct ExerciseCatalogSourceTests {
     }
 
     @Test func catalogIdsAreUnique() throws {
-        let ids = try BundledCatalogSource().loadCatalog().exercises.map(\.id)
+        let ids = try CatalogSeeder.loadBundledCatalog().exercises.map(\.id)
         #expect(Set(ids).count == ids.count)
     }
 
-    @Test func legacyMappingTargetsExistInCatalog() throws {
-        let mapping = try LegacyCatalogMigrator.loadBundledMapping()
-        let catalogIds = Set(try BundledCatalogSource().loadCatalog().exercises.map(\.id))
-
-        #expect(mapping.mapped.count == 38)
-        #expect(Set(mapping.unmapped) == ["face-pull", "rowing-machine"])
-        for (legacyId, datasetId) in mapping.mapped {
-            #expect(catalogIds.contains(datasetId), "'\(legacyId)' maps to unknown id '\(datasetId)'")
-        }
-    }
-
     @Test func entriesDecodeWithoutOptionalMediaFields() throws {
-        // REST payloads and fixtures may omit media/localization fields.
+        // Fixtures may omit media/localization fields.
         let json = """
         {"id": "x", "name": "X", "category": "strength", "primaryMuscles": ["chest"],
          "secondaryMuscles": [], "summary": "s", "instructions": ["i"]}
@@ -56,9 +45,9 @@ struct ExerciseCatalogSourceTests {
         let entry = try JSONDecoder().decode(CatalogExercise.self, from: Data(json.utf8))
         #expect(entry.equipment == nil)
         #expect(entry.gifFileName == nil)
-        #expect(entry.localizedNames.isEmpty)
-        #expect(entry.localizedSummaries.isEmpty)
-        #expect(entry.localizedInstructions.isEmpty)
+        #expect(entry.localizedNames == nil)
+        #expect(entry.localizedSummaries == nil)
+        #expect(entry.localizedInstructions == nil)
     }
 
     @Test func localizedNamesDecodeWhenPresent() throws {
@@ -74,8 +63,8 @@ struct ExerciseCatalogSourceTests {
 
     @Test func missingResourceThrows() {
         let emptyBundle = Bundle(for: BundleToken.self)
-        #expect(throws: BundledCatalogSource.SourceError.self) {
-            try BundledCatalogSource(bundle: emptyBundle).loadCatalog()
+        #expect(throws: CatalogSeeder.SeedError.self) {
+            try CatalogSeeder.loadBundledCatalog(bundle: emptyBundle)
         }
     }
 }

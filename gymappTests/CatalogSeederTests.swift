@@ -15,19 +15,14 @@ struct CatalogSeederTests {
         return ModelContext(try ModelContainer(for: schema, configurations: [config]))
     }
 
-    private struct StubSource: ExerciseCatalogSource {
-        var entries: [CatalogExercise]
-        func loadCatalog() throws -> ExerciseCatalog {
-            ExerciseCatalog(version: CatalogSeeder.bundledCatalogVersion, datasetCommit: nil, exercises: entries)
-        }
+    private func catalog(_ entries: [CatalogExercise]) -> ExerciseCatalog {
+        ExerciseCatalog(version: CatalogSeeder.bundledCatalogVersion, datasetCommit: nil, exercises: entries)
     }
 
-    /// Fails the test if the seeder parses the catalog when the version
+    /// Fails the test if the seeder loads the catalog when the version
     /// gate says nothing changed.
-    private struct ThrowingSource: ExerciseCatalogSource {
-        struct UnexpectedLoad: Error {}
-        func loadCatalog() throws -> ExerciseCatalog { throw UnexpectedLoad() }
-    }
+    private struct UnexpectedLoad: Error {}
+    private func unexpectedLoad() throws -> ExerciseCatalog { throw UnexpectedLoad() }
 
     private func makeDefaults() -> UserDefaults {
         let defaults = UserDefaults(suiteName: "seeder-tests-\(UUID().uuidString)")!
@@ -60,7 +55,6 @@ struct CatalogSeederTests {
         // Every seeded exercise satisfies the catalog contract.
         for exercise in exercises {
             #expect(!exercise.primaryMuscles.isEmpty)
-            #expect(exercise.isCustom == false)
             #expect(exercise.isUserModified == false)
             #expect(!exercise.summary.isEmpty)
             #expect(!exercise.instructionSteps.isEmpty)
@@ -76,7 +70,7 @@ struct CatalogSeederTests {
     }
 
     @Test func bundledVersionConstantMatchesCatalogJSON() throws {
-        let catalog = try BundledCatalogSource().loadCatalog()
+        let catalog = try CatalogSeeder.loadBundledCatalog()
         #expect(catalog.version == CatalogSeeder.bundledCatalogVersion)
     }
 
@@ -87,8 +81,8 @@ struct CatalogSeederTests {
         try context.save()
         defaults.set(CatalogSeeder.bundledCatalogVersion, forKey: CatalogSeeder.catalogVersionKey)
 
-        // ThrowingSource proves loadCatalog is never called.
-        let inserted = try CatalogSeeder.seedIfNeeded(context: context, source: ThrowingSource(), defaults: defaults)
+        // unexpectedLoad proves the catalog is never loaded.
+        let inserted = try CatalogSeeder.seedIfNeeded(context: context, load: unexpectedLoad, defaults: defaults)
 
         #expect(inserted == 0)
     }
@@ -98,7 +92,7 @@ struct CatalogSeederTests {
         let defaults = makeDefaults()
         defaults.set(CatalogSeeder.bundledCatalogVersion - 1, forKey: CatalogSeeder.catalogVersionKey)
 
-        let inserted = try CatalogSeeder.seedIfNeeded(context: context, source: StubSource(entries: [benchPress]), defaults: defaults)
+        let inserted = try CatalogSeeder.seedIfNeeded(context: context, load: { catalog([benchPress]) }, defaults: defaults)
 
         #expect(inserted == 1)
         #expect(defaults.integer(forKey: CatalogSeeder.catalogVersionKey) == CatalogSeeder.bundledCatalogVersion)
@@ -110,7 +104,7 @@ struct CatalogSeederTests {
         let defaults = makeDefaults()
         defaults.set(CatalogSeeder.bundledCatalogVersion, forKey: CatalogSeeder.catalogVersionKey)
 
-        let inserted = try CatalogSeeder.seedIfNeeded(context: context, source: StubSource(entries: [benchPress]), defaults: defaults)
+        let inserted = try CatalogSeeder.seedIfNeeded(context: context, load: { catalog([benchPress]) }, defaults: defaults)
 
         #expect(inserted == 1)
     }
@@ -138,7 +132,7 @@ struct CatalogSeederTests {
         ))
         try context.save()
 
-        let inserted = try CatalogSeeder.seed(context: context, source: StubSource(entries: [benchPress]))
+        let inserted = try CatalogSeeder.seed(context: context, load: { catalog([benchPress]) })
 
         let exercises = try context.fetch(FetchDescriptor<Exercise>())
         #expect(inserted == 0)
@@ -152,10 +146,10 @@ struct CatalogSeederTests {
 
     @Test func backfillIsIdempotent() throws {
         let context = try makeContext()
-        let source = StubSource(entries: [benchPress])
+        let load = { catalog([benchPress]) }
 
-        try CatalogSeeder.seed(context: context, source: source)
-        try CatalogSeeder.seed(context: context, source: source)
+        try CatalogSeeder.seed(context: context, load: load)
+        try CatalogSeeder.seed(context: context, load: load)
 
         let exercises = try context.fetch(FetchDescriptor<Exercise>())
         #expect(exercises.count == 1)
@@ -164,8 +158,8 @@ struct CatalogSeederTests {
 
     @Test func userModifiedExerciseIsNeverTouched() throws {
         let context = try makeContext()
-        let source = StubSource(entries: [benchPress])
-        try CatalogSeeder.seed(context: context, source: source)
+        let load = { catalog([benchPress]) }
+        try CatalogSeeder.seed(context: context, load: load)
 
         let exercise = try #require(try context.fetch(FetchDescriptor<Exercise>()).first)
         exercise.name = "Press banca plano"
@@ -174,7 +168,7 @@ struct CatalogSeederTests {
         exercise.isUserModified = true
         try context.save()
 
-        try CatalogSeeder.seed(context: context, source: source)
+        try CatalogSeeder.seed(context: context, load: load)
 
         let reloaded = try #require(try context.fetch(FetchDescriptor<Exercise>()).first)
         #expect(reloaded.name == "Press banca plano")
@@ -187,8 +181,8 @@ struct CatalogSeederTests {
 
     @Test func restorePristineCatalogRealignsEditedExercise() throws {
         let context = try makeContext()
-        let source = StubSource(entries: [benchPress])
-        try CatalogSeeder.seed(context: context, source: source)
+        let load = { catalog([benchPress]) }
+        try CatalogSeeder.seed(context: context, load: load)
         let exercise = try #require(try context.fetch(FetchDescriptor<Exercise>()).first)
         exercise.name = "Press banca plano"
         exercise.summary = "My own notes."
@@ -196,7 +190,7 @@ struct CatalogSeederTests {
         exercise.isUserModified = true
         try context.save()
 
-        try CatalogSeeder.restorePristineCatalog(context: context, source: source)
+        try CatalogSeeder.restorePristineCatalog(context: context, load: load)
 
         let reloaded = try #require(try context.fetch(FetchDescriptor<Exercise>()).first)
         #expect(reloaded.name == benchPress.name)
@@ -210,9 +204,9 @@ struct CatalogSeederTests {
         context.insert(Exercise(id: benchPress.id, name: benchPress.name, category: .strength, primaryMuscles: [.chest]))
         try context.save()
 
-        // ThrowingSource proves loadCatalog is never called on the common
+        // unexpectedLoad proves the catalog is never loaded on the common
         // -uitest-reset launch where no test has edited an exercise.
-        try CatalogSeeder.restorePristineCatalog(context: context, source: ThrowingSource())
+        try CatalogSeeder.restorePristineCatalog(context: context, load: unexpectedLoad)
     }
 
     @Test func restorePristineCatalogDeletesEditedOrphans() throws {
@@ -224,7 +218,7 @@ struct CatalogSeederTests {
         ))
         try context.save()
 
-        try CatalogSeeder.restorePristineCatalog(context: context, source: StubSource(entries: [benchPress]))
+        try CatalogSeeder.restorePristineCatalog(context: context, load: { catalog([benchPress]) })
 
         #expect(try context.fetchCount(FetchDescriptor<Exercise>()) == 0)
     }

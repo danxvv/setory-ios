@@ -19,35 +19,45 @@ struct CatalogSeeder {
     /// UserDefaults key holding the last successfully seeded version.
     static let catalogVersionKey = "exerciseCatalogVersion"
 
-    /// Version-gated launch path: parses and seeds the bundled catalog only
+    enum SeedError: Error {
+        case catalogMissing
+    }
+
+    /// Reads the catalog from `exercise-catalog.json` in the app bundle.
+    static func loadBundledCatalog(bundle: Bundle = .main) throws -> ExerciseCatalog {
+        guard let url = bundle.url(forResource: "exercise-catalog", withExtension: "json") else {
+            throw SeedError.catalogMissing
+        }
+        return try JSONDecoder().decode(ExerciseCatalog.self, from: Data(contentsOf: url))
+    }
+
+    /// Version-gated launch path: loads and seeds the bundled catalog only
     /// when the stored version differs from the bundled one or the store has
-    /// no exercises (first launch, `-uitest-reset`). Runs the legacy-catalog
-    /// migration before seeding so upgraded stores keep their history.
+    /// no exercises (first launch, `-uitest-reset`).
     @discardableResult
     static func seedIfNeeded(
         context: ModelContext,
-        source: ExerciseCatalogSource = BundledCatalogSource(),
+        load: () throws -> ExerciseCatalog = { try CatalogSeeder.loadBundledCatalog() },
         defaults: UserDefaults = .standard
     ) throws -> Int {
         if defaults.integer(forKey: catalogVersionKey) == bundledCatalogVersion,
            try context.fetchCount(FetchDescriptor<Exercise>()) > 0 {
             return 0
         }
-        try LegacyCatalogMigrator.migrate(context: context, mapping: LegacyCatalogMigrator.loadBundledMapping())
-        let inserted = try seed(context: context, source: source)
+        let inserted = try seed(context: context, load: load)
         defaults.set(bundledCatalogVersion, forKey: catalogVersionKey)
         return inserted
     }
 
-    /// Loads the catalog from the given source, inserts any missing
-    /// exercises, and backfills catalog fields on existing non-user-modified
-    /// ones. Returns the number of newly inserted exercises.
+    /// Loads the catalog, inserts any missing exercises, and backfills
+    /// catalog fields on existing non-user-modified ones. Returns the number
+    /// of newly inserted exercises.
     @discardableResult
     static func seed(
         context: ModelContext,
-        source: ExerciseCatalogSource = BundledCatalogSource()
+        load: () throws -> ExerciseCatalog = { try CatalogSeeder.loadBundledCatalog() }
     ) throws -> Int {
-        let catalog = try source.loadCatalog()
+        let catalog = try load()
         let existing = try context.fetch(FetchDescriptor<Exercise>())
         let byId = Dictionary(uniqueKeysWithValues: existing.map { ($0.id, $0) })
 
@@ -68,9 +78,9 @@ struct CatalogSeeder {
                     instructionSteps: entry.instructions,
                     equipment: entry.equipment,
                     gifFileName: entry.gifFileName,
-                    nameTranslations: entry.localizedNames,
-                    summaryTranslations: entry.localizedSummaries,
-                    instructionTranslations: entry.localizedInstructions
+                    nameTranslations: entry.localizedNames ?? [:],
+                    summaryTranslations: entry.localizedSummaries ?? [:],
+                    instructionTranslations: entry.localizedInstructions ?? [:]
                 ))
                 inserted += 1
             }
@@ -83,18 +93,18 @@ struct CatalogSeeder {
 
     /// Restores user-edited exercises to their catalog values (the
     /// `-uitest-reset` path, which must not leak edits between UI tests).
-    /// The catalog is parsed only when edited rows exist, so the common
+    /// The catalog is loaded only when edited rows exist, so the common
     /// UI-test launch does no catalog work at all. Edited exercises whose
     /// id is missing from the catalog cannot be restored and are deleted.
     static func restorePristineCatalog(
         context: ModelContext,
-        source: ExerciseCatalogSource = BundledCatalogSource()
+        load: () throws -> ExerciseCatalog = { try CatalogSeeder.loadBundledCatalog() }
     ) throws {
         let modified = try context.fetch(
             FetchDescriptor<Exercise>(predicate: #Predicate { $0.isUserModified })
         )
         guard !modified.isEmpty else { return }
-        let entries = Dictionary(uniqueKeysWithValues: try source.loadCatalog().exercises.map { ($0.id, $0) })
+        let entries = Dictionary(uniqueKeysWithValues: try load().exercises.map { ($0.id, $0) })
         for exercise in modified {
             guard let entry = entries[exercise.id] else {
                 context.delete(exercise)
@@ -118,9 +128,12 @@ struct CatalogSeeder {
         if exercise.instructionSteps != entry.instructions { exercise.instructionSteps = entry.instructions; changed = true }
         if exercise.equipment != entry.equipment { exercise.equipment = entry.equipment; changed = true }
         if exercise.gifFileName != entry.gifFileName { exercise.gifFileName = entry.gifFileName; changed = true }
-        if exercise.nameTranslations != entry.localizedNames { exercise.nameTranslations = entry.localizedNames; changed = true }
-        if exercise.summaryTranslations != entry.localizedSummaries { exercise.summaryTranslations = entry.localizedSummaries; changed = true }
-        if exercise.instructionTranslations != entry.localizedInstructions { exercise.instructionTranslations = entry.localizedInstructions; changed = true }
+        let names = entry.localizedNames ?? [:]
+        if exercise.nameTranslations != names { exercise.nameTranslations = names; changed = true }
+        let summaries = entry.localizedSummaries ?? [:]
+        if exercise.summaryTranslations != summaries { exercise.summaryTranslations = summaries; changed = true }
+        let instructions = entry.localizedInstructions ?? [:]
+        if exercise.instructionTranslations != instructions { exercise.instructionTranslations = instructions; changed = true }
         return changed
     }
 }

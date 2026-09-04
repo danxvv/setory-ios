@@ -14,10 +14,6 @@ final class Exercise {
     var categoryRaw: String
     var primaryMuscleRaws: [String]
     var secondaryMuscleRaws: [String]
-    /// True for user-space exercises the seeder must never manage. Set by the
-    /// legacy-catalog migration for preserved orphans; also reserved for a
-    /// future custom-exercise change.
-    var isCustom: Bool
     /// Canonical (English) description of the exercise. Defaulted so stores
     /// created before this property existed migrate lightweight; the seeder
     /// backfills real content.
@@ -28,8 +24,7 @@ final class Exercise {
     /// their stored text verbatim — content translations no longer apply —
     /// and the seeder never overwrites them.
     var isUserModified: Bool = false
-    /// Equipment raw value (Equipment). Nil for exercises without catalog
-    /// equipment metadata (legacy orphans, custom exercises).
+    /// Equipment raw value (Equipment). Nil when the catalog has none.
     var equipmentRaw: String? = nil
     /// Remote animation file name in the pinned dataset (e.g.
     /// "0025-EIeI8Vf.gif"). Nil means the exercise has no media; the bundled
@@ -114,7 +109,6 @@ final class Exercise {
         category: ExerciseCategory,
         primaryMuscles: [Muscle],
         secondaryMuscles: [Muscle] = [],
-        isCustom: Bool = false,
         summary: String = "",
         instructionSteps: [String] = [],
         isUserModified: Bool = false,
@@ -129,7 +123,6 @@ final class Exercise {
         self.categoryRaw = category.rawValue
         self.primaryMuscleRaws = primaryMuscles.map(\.rawValue)
         self.secondaryMuscleRaws = secondaryMuscles.map(\.rawValue)
-        self.isCustom = isCustom
         self.summary = summary
         self.instructionSteps = instructionSteps
         self.isUserModified = isUserModified

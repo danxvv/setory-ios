@@ -6,7 +6,6 @@ Reads a local checkout/extract of github.com/hasaneyldrm/exercises-dataset
 
   gymapp/Resources/exercise-catalog.json      slimmed catalog (en/es)
   gymapp/Resources/ExerciseThumbnails/*.jpg   thumbnails renamed by exercise id
-  gymapp/Resources/legacy-mapping.json        copy of the migration table
 
 Usage:
   python3 tools/catalog/transform.py <dataset-dir> [<repo-root>]
@@ -210,7 +209,7 @@ def main():
 
     # Hand-curated display-name translations keyed by exercise id. The
     # dataset ships English names only, so these live beside this script
-    # (like legacy-mapping.json) instead of being derived — without the
+    # (like name-translations.json) instead of being derived — without the
     # merge below, re-running the transform would silently drop them.
     name_translations = json.loads(
         (Path(__file__).parent / "name-translations.json").read_text()
@@ -299,16 +298,6 @@ def main():
     out.write_text(json.dumps(catalog, ensure_ascii=False, separators=(",", ":")))
     print(f"wrote {out} ({out.stat().st_size / 1024 / 1024:.1f} MB, {len(exercises)} exercises)")
     print(f"wrote {len(list(thumbs_dir.glob('*.jpg')))} thumbnails to {thumbs_dir}")
-
-    mapping_src = Path(__file__).parent / "legacy-mapping.json"
-    mapping = json.loads(mapping_src.read_text())
-    dataset_ids = {e["id"] for e in exercises}
-    bad = [f"{k} -> {v}" for k, v in mapping["mapped"].items() if v not in dataset_ids]
-    if bad:
-        print("legacy mapping targets missing from catalog:", bad)
-        sys.exit(1)
-    shutil.copyfile(mapping_src, resources / "legacy-mapping.json")
-    print("legacy mapping validated and copied into resources")
 
     es_missing = sum(1 for e in exercises if not e["localizedInstructions"])
     print(f"exercises without Spanish steps: {es_missing}")

@@ -8,7 +8,7 @@ Sources are organized by layer and feature, not by type:
 
 - `App/` — entry point, root scene, `AppModelContainer` (schema + launch-time store construction), `ExerciseRoute`.
 - `Domain/` — `Entities/` (SwiftData models), `Vocabulary/` (Muscle, Equipment, ExerciseCategory), `Drafts/` (transient view state: DraftSeries, DayPlan, TemplateDraft, ExerciseEdit), `Stats/` (pure read-model math).
-- `Persistence/` — catalog seeding, legacy migration, catalog sources, and the write stores (`WorkoutStore`, `TemplateStore`, `ExerciseStore`).
+- `Persistence/` — catalog seeding, the catalog payload types, and the write stores (`WorkoutStore`, `TemplateStore`, `ExerciseStore`).
 - `AI/` — `Shared/` (`OpenRouterClient`, `AIError`, `AIModelPreference`, key store, environment), `Suggestion/`, `PhotoMatch/`.
 - `Media/`, `Features/<feature>/`, `DesignSystem/`, `TestSupport/`.
 
@@ -58,7 +58,7 @@ Notes:
 
 Any argument prefixed `-uitest` also disables UIKit animations so XCUITest quiescence waits don't pay animation durations.
 
-- `-uitest-reset` — wipes WorkoutSession/WorkoutSeries/RoutineTemplate(Item), deletes custom exercises, and restores edited catalog exercises to pristine via `CatalogSeeder.restorePristineCatalog` (catalog JSON is parsed only when an edit actually leaked from a prior test — do NOT reintroduce a full Exercise wipe + reseed; the 1324-row reseed per launch is what made the suite slow).
+- `-uitest-reset` — wipes WorkoutSession/WorkoutSeries/RoutineTemplate(Item) and restores edited catalog exercises to pristine via `CatalogSeeder.restorePristineCatalog` (catalog JSON is parsed only when an edit actually leaked from a prior test — do NOT reintroduce a full Exercise wipe + reseed; the 1324-row reseed per launch is what made the suite slow).
 - `-uitest-seed` — inserts two known sessions (combine with reset): today = Barbell Bench Press (gv0025) 10×40 + Run (gv0685) 15 min; three days earlier = Barbell Full Squat (gv0043) 8×70. See `UITestSeeding` in gymappApp.swift.
 - `-uitest-offline-media` — disables the media store's network path so detail screens deterministically show thumbnail + retry state.
 - `-uitest-ai <scenario>` — success | error | no-key; swaps AI deps for an in-memory key store + stub service.

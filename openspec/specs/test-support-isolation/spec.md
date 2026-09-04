@@ -23,7 +23,7 @@ Test scaffolding MUST remain reachable from the app target, because XCUITest dri
 ### Requirement: Centralized launch-argument parsing
 Launch-argument parsing SHALL be performed by a single type in `TestSupport/` that exposes the parsed options as typed values. No other file in the app target MUST read `CommandLine.arguments`.
 
-The recognized options and their meanings SHALL be unchanged: any argument prefixed `-uitest` disables UIKit animations; `-uitest-reset` wipes sessions, series, and templates, deletes custom exercises, and restores edited catalog exercises to pristine; `-uitest-seed` inserts the two known sessions; `-uitest-offline-media` disables the media store's network path and clears its cache directory; `-uitest-ai <scenario>` and `-uitest-photo-match <scenario>` swap in the in-memory key store and stubbed AI services for the `success`, `error`, and `no-key` scenarios; and `-uitest-disable-animations` carries no behavior beyond its `-uitest` prefix.
+The recognized options and their meanings SHALL be unchanged: any argument prefixed `-uitest` disables UIKit animations; `-uitest-reset` wipes sessions, series, and templates and restores edited catalog exercises to pristine; `-uitest-seed` inserts the two known sessions; `-uitest-offline-media` disables the media store's network path and clears its cache directory; `-uitest-ai <scenario>` and `-uitest-photo-match <scenario>` swap in the in-memory key store and stubbed AI services for the `success`, `error`, and `no-key` scenarios; and `-uitest-disable-animations` carries no behavior beyond its `-uitest` prefix.
 
 Because both AI features share one key store, either AI scenario hook MUST stub the whole AI stack, so a test stubbing one feature never leaves the other reading the real Keychain.
 
@@ -57,7 +57,7 @@ Debug builds MUST keep the full scaffolding available, because the UI test suite
 - **THEN** every launch-argument hook works and the whole suite passes
 
 ### Requirement: Reset hook stays reseed-free
-The `-uitest-reset` path SHALL restore a pristine catalog without wiping and reseeding the whole exercise table. It MUST delete custom exercises and re-align exercises the user edited, and it MUST parse the bundled catalog JSON only when at least one edited exercise exists.
+The `-uitest-reset` path SHALL restore a pristine catalog without wiping and reseeding the whole exercise table. It MUST re-align exercises the user edited, and it MUST parse the bundled catalog JSON only when at least one edited exercise exists.
 
 This constraint is a performance requirement on the UI suite: a full wipe and reseed of the ~1,300-row catalog on every launch dominated total UI-test wall time. The restructure MUST NOT reintroduce it.
 
@@ -68,7 +68,3 @@ This constraint is a performance requirement on the UI suite: a full wipe and re
 #### Scenario: Leaked edit is restored
 - **WHEN** the app launches with `-uitest-reset` after a prior test renamed a catalog exercise
 - **THEN** that exercise's name, category, equipment, muscle-target metadata, media reference, and per-locale content are restored to their catalog values, and its user-modified flag is cleared
-
-#### Scenario: Custom exercises are dropped
-- **WHEN** the app launches with `-uitest-reset` after a prior test created a custom exercise
-- **THEN** the custom exercise is gone and no catalog exercise was removed
