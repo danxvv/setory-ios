@@ -22,7 +22,7 @@ struct SeriesRow: View {
         HStack(spacing: 12) {
             NumberBadge(index: index)
             RoutineThumbnail(exercise: exercise, onShowMedia: onShowMedia)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text(name)
                     .font(.body.weight(.medium))
                 Text(summary)
@@ -30,7 +30,7 @@ struct SeriesRow: View {
                     .foregroundStyle(.secondary)
             }
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 8)
     }
 }
 

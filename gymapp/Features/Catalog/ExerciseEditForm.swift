@@ -102,6 +102,7 @@ struct ExerciseEditForm: View {
                 }
             }
         }
+        .gymListStyle()
         .navigationTitle(exercise.localizedName)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)

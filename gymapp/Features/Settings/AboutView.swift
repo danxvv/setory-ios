@@ -42,6 +42,7 @@ struct AboutView: View {
                 Text("Exercise data license")
             }
         }
+        .gymListStyle()
         .navigationTitle("About & Licenses")
         .navigationBarTitleDisplayMode(.inline)
     }

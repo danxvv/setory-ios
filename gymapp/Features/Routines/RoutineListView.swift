@@ -33,9 +33,18 @@ struct RoutineListView: View {
 
     var body: some View {
         List {
+            Section {
+                GymIntro(
+                    title: "Make room for your next workout",
+                    subtitle: "Your plans and finished workouts, together.",
+                    symbol: "square.stack.3d.up.fill"
+                )
+            }
+            .listRowBackground(GymTheme.softAccent)
             templatesSection
             historySection
         }
+        .gymListStyle()
         .navigationTitle("Routines")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -104,14 +113,11 @@ struct RoutineListView: View {
     private var templatesSection: some View {
         Section("Templates") {
             if sortedTemplates.isEmpty {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("No templates yet")
-                        .font(.body.weight(.medium))
-                    Text("Create a template to plan your workouts.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-                .padding(.vertical, 2)
+                GymIntro(
+                    title: "No templates yet",
+                    subtitle: "Create a template to plan your workouts.",
+                    symbol: "list.bullet.clipboard"
+                )
             } else {
                 ForEach(sortedTemplates) { template in
                     Button {
@@ -138,25 +144,31 @@ struct RoutineListView: View {
     }
 
     private func templateRow(_ template: RoutineTemplate) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(alignment: .firstTextBaseline) {
+        HStack(alignment: .top, spacing: 14) {
+            GymIcon(symbol: "dumbbell.fill")
+            VStack(alignment: .leading, spacing: 10) {
                 Text(template.name)
-                    .font(.body.weight(.medium))
-                Spacer()
+                    .font(.headline)
                 Text("\(template.exercises.count) exercises")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+                let primary = template.primaryMusclesCovered
+                let secondary = template.secondaryMusclesCovered
+                if !primary.isEmpty {
+                    MuscleChips(muscles: primary, emphasis: .primary)
+                }
+                if !secondary.isEmpty {
+                    MuscleChips(muscles: secondary, emphasis: .secondary)
+                }
             }
-            let primary = template.primaryMusclesCovered
-            let secondary = template.secondaryMusclesCovered
-            if !primary.isEmpty {
-                MuscleChips(muscles: primary, emphasis: .primary)
-            }
-            if !secondary.isEmpty {
-                MuscleChips(muscles: secondary, emphasis: .secondary)
-            }
+            Spacer(minLength: 0)
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.bold))
+                .foregroundStyle(.tertiary)
+                .padding(.top, 16)
+                .accessibilityHidden(true)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 10)
         .contentShape(Rectangle())
     }
 
@@ -177,14 +189,11 @@ struct RoutineListView: View {
     private var historySection: some View {
         Section("History") {
             if sessions.isEmpty {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("No routines yet")
-                        .font(.body.weight(.medium))
-                    Text("Days you finish on the Log tab will appear here.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-                .padding(.vertical, 2)
+                GymIntro(
+                    title: "No routines yet",
+                    subtitle: "Days you finish on the Log tab will appear here.",
+                    symbol: "clock.arrow.circlepath"
+                )
             } else {
                 ForEach(sessions) { session in
                     NavigationLink {
@@ -198,23 +207,32 @@ struct RoutineListView: View {
     }
 
     private func row(for session: WorkoutSession) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(session.date.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated).year()))
-                    .font(.body.weight(.medium))
-                Spacer()
-                Text("\(session.series.count) series")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+        HStack(alignment: .top, spacing: 14) {
+            VStack(spacing: 2) {
+                Text(session.date.formatted(.dateTime.day()))
+                    .font(.title2.bold())
+                Text(session.date.formatted(.dateTime.month(.abbreviated)))
+                    .font(.caption.weight(.semibold))
             }
-            if !session.localizedExerciseNames.isEmpty {
-                Text(session.localizedExerciseNames.joined(separator: ", "))
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(2)
+            .foregroundStyle(.tint)
+            .frame(minWidth: 52, minHeight: 60)
+            .background(GymTheme.softAccent, in: RoundedRectangle(cornerRadius: 16))
+            .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(session.date.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated).year()))
+                    .font(.headline)
+                Text("\(session.series.count) series")
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.tint)
+                if !session.localizedExerciseNames.isEmpty {
+                    Text(session.localizedExerciseNames.joined(separator: ", "))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
+                }
             }
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 8)
     }
 }
 

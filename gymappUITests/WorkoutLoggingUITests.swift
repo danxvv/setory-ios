@@ -59,7 +59,7 @@ final class WorkoutLoggingUITests: XCTestCase {
             reps.typeText("8")
         }
         let squatRow = app.staticTexts["Barbell Full Squat"]
-        XCTAssertTrue(squatRow.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.reveal(squatRow))
         // Clear the bottom "Finish Day" bar so the row is fully exposed,
         // then swipe the cell itself (not the text) to reveal Delete.
         app.swipeUp()
@@ -108,7 +108,7 @@ final class WorkoutLoggingUITests: XCTestCase {
         app.launch()
 
         let addButton = app.buttons["add-exercise-button"]
-        XCTAssertTrue(addButton.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.reveal(addButton, swipingUp: false))
         addButton.tap()
 
         // Filter to kettlebell: a barbell exercise disappears from the list.
@@ -135,7 +135,7 @@ final class WorkoutLoggingUITests: XCTestCase {
     /// Opens the picker sheet, searches, and taps the exercise row.
     private func pickExercise(app: XCUIApplication, search: String, exerciseId: String) {
         let addButton = app.buttons["add-exercise-button"]
-        XCTAssertTrue(addButton.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.reveal(addButton, swipingUp: false))
         addButton.tap()
 
         let searchField = app.searchFields.firstMatch
@@ -159,7 +159,7 @@ final class WorkoutLoggingUITests: XCTestCase {
     private func assertTodayHasWorkoutMarker(app: XCUIApplication) {
         let dayNumber = Calendar.current.component(.day, from: .now)
         let todayCell = app.buttons["day-\(dayNumber)"]
-        XCTAssertTrue(todayCell.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.reveal(todayCell, swipingUp: false))
         XCTAssertEqual(todayCell.value as? String, "workout saved")
     }
 

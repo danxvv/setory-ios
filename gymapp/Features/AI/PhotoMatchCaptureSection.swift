@@ -25,9 +25,11 @@ struct PhotoMatchPhotosSection: View {
     var body: some View {
         Section {
             if photos.isEmpty {
-                Text("Add a photo of the machine, the equipment, or the exercise being performed.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
+                GymIntro(
+                    title: "Find it with a photo",
+                    subtitle: "Add a photo of the machine, the equipment, or the exercise being performed.",
+                    symbol: "camera.viewfinder"
+                )
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
@@ -84,7 +86,7 @@ struct PhotoMatchPhotosSection: View {
         Image(uiImage: photo)
             .resizable()
             .scaledToFill()
-            .frame(width: 88, height: 88)
+            .frame(width: 104, height: 104)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .overlay(alignment: .topTrailing) {
                 Button {
@@ -94,6 +96,7 @@ struct PhotoMatchPhotosSection: View {
                         .symbolRenderingMode(.palette)
                         .foregroundStyle(.white, .black.opacity(0.6))
                         .font(.title3)
+                        .frame(width: 44, height: 44)
                 }
                 .buttonStyle(.plain)
                 .padding(4)
@@ -186,9 +189,10 @@ struct PhotoMatchSendSection: View {
                     onFind()
                 } label: {
                     Label("Find Exercises", systemImage: "sparkle.magnifyingglass")
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(maxWidth: .infinity)
                         .contentShape(Rectangle())
                 }
+                .buttonStyle(GymPrimaryButtonStyle())
                 .disabled(!canSend)
                 .accessibilityIdentifier("photo-match-find-button")
             }

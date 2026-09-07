@@ -46,7 +46,7 @@ struct DayPlanSection: View {
                 onLog(planned.exercise)
             } label: {
                 HStack(spacing: 12) {
-                    VStack(alignment: .leading, spacing: 2) {
+                    VStack(alignment: .leading, spacing: 6) {
                         Text(planned.exercise.localizedName)
                             .font(.body.weight(.medium))
                             .foregroundStyle(.primary)
@@ -66,7 +66,7 @@ struct DayPlanSection: View {
             }
             .buttonStyle(.borderless)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 8)
     }
 
     /// The user's most recent recorded set for this exercise, formatted for

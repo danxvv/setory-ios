@@ -54,12 +54,24 @@ struct SetEntrySheet: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section {
+                    HStack(spacing: 14) {
+                        ExerciseThumbnailView(exercise: exercise, size: 48)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Log a set").font(.headline)
+                            Text(exercise.localizedName).font(.subheadline).foregroundStyle(.secondary)
+                        }
+                    }
+                    .padding(.vertical, 4)
+                }
                 switch exercise.category {
                 case .strength:
                     Section {
                         LabeledContent("Reps") {
                             TextField("Required", text: $repsText)
                                 .keyboardType(.numberPad)
+                                .font(.title3.weight(.semibold))
+                                .monospacedDigit()
                                 .multilineTextAlignment(.trailing)
                                 .focused($focusedField, equals: .reps)
                                 .accessibilityIdentifier("reps-field")
@@ -67,6 +79,8 @@ struct SetEntrySheet: View {
                         LabeledContent("Weight (kg)") {
                             TextField("Optional", text: $weightText)
                                 .keyboardType(.decimalPad)
+                                .font(.title3.weight(.semibold))
+                                .monospacedDigit()
                                 .multilineTextAlignment(.trailing)
                                 .focused($focusedField, equals: .weight)
                                 .accessibilityIdentifier("weight-field")
@@ -79,6 +93,8 @@ struct SetEntrySheet: View {
                         LabeledContent("Duration (min)") {
                             TextField("Required", text: $minutesText)
                                 .keyboardType(.numberPad)
+                                .font(.title3.weight(.semibold))
+                                .monospacedDigit()
                                 .multilineTextAlignment(.trailing)
                                 .focused($focusedField, equals: .minutes)
                                 .accessibilityIdentifier("duration-field")
@@ -88,6 +104,7 @@ struct SetEntrySheet: View {
                     }
                 }
             }
+            .gymListStyle()
             .navigationTitle(exercise.localizedName)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -107,7 +124,8 @@ struct SetEntrySheet: View {
                 focusedField = exercise.category == .strength ? .reps : .minutes
             }
         }
-        .presentationDetents([.medium])
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
     }
 
     private func confirm() {

@@ -72,6 +72,9 @@ struct LogView: View {
             List {
                 Section {
                     MonthCalendarView(selectedDate: $selectedDate, savedDays: savedDays)
+                        // Keep seven date columns legible; the rest of the screen
+                        // continues to use the user's full accessibility size.
+                        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
                 }
@@ -96,9 +99,9 @@ struct LogView: View {
                     onShowMedia: { mediaExercise = $0 }
                 )
             }
-            .listSectionSpacing(16)
-            .navigationTitle("Workout Log")
-            .navigationBarTitleDisplayMode(.inline)
+            .gymListStyle()
+            .navigationTitle("Log")
+            .navigationBarTitleDisplayMode(.large)
             .safeAreaInset(edge: .bottom) {
                 if savedSession == nil && !draftsForSelectedDay.isEmpty {
                     finishDayButton
@@ -174,10 +177,10 @@ struct LogView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 6)
         }
-        .buttonStyle(.borderedProminent)
+        .buttonStyle(GymPrimaryButtonStyle())
         .padding(.horizontal, 16)
         .padding(.bottom, 8)
-        .background(.bar)
+        .background(GymTheme.canvas)
     }
 
     private func finishDay() {

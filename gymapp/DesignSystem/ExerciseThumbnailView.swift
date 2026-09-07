@@ -11,7 +11,7 @@ import SwiftUI
 
 struct ExerciseThumbnailView: View {
     let exercise: Exercise
-    var size: CGFloat = 40
+    var size: CGFloat = 56
 
     @Environment(\.exerciseMediaStore) private var mediaStore
 
@@ -25,10 +25,11 @@ struct ExerciseThumbnailView: View {
                 Image(systemName: exercise.category == .cardio ? "heart.circle" : "dumbbell")
                     .foregroundStyle(.tint)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(.quaternary.opacity(0.5))
+                    .background(GymTheme.softAccent)
             }
         }
         .frame(width: size, height: size)
-        .clipShape(RoundedRectangle(cornerRadius: size / 5))
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: size / 4))
     }
 }

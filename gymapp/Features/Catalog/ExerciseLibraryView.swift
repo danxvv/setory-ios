@@ -21,20 +21,14 @@ struct ExerciseLibraryView: View {
                 .accessibilityIdentifier("exercise-row-\(exercise.id)")
             }
             .navigationTitle("Exercises")
+            .navigationBarTitleDisplayMode(.large)
             .exerciseDestinations()
         }
     }
 
     private func row(for exercise: Exercise) -> some View {
-        HStack(spacing: 12) {
-            ExerciseThumbnailView(exercise: exercise)
-            VStack(alignment: .leading, spacing: 4) {
-                Text(exercise.localizedName)
-                    .font(.body.weight(.medium))
-                MuscleChips(muscles: exercise.primaryMuscles, emphasis: .primary)
-            }
-        }
-        .padding(.vertical, 2)
+        ExerciseRowContent(exercise: exercise)
+            .padding(.vertical, 2)
     }
 }
 

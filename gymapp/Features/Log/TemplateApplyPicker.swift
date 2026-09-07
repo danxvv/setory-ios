@@ -26,6 +26,7 @@ struct TemplateApplyPicker: View {
                 .foregroundStyle(.primary)
                 .accessibilityIdentifier("apply-template-\(template.name)")
             }
+            .gymListStyle()
             .navigationTitle("Start from template")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -54,7 +55,7 @@ struct TemplateApplyPicker: View {
                 MuscleChips(muscles: primary, emphasis: .primary)
             }
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 8)
         .contentShape(Rectangle())
     }
 }

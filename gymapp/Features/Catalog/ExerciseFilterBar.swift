@@ -15,6 +15,17 @@ struct ExerciseFilterBar: View {
     @Binding var filters: ExerciseFilters
 
     var body: some View {
+        ViewThatFits(in: .horizontal) {
+            filterControls
+            ScrollView(.horizontal) { filterControls }
+                .scrollIndicators(.hidden)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 8)
+    }
+
+    private var filterControls: some View {
         HStack(spacing: 10) {
             Menu {
                 Button("All muscles") { filters.muscle = nil }
@@ -64,6 +75,7 @@ struct ExerciseFilterBar: View {
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.secondary)
+                        .frame(minWidth: 44, minHeight: 44)
                 }
                 .accessibilityLabel(Text("Clear filters"))
                 .accessibilityIdentifier("filter-clear")
@@ -71,8 +83,6 @@ struct ExerciseFilterBar: View {
 
             Spacer(minLength: 0)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
     }
 
     private func chip(text: String, isActive: Bool) -> some View {
@@ -84,8 +94,8 @@ struct ExerciseFilterBar: View {
                 .font(.caption2.weight(.semibold))
         }
         .padding(.horizontal, 12)
-        .padding(.vertical, 6)
-        .background(isActive ? AnyShapeStyle(.tint.opacity(0.18)) : AnyShapeStyle(.quaternary.opacity(0.5)), in: Capsule())
+        .frame(minHeight: 44)
+        .background(isActive ? GymTheme.softAccent : GymTheme.surface, in: Capsule())
         .foregroundStyle(isActive ? AnyShapeStyle(.tint) : AnyShapeStyle(.primary))
     }
 }

@@ -32,6 +32,7 @@ struct ProgressTabView: View {
                     statsList
                 }
             }
+            .background(GymTheme.canvas)
             .navigationTitle("Progress")
             .exerciseDestinations()
         }
@@ -46,6 +47,7 @@ struct ProgressTabView: View {
             }
             progressionListSection
         }
+        .gymListStyle()
         .searchable(text: $searchText, prompt: Text("Search exercises"))
     }
 
@@ -66,7 +68,8 @@ struct ProgressTabView: View {
                     x: .value("Week", bucket.weekStart, unit: .weekOfYear),
                     y: .value("Workouts", bucket.sessionCount)
                 )
-                .foregroundStyle(.tint)
+                .foregroundStyle(Color.accentColor.gradient)
+                .cornerRadius(6)
             }
             .chartXAxis {
                 AxisMarks(values: .stride(by: .weekOfYear)) {
@@ -80,16 +83,20 @@ struct ProgressTabView: View {
                     AxisValueLabel()
                 }
             }
-            .frame(height: 160)
-            .padding(.vertical, 4)
+            .frame(height: 180)
+            .padding(.vertical, 12)
             .accessibilityIdentifier("overview-chart")
 
             LabeledContent("This week") {
                 Text(headlineSummary(sessions: headline.weekSessions, series: headline.weekSeries))
+                    .font(.headline)
+                    .foregroundStyle(.tint)
             }
             .accessibilityIdentifier("headline-week")
             LabeledContent("This month") {
                 Text(headlineSummary(sessions: headline.monthSessions, series: headline.monthSeries))
+                    .font(.headline)
+                    .foregroundStyle(.tint)
             }
             .accessibilityIdentifier("headline-month")
         }
@@ -128,7 +135,7 @@ struct ProgressTabView: View {
     }
 
     private func muscleRow(for item: ProgressStatsProvider.MuscleCount, maxCount: Int) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text(item.muscle.displayName)
                     .font(.subheadline.weight(.medium))
@@ -141,7 +148,7 @@ struct ProgressTabView: View {
             ProgressView(value: Double(item.seriesCount), total: Double(max(maxCount, 1)))
                 .tint(.accentColor)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 8)
         .accessibilityElement(children: .combine)
         .accessibilityIdentifier("balance-\(item.muscle.rawValue)")
     }
@@ -171,10 +178,11 @@ struct ProgressTabView: View {
             } else {
                 ForEach(filteredExercises) { exercise in
                     NavigationLink(value: ExerciseRoute.progression(exercise.id)) {
-                        Label(
-                            exercise.localizedName,
-                            systemImage: exercise.category == .cardio ? "heart.circle" : "dumbbell"
-                        )
+                        HStack(spacing: 14) {
+                            ExerciseThumbnailView(exercise: exercise, size: 48)
+                            Text(exercise.localizedName).font(.headline)
+                        }
+                        .padding(.vertical, 6)
                     }
                     .accessibilityIdentifier("progression-row-\(exercise.id)")
                 }

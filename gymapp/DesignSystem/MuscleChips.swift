@@ -29,17 +29,18 @@ struct MuscleChips: View {
     private func chip(for muscle: Muscle) -> some View {
         let label = Text(muscle.displayName)
             .font(.caption.weight(.medium))
+            .fixedSize(horizontal: false, vertical: true)
             .padding(.horizontal, 10)
             .padding(.vertical, 4)
         switch emphasis {
         case .primary:
             label
-                .foregroundStyle(.white)
-                .background(.tint, in: Capsule())
+                .foregroundStyle(Color.accentColor)
+                .background(GymTheme.softAccent, in: Capsule())
         case .secondary:
             label
                 .foregroundStyle(.secondary)
-                .background(.quaternary, in: Capsule())
+                .background(Color.primary.opacity(0.06), in: Capsule())
         }
     }
 }
@@ -58,7 +59,7 @@ struct FlowLayout: Layout {
         for (subview, offset) in zip(subviews, offsets) {
             subview.place(
                 at: CGPoint(x: bounds.minX + offset.x, y: bounds.minY + offset.y),
-                proposal: .unspecified
+                proposal: ProposedViewSize(width: min(subview.sizeThatFits(.unspecified).width, bounds.width), height: nil)
             )
         }
     }
@@ -70,7 +71,8 @@ struct FlowLayout: Layout {
         var totalWidth: CGFloat = 0
 
         for subview in subviews {
-            let size = subview.sizeThatFits(.unspecified)
+            let width = min(subview.sizeThatFits(.unspecified).width, maxWidth)
+            let size = subview.sizeThatFits(ProposedViewSize(width: width, height: nil))
             if origin.x > 0, origin.x + size.width > maxWidth {
                 origin.x = 0
                 origin.y += rowHeight + spacing

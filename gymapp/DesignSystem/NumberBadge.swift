@@ -14,8 +14,8 @@ struct NumberBadge: View {
         Text("\(index + 1)")
             .font(.footnote.weight(.bold))
             .monospacedDigit()
-            .foregroundStyle(.secondary)
-            .frame(width: 26, height: 26)
-            .background(.quaternary, in: Circle())
+            .foregroundStyle(.tint)
+            .frame(minWidth: 30, minHeight: 30)
+            .background(GymTheme.softAccent, in: RoundedRectangle(cornerRadius: 10))
     }
 }

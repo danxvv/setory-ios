@@ -84,7 +84,7 @@ final class RoutineTemplatesUITests: XCTestCase {
         // Progress advances and the set appears in the day's series list.
         XCTAssertTrue(app.staticTexts["1/3 sets"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["0/3 sets"].exists)
-        XCTAssertTrue(app.staticTexts["10 reps · 40 kg"].exists)
+        XCTAssertTrue(app.reveal(app.staticTexts["10 reps · 40 kg"]))
 
         // Finish the day: only the logged series is persisted; the squat
         // target was never met and must not produce placeholder series.

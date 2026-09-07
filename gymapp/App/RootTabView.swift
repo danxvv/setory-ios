@@ -14,13 +14,13 @@ import SwiftData
 struct RootTabView: View {
     var body: some View {
         TabView {
-            Tab("Log", systemImage: "square.and.pencil") {
+            Tab("Log", systemImage: "calendar") {
                 LogView()
             }
             Tab("Exercises", systemImage: "figure.strengthtraining.traditional") {
                 ExerciseLibraryView()
             }
-            Tab("Routines", systemImage: "list.bullet.rectangle") {
+            Tab("Routines", systemImage: "square.stack.3d.up") {
                 NavigationStack {
                     RoutineListView()
                 }
@@ -29,6 +29,8 @@ struct RootTabView: View {
                 ProgressTabView()
             }
         }
+        .tint(.accentColor)
+        .fontDesign(.rounded)
     }
 }
 

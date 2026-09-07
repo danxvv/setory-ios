@@ -22,11 +22,12 @@ struct AIKeyRequiredSection: View {
 
     var body: some View {
         Section {
-            Text(explanation)
+            GymIntro(title: "Connect your AI", subtitle: explanation, symbol: "key.fill")
                 .accessibilityIdentifier(explanationIdentifier)
             Button("Open AI Settings") {
                 onOpenSettings()
             }
+            .buttonStyle(GymPrimaryButtonStyle())
             .accessibilityIdentifier(openSettingsIdentifier)
         }
     }
@@ -46,6 +47,7 @@ struct AIProgressRows: View {
             Text(message)
                 .foregroundStyle(.secondary)
         }
+        .padding(.vertical, 12)
         .accessibilityIdentifier(progressIdentifier)
         Button(cancelTitle, role: .destructive) {
             onCancel()

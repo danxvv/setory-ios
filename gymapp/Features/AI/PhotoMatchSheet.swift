@@ -83,6 +83,7 @@ struct PhotoMatchSheet: View {
                     )
                 }
             }
+            .gymListStyle()
             .navigationTitle("Match from Photo")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

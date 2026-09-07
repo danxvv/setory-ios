@@ -64,6 +64,8 @@ struct ExerciseDetailView: View {
             if !exercise.localizedSummary.isEmpty {
                 Section("Description") {
                     Text(exercise.localizedSummary)
+                        .lineSpacing(5)
+                        .padding(.vertical, 6)
                         .accessibilityIdentifier("exercise-summary")
                 }
             }
@@ -93,6 +95,7 @@ struct ExerciseDetailView: View {
                 }
             }
         }
+        .gymListStyle()
         .navigationTitle(exercise.localizedName)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -140,8 +143,9 @@ struct ExerciseDetailView: View {
         HStack(alignment: .firstTextBaseline, spacing: 12) {
             NumberBadge(index: index)
             Text(step)
+                .lineSpacing(5)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 8)
     }
 
     // MARK: - History
@@ -165,7 +169,7 @@ struct ExerciseDetailView: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
-                    .padding(.vertical, 2)
+                    .padding(.vertical, 8)
                 }
                 NavigationLink(value: ExerciseRoute.progression(exercise.id)) {
                     Label("View progression", systemImage: "chart.xyaxis.line")

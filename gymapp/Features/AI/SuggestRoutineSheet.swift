@@ -41,6 +41,14 @@ struct SuggestRoutineSheet: View {
         NavigationStack {
             Form {
                 if hasKey {
+                    Section {
+                        GymIntro(
+                            title: "A routine that fits you",
+                            subtitle: "Set a direction. Review your plan before saving.",
+                            symbol: "sparkles"
+                        )
+                    }
+                    .listRowBackground(GymTheme.softAccent)
                     goalSection
                     generateSection
                 } else {
@@ -52,6 +60,7 @@ struct SuggestRoutineSheet: View {
                     )
                 }
             }
+            .gymListStyle()
             .navigationTitle("Suggest with AI")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -81,7 +90,7 @@ struct SuggestRoutineSheet: View {
     private var goalSection: some View {
         Section {
             TextField("e.g. focus legs, 45 minutes", text: $goal, axis: .vertical)
-                .lineLimit(1...3)
+                .lineLimit(3...5)
                 .disabled(flow.isGenerating)
                 .accessibilityIdentifier("suggest-goal-field")
         } header: {
@@ -106,9 +115,10 @@ struct SuggestRoutineSheet: View {
                     generate()
                 } label: {
                     Label("Generate", systemImage: "sparkles")
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(maxWidth: .infinity)
                         .contentShape(Rectangle())
                 }
+                .buttonStyle(GymPrimaryButtonStyle())
                 .accessibilityIdentifier("suggest-generate-button")
             }
         }

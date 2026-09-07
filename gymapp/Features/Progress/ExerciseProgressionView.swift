@@ -35,6 +35,7 @@ struct ExerciseProgressionView: View {
                     volumeSection(progression)
                 }
             }
+            .gymListStyle()
             .navigationTitle(exercise.localizedName)
             .navigationBarTitleDisplayMode(.inline)
         } else {
@@ -52,6 +53,8 @@ struct ExerciseProgressionView: View {
         Section {
             LabeledContent("Best set") {
                 Text(progression.bestSet.valueSummary)
+                    .font(.title3.bold())
+                    .foregroundStyle(.tint)
             }
             .accessibilityIdentifier("progression-best")
         }
@@ -63,7 +66,7 @@ struct ExerciseProgressionView: View {
         Section {
             progressionChart(progression)
                 .frame(height: 200)
-                .padding(.vertical, 4)
+                .padding(.vertical, 16)
                 .accessibilityIdentifier("progression-chart")
         } header: {
             Text(metricTitle(progression.metric))
@@ -112,6 +115,7 @@ struct ExerciseProgressionView: View {
                 y: .value("Value", displayValue(point, metric: progression.metric))
             )
             .foregroundStyle(.tint)
+            .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
             PointMark(
                 x: .value("Date", point.date, unit: .day),
                 y: .value("Value", displayValue(point, metric: progression.metric))
@@ -154,7 +158,7 @@ struct ExerciseProgressionView: View {
                 }
             }
             .frame(height: 140)
-            .padding(.vertical, 4)
+            .padding(.vertical, 16)
             .accessibilityIdentifier("progression-volume-chart")
         }
     }

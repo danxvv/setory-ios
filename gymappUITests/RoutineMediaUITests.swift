@@ -108,6 +108,8 @@ final class RoutineMediaUITests: XCTestCase {
         XCTAssertFalse(element(in: app, withIdentifier: "routine-media-gv0025").waitForExistence(timeout: 2))
 
         // Swipe-to-delete on the draft row still works with the thumbnail.
+        // Move the row clear of the pinned Finish Day action before swiping.
+        app.swipeUp()
         let draftCell = app.cells.containing(.staticText, identifier: "Barbell Bench Press").element
         draftCell.swipeLeft(velocity: .slow)
         let deleteButton = app.buttons["Delete"]

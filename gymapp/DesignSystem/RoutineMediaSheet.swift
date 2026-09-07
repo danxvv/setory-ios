@@ -18,7 +18,9 @@ struct RoutineMediaSheet: View {
     var body: some View {
         NavigationStack {
             ExerciseMediaView(exercise: exercise)
+                .padding(20)
                 .frame(maxHeight: .infinity)
+                .background(GymTheme.canvas)
                 .accessibilityElement(children: .contain)
                 .accessibilityIdentifier("routine-media-\(exercise.id)")
                 .navigationTitle(exercise.localizedName)

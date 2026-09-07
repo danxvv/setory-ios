@@ -51,7 +51,7 @@ struct DaySeriesSection: View {
             }
         } header: {
             Label("Saved workout", systemImage: "checkmark.seal.fill")
-                .foregroundStyle(.green)
+                .foregroundStyle(Color.accentColor)
         } footer: {
             Text("This day is finished. Saved workouts can't be edited.")
         }
@@ -67,10 +67,10 @@ struct DaySeriesSection: View {
             addExerciseButton
 
             if drafts.isEmpty {
-                ContentUnavailableView(
-                    "No series yet",
-                    systemImage: "figure.strengthtraining.traditional",
-                    description: Text("Pick an exercise to log your first set of the day.")
+                GymIntro(
+                    title: "No series yet",
+                    subtitle: "Pick an exercise to log your first set of the day.",
+                    symbol: "figure.strengthtraining.traditional"
                 )
                 .listRowSeparator(.hidden)
             } else {
@@ -110,9 +110,11 @@ struct DaySeriesSection: View {
         } label: {
             Label("Add Exercise", systemImage: "plus.circle.fill")
                 .font(.body.weight(.semibold))
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity)
                 .contentShape(Rectangle())
         }
+        .buttonStyle(GymPrimaryButtonStyle())
+        .listRowSeparator(.hidden)
         .accessibilityIdentifier("add-exercise-button")
     }
 }

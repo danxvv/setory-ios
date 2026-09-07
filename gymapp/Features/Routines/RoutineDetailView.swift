@@ -31,6 +31,7 @@ struct RoutineDetailView: View {
                 }
             }
         }
+        .gymListStyle()
         .navigationTitle(session.date.formatted(date: .abbreviated, time: .omitted))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -51,7 +52,7 @@ struct RoutineDetailView: View {
     private func seriesRow(_ series: WorkoutSeries) -> some View {
         HStack(spacing: 12) {
             NumberBadge(index: series.order)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text(series.exercise?.localizedName ?? String(localized: "Exercise"))
                     .font(.body.weight(.medium))
                 Text(series.valueSummary)
@@ -64,7 +65,7 @@ struct RoutineDetailView: View {
                 }
             }
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 8)
     }
 }
 

@@ -62,6 +62,7 @@ struct TemplateEditForm: View {
                 exercisesSection
                 coverageSection
             }
+            .gymListStyle()
             .navigationTitle(template == nil ? Text("New Template") : Text("Edit Template"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -112,6 +113,8 @@ struct TemplateEditForm: View {
     private var nameSection: some View {
         Section {
             TextField("Name", text: $draft.name)
+                .font(.title3.weight(.semibold))
+                .padding(.vertical, 6)
                 .accessibilityIdentifier("template-name-field")
         } footer: {
             if draft.trimmedName.isEmpty {
@@ -133,9 +136,10 @@ struct TemplateEditForm: View {
                 showExercisePicker = true
             } label: {
                 Label("Add Exercises", systemImage: "plus.circle.fill")
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(maxWidth: .infinity)
                     .contentShape(Rectangle())
             }
+            .buttonStyle(GymPrimaryButtonStyle())
             .accessibilityIdentifier("add-exercises-button")
 
             Button {
@@ -190,7 +194,7 @@ struct TemplateEditForm: View {
                     .monospacedDigit()
             }
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 8)
     }
 
     // MARK: - Suggested name

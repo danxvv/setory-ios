@@ -55,18 +55,16 @@ struct ExerciseMultiPicker: View {
             }
         } label: {
             HStack(spacing: 12) {
-                ExerciseThumbnailView(exercise: exercise, size: 36)
-                Text(exercise.localizedName)
-                    .font(.body.weight(.medium))
-                    .foregroundStyle(.primary)
+                ExerciseRowContent(exercise: exercise, showsMuscles: false)
                 Spacer()
                 if selectedIds.contains(exercise.id) {
-                    Image(systemName: "checkmark")
+                    Image(systemName: "checkmark.circle.fill")
                         .foregroundStyle(.tint)
                 }
             }
             .contentShape(Rectangle())
         }
+        .accessibilityAddTraits(selectedIds.contains(exercise.id) ? .isSelected : [])
         .accessibilityIdentifier("picker-exercise-\(exercise.id)")
     }
 }

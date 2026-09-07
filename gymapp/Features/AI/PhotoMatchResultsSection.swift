@@ -51,8 +51,8 @@ struct PhotoMatchResultsSection: View {
             }
         } label: {
             HStack(spacing: 12) {
-                ExerciseThumbnailView(exercise: match.exercise, size: 44)
-                VStack(alignment: .leading, spacing: 4) {
+                ExerciseThumbnailView(exercise: match.exercise, size: 56)
+                VStack(alignment: .leading, spacing: 8) {
                     // Concrete colors, not the hierarchical .primary /
                     // .secondary: inside a Form button those resolve
                     // against the button's tint and render everything blue.
@@ -68,12 +68,14 @@ struct PhotoMatchResultsSection: View {
                 }
                 Spacer()
                 if selectedIds.contains(match.id) {
-                    Image(systemName: "checkmark")
+                    Image(systemName: "checkmark.circle.fill")
                         .foregroundStyle(.tint)
                 }
             }
+            .padding(.vertical, 8)
             .contentShape(Rectangle())
         }
+        .accessibilityAddTraits(selectedIds.contains(match.id) ? .isSelected : [])
         .accessibilityIdentifier("photo-match-result-\(match.exercise.id)")
     }
 }

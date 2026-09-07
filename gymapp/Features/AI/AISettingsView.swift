@@ -21,11 +21,15 @@ struct AISettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section {
+                    GymIntro(title: "Your training assistant", subtitle: "Manage your connection and preferences.", symbol: "slider.horizontal.3")
+                }
                 keySection
                 modelSection
                 privacySection
                 aboutSection
             }
+            .gymListStyle()
             .navigationTitle("AI Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

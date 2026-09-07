@@ -32,7 +32,8 @@ struct ExerciseMediaView: View {
                 }
             }
             .frame(width: 180, height: 180)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
 
             if loadFailed {
                 Button {
@@ -50,7 +51,9 @@ struct ExerciseMediaView: View {
                 .foregroundStyle(.secondary)
                 .accessibilityIdentifier("media-attribution")
         }
+        .padding(.vertical, 16)
         .frame(maxWidth: .infinity)
+        .background(GymTheme.surface, in: RoundedRectangle(cornerRadius: 24))
         .task(id: exercise.id) { await load() }
     }
 

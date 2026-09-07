@@ -36,16 +36,7 @@ struct ExercisePickerSheet: View {
             onSelect(exercise)
             dismiss()
         } label: {
-            HStack(spacing: 12) {
-                ExerciseThumbnailView(exercise: exercise)
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(exercise.localizedName)
-                        .font(.body.weight(.medium))
-                        .foregroundStyle(.primary)
-                    MuscleChips(muscles: exercise.primaryMuscles, emphasis: .primary)
-                }
-            }
-            .contentShape(Rectangle())
+            ExerciseRowContent(exercise: exercise)
         }
         .accessibilityIdentifier("picker-exercise-\(exercise.id)")
     }

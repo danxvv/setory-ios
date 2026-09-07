@@ -29,12 +29,19 @@ struct FilteredExerciseList<Row: View>: View {
                     description: Text("Try a different search.")
                 )
             } else {
-                List(filtered, rowContent: row)
+                List(filtered) { exercise in
+                    row(exercise)
+                        .padding(.vertical, 6)
+                        .listRowBackground(GymTheme.surface)
+                        .listRowSeparator(.hidden)
+                }
+                .listRowSpacing(8)
+                .gymListStyle()
             }
         }
         .safeAreaInset(edge: .top, spacing: 0) {
             ExerciseFilterBar(filters: $filters)
-                .background(.bar)
+                .background(GymTheme.canvas, ignoresSafeAreaEdges: [])
         }
         .searchable(text: $searchText, prompt: Text("Search exercises"))
     }
