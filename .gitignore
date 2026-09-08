@@ -1,0 +1,19 @@
+# macOS and Xcode local state
+.DS_Store
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+*.xcresult
+
+# Local credentials
+.env
+.env.*
+!.env.example
+*.p12
+*.mobileprovision
+
+# Python catalog-tool caches
+__pycache__/
+*.py[cod]
+.venv/
