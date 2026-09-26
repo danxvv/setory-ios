@@ -69,16 +69,31 @@ Builds installed under an earlier bundle identifier remain separate apps. Their 
 
 1. Open **Setory.xcodeproj** in Xcode 27 and sign in under **Xcode → Settings → Apple Accounts**. A free Personal Team is enough for testing on your own iPhone.
 2. Connect your unlocked **iOS 27** iPhone by USB and accept **Trust This Computer**. In Xcode's run-destination menu, choose **Manage Devices** to open [Device Hub](https://developer.apple.com/documentation/xcode/managing-your-simulated-and-physical-devices-in-device-hub) and finish pairing the phone.
-3. On the iPhone, enable **Settings → Privacy & Security → Developer Mode**, restart, and confirm. The switch may appear only after pairing begins. See Apple's [Developer Mode instructions](https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device).
+3. On the iPhone, enable **Settings → Privacy & Security → Developer Mode** and accept the restart. After restarting, unlock the phone, confirm that you want to enable Developer Mode, and enter your passcode when asked. The switch may appear only after pairing begins. See Apple's [Developer Mode instructions](https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device).
 4. Select the blue **Setory** project in the Project navigator, then **TARGETS → Setory → Signing & Capabilities**. Click **Set Up Signing** if offered, select your team, and use `danxvv.setory` as the bundle identifier. Otherwise, enable **Automatically manage signing** and select your team directly. If Apple says that identifier is unavailable to your team, choose a unique personal one, such as `com.yourname.setory`.
 5. In the toolbar, select the **Setory** scheme and your **physical iPhone** as the run destination. Let device preparation finish; choose the phone itself rather than a simulator or the generic **Any iOS Device** destination.
-6. Choose **Product → Run** (**⌘R**). Xcode builds, signs, installs, and launches Setory. Accept any device-registration, Keychain, or developer-trust prompts needed to complete setup.
+6. Choose **Product → Run** (**⌘R**). Xcode builds, signs, installs, and launches Setory. Complete any device-registration or signing-Keychain prompts. If installation succeeds but iOS blocks launch with a developer-trust warning, follow the [certificate-trust steps below](#trust-the-developer-certificate-on-the-iphone), then run again.
 
 After installation, you can open **Setory** from the iPhone's Home Screen. For later updates, run the same project on the same phone with the same bundle identifier and signing team; you do not need to uninstall the app. Apple's [guide to running on physical devices](https://developer.apple.com/documentation/xcode/building-and-running-an-app) covers the signing and device-selection screens.
 
 If the phone is missing or ineligible, check its status in **Device Hub**, unlock it, and verify pairing and Developer Mode. Install any requested iOS platform support in **Xcode → Settings → Components**. For a newer iOS 27 update or beta, use an Xcode version that supports that specific device OS.
 
 With a free Personal Team, provisioning profiles expire after **7 days**, so rebuild and reinstall periodically using either workflow. See Apple's [Personal Team limits](https://developer.apple.com/help/account/basics/about-your-developer-account).
+
+#### Trust the developer certificate on the iPhone
+
+After installing Setory, a Personal Team build may need this additional step if iOS shows **Untrusted Developer** or says the **Developer App Certificate is not trusted**:
+
+1. Open **Settings → General → VPN & Device Management** on the iPhone.
+2. Under **Developer App**, select the developer identity associated with the Apple Account or team that signed your build.
+3. Tap **Trust** for that identity and confirm using the action shown by iOS. If it requests a restart, complete it and follow the confirmation prompts after unlocking the phone.
+4. Open **Setory** again, or repeat **⌘R** in Xcode / the CLI launch command.
+
+This certificate approval is separate from **Developer Mode** under **Privacy & Security**. The **VPN & Device Management** page also contains developer-trust settings; **you do not need to configure or enable a VPN**. Apple explicitly documents trusting the developer certificate for Personal Team builds in its [Fruta sample setup](https://developer.apple.com/documentation/appclip/fruta-building-a-feature-rich-app-with-swiftui).
+
+Apple's **Allow & Restart** instructions apply specifically to manually installed **enterprise apps** on iOS 18 and later. For this Personal Team workflow, follow the confirmation displayed on your phone. If you see **Not Verified** or **Verify App**, connect the phone to the internet and retry verification. See Apple's [enterprise trust and verification guidance](https://support.apple.com/en-us/118254).
+
+If there is no developer entry, first confirm that the signed app was installed successfully. If Setory already opens, you do not need an additional manual trust step.
 
 ### Install on an iPhone from the CLI
 
@@ -132,7 +147,7 @@ xcrun devicectl device process launch \
   "$SETORY_BUNDLE_ID"
 ```
 
-Keep the phone unlocked during installation and launch. If iOS requests developer trust, follow its instructions in **Settings → General → VPN & Device Management**. To install an updated build, repeat the build and install commands with the same identifiers; there is no need to uninstall the app first.
+Keep the phone unlocked during installation and launch. If iOS requests developer trust, complete the [certificate-trust steps above](#trust-the-developer-certificate-on-the-iphone), then repeat the launch command. To install an updated build, repeat the build and install commands with the same identifiers; there is no need to uninstall the app first.
 
 If `xcodebuild` reports that it requires Xcode or `devicectl` cannot be found, check `xcode-select -p`. With Xcode installed in its usual location, select it using `sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer`, then open Xcode to complete any first-launch setup. If the iPhone is missing or listed as ineligible, check pairing, Developer Mode, its iOS version, and whether your installed Xcode supports that version.
 
