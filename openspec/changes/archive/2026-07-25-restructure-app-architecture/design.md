@@ -4,7 +4,7 @@ The app target is 55 Swift files / ~6,664 lines split three ways by type: `Model
 
 Constraints that shape this design:
 
-- **`PBXFileSystemSynchronizedRootGroup`.** All three targets use it, and the pbxproj carries no `membershipExceptions`. Nested directories under `gymapp/` join the target automatically, so the whole reorganization is `git mv` with no project-file surgery. This is the single biggest reason the restructure is cheap here.
+- **`PBXFileSystemSynchronizedRootGroup`.** All three targets use it, and the pbxproj carries no `membershipExceptions`. Nested directories under `Setory/` join the target automatically, so the whole reorganization is `git mv` with no project-file surgery. This is the single biggest reason the restructure is cheap here.
 - **No per-directory namespacing in Swift.** One module, so directories are organizational only. Moving a file cannot break a reference or require a new `import`. Every genuine risk in this change therefore comes from the ~10 files whose *contents* change, not from the ~45 that only move.
 - **Debug compilation condition already set.** The app target's Debug configuration defines `SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)"`, and the scheme's Test action builds Debug. `#if DEBUG` is therefore a working seam for excluding test scaffolding from Release without touching build settings.
 - **The existing suites are the oracle.** 23 unit-test files and 9 UI-test files encode current behavior. They must pass with mechanical updates only — that is what makes "no behavior change" a checkable claim rather than an intention.
@@ -23,7 +23,7 @@ Constraints that shape this design:
 
 **Non-Goals:**
 
-- No MVVM sweep. `@Query`-straight-into-the-view stays for the CRUD screens ([ExerciseLibraryView](gymapp/Views/ExerciseLibraryView.swift), [RoutineListView](gymapp/Views/RoutineListView.swift), [ProgressTabView](gymapp/Views/ProgressTabView.swift)); only the AI flows get flow models.
+- No MVVM sweep. `@Query`-straight-into-the-view stays for the CRUD screens ([ExerciseLibraryView](Setory/Views/ExerciseLibraryView.swift), [RoutineListView](Setory/Views/RoutineListView.swift), [ProgressTabView](Setory/Views/ProgressTabView.swift)); only the AI flows get flow models.
 - No change to the pure-statics style of the builders, parsers, and stats providers. That style is why they are well covered, and it stays.
 - No new abstraction over SwiftData. Stores take a `ModelContext` directly; no repository protocol, no generic CRUD layer.
 - No feature work, no UI redesign, no OpenRouter contract change, no new dependency.
@@ -37,8 +37,8 @@ Constraints that shape this design:
 Target tree, with every current file's destination:
 
 ```
-gymapp/
-  App/           gymappApp.swift · RootTabView.swift · AppModelContainer.swift* · ExerciseRoute.swift*
+Setory/
+  App/           SetoryApp.swift · RootTabView.swift · AppModelContainer.swift* · ExerciseRoute.swift*
   Domain/
     Entities/    Exercise.swift · WorkoutSession.swift · RoutineTemplate.swift
     Vocabulary/  Muscle.swift · ExerciseCategory.swift* · Equipment.swift
@@ -92,7 +92,7 @@ Four boundary invariants make the layering auditable, each a one-line grep:
 
 ### D2: One transport, two clients
 
-[OpenRouterSuggestionService](gymapp/Services/RoutineSuggestionService.swift:53) and [OpenRouterPhotoMatchService](gymapp/Services/PhotoExerciseMatchService.swift:41) are identical except for the body builder and the parser. The photo client already borrows `OpenRouterSuggestionService.endpoint`, `.requestTimeout`, and `.resolvedModel` across a feature boundary — that borrow is the seam telling us where the shared type goes.
+[OpenRouterSuggestionService](Setory/Services/RoutineSuggestionService.swift:53) and [OpenRouterPhotoMatchService](Setory/Services/PhotoExerciseMatchService.swift:41) are identical except for the body builder and the parser. The photo client already borrows `OpenRouterSuggestionService.endpoint`, `.requestTimeout`, and `.resolvedModel` across a feature boundary — that borrow is the seam telling us where the shared type goes.
 
 ```swift
 struct OpenRouterClient: Sendable {
@@ -112,7 +112,7 @@ struct OpenRouterClient: Sendable {
 
 ### D3: Stores own writes; the failure *policy* lives once
 
-`save()` / `rollback()` / `assertionFailure()` currently appears in five view files ([ContentView:377](gymapp/Views/ContentView.swift:377), [RoutineListView:172](gymapp/Views/RoutineListView.swift:172) and `:182`, [TemplateEditForm:217](gymapp/Views/TemplateEditForm.swift:217), [ExerciseEditForm:196](gymapp/Views/ExerciseEditForm.swift:196)). Three store structs replace it:
+`save()` / `rollback()` / `assertionFailure()` currently appears in five view files ([ContentView:377](Setory/Views/ContentView.swift:377), [RoutineListView:172](Setory/Views/RoutineListView.swift:172) and `:182`, [TemplateEditForm:217](Setory/Views/TemplateEditForm.swift:217), [ExerciseEditForm:196](Setory/Views/ExerciseEditForm.swift:196)). Three store structs replace it:
 
 ```swift
 struct WorkoutStore  { let context: ModelContext
@@ -140,7 +140,7 @@ Views become `persisting("finish day") { try workoutStore.finishDay(...) }`. Sam
 
 ### D4: Flow models take dependencies as method parameters
 
-[`findMatches()`](gymapp/Views/PhotoMatchSheet.swift:429) and [`generate()`](gymapp/Views/SuggestRoutineSheet.swift:147) are ~45 lines each of fetch → build → call → resolve → map-error, structurally the same twice, and reachable only through a `View`. Each becomes an `@Observable` flow:
+[`findMatches()`](Setory/Views/PhotoMatchSheet.swift:429) and [`generate()`](Setory/Views/SuggestRoutineSheet.swift:147) are ~45 lines each of fetch → build → call → resolve → map-error, structurally the same twice, and reachable only through a `View`. Each becomes an `@Observable` flow:
 
 ```swift
 @Observable final class SuggestionFlow {
@@ -161,7 +161,7 @@ Resolution keeps today's rule: returned ids resolve against local `Exercise` rec
 
 ### D5: Locale resolution moves to the presentation boundary
 
-[`Exercise.contentLanguageCode`](gymapp/Models/Exercise.swift:49) reads `Locale.current` inside a `@Model`, which is exactly why CLAUDE.md documents "unit tests inherit the simulator's device language" as a hazard. The explicit accessors `localizedName(languageCode:)`, `localizedSummary(languageCode:)`, and `localizedInstructionSteps(languageCode:)` already exist and stay on the entity; the ambient-locale conveniences (`localizedName`, `localizedSummary`, `localizedInstructionSteps`) move to `DesignSystem/ExerciseDisplay.swift` as an extension.
+[`Exercise.contentLanguageCode`](Setory/Models/Exercise.swift:49) reads `Locale.current` inside a `@Model`, which is exactly why CLAUDE.md documents "unit tests inherit the simulator's device language" as a hazard. The explicit accessors `localizedName(languageCode:)`, `localizedSummary(languageCode:)`, and `localizedInstructionSteps(languageCode:)` already exist and stay on the entity; the ambient-locale conveniences (`localizedName`, `localizedSummary`, `localizedInstructionSteps`) move to `DesignSystem/ExerciseDisplay.swift` as an extension.
 
 `matchesSearch(_:)` is the one wrinkle: it consults the resolved display name *and* the canonical English name, so it depends on the ambient language. It moves to the presentation extension alongside the conveniences, keeping its dual-vocabulary behavior byte-identical — the property that lets a Spanish-device user find "bench press" off a machine's label.
 
@@ -184,15 +184,15 @@ enum TestOverrides {
 }
 ```
 
-`gymappApp` asks once for overrides and otherwise builds the real dependency graph. `#if DEBUG` also wraps the stub services, the in-memory key store, `UITestSeeding`, `UITestReset`, and `PhotoMatchFixture`, so a Release binary contains none of them and the `-uitest-*` arguments become inert. `LaunchOptions` is the only reader of `CommandLine.arguments`, which retires the stray read at [PhotoMatchSheet:479](gymapp/Views/PhotoMatchSheet.swift:479); the sheet receives its fixture affordance through the same environment seam that already supplies its match service.
+`SetoryApp` asks once for overrides and otherwise builds the real dependency graph. `#if DEBUG` also wraps the stub services, the in-memory key store, `UITestSeeding`, `UITestReset`, and `PhotoMatchFixture`, so a Release binary contains none of them and the `-uitest-*` arguments become inert. `LaunchOptions` is the only reader of `CommandLine.arguments`, which retires the stray read at [PhotoMatchSheet:479](Setory/Views/PhotoMatchSheet.swift:479); the sheet receives its fixture affordance through the same environment seam that already supplies its match service.
 
 The reset routine keeps its current shape and its performance property: delete custom exercises, re-align edited ones, and parse the bundled catalog **only when an edited exercise exists**. `CatalogSeeder.restorePristineCatalog` and `seedIfNeeded` stay in `Persistence/` — they are real catalog logic with real unit tests — and `UITestReset` delegates to them.
 
-*Alternatives considered.* **`EXCLUDED_SOURCE_FILE_NAMES[config=Release]`** — avoids `#if DEBUG` inside the scaffolding files, but the *call site* in `gymappApp` would still reference types that no longer exist in Release, so a conditional there is unavoidable; adding a build setting on top buys nothing and hides the boundary from the source. **Move the stubs into the UI-test target** — impossible: XCUITest drives the app out of process and cannot inject types into it. **Leave scaffolding shipping** — status quo; it works, but it puts a network-stubbing seam and a data-wipe path in the shipped binary.
+*Alternatives considered.* **`EXCLUDED_SOURCE_FILE_NAMES[config=Release]`** — avoids `#if DEBUG` inside the scaffolding files, but the *call site* in `SetoryApp` would still reference types that no longer exist in Release, so a conditional there is unavoidable; adding a build setting on top buys nothing and hides the boundary from the source. **Move the stubs into the UI-test target** — impossible: XCUITest drives the app out of process and cannot inject types into it. **Leave scaffolding shipping** — status quo; it works, but it puts a network-stubbing seam and a data-wipe path in the shipped binary.
 
 ### D7: One route type, one registration
 
-`ExerciseRoute` replaces the bare-`String` destination in [ExerciseLibraryView:53](gymapp/Views/ExerciseLibraryView.swift:53) and the `ProgressionDestination` registered separately in [ExerciseLibraryView:56](gymapp/Views/ExerciseLibraryView.swift:56) and [ProgressTabView:42](gymapp/Views/ProgressTabView.swift:42):
+`ExerciseRoute` replaces the bare-`String` destination in [ExerciseLibraryView:53](Setory/Views/ExerciseLibraryView.swift:53) and the `ProgressionDestination` registered separately in [ExerciseLibraryView:56](Setory/Views/ExerciseLibraryView.swift:56) and [ProgressTabView:42](Setory/Views/ProgressTabView.swift:42):
 
 ```swift
 enum ExerciseRoute: Hashable { case detail(String), progression(String) }
@@ -220,7 +220,7 @@ Twelve steps, each independently buildable with both suites green. Steps 1–3 a
 
 1. **Probe** the synchronized-group behavior with one file in one new subdirectory. Build. Revert.
 2. **Move** all files into the layer tree (`git mv` only, no edits). Split `Muscle.swift`'s `ExerciseCategory` out, `APIKeyStore.swift`'s `InMemoryAPIKeyStore` out, and `ExerciseFilterBar.swift`'s `ExerciseFilters` out — three mechanical file splits, no logic touched.
-3. **Extract** `AppModelContainer` and `UITestSeeding` out of `gymappApp.swift`.
+3. **Extract** `AppModelContainer` and `UITestSeeding` out of `SetoryApp.swift`.
 4. **Rename** `SuggestionError` → `AIError` into its own file; extract `PhotoMatchResponseParser` and `AIModelPreference`. Update the three test files.
 5. **Introduce** `OpenRouterClient`; rewrite both services on top of it. Assert request-body byte equality against fixtures.
 6. **Add** `WorkoutStore`, `TemplateStore`, `ExerciseStore` with unit tests, and the `persisting` helper — without changing any view yet.

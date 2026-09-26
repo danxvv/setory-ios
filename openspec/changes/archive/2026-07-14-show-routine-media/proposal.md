@@ -23,8 +23,8 @@ None.
 
 ## Impact
 
-- **Views**: `gymapp/Views/ContentView.swift` (plan rows, draft rows, saved-session rows; `seriesRow` must receive the `Exercise`, not just its name); a new small media viewer sheet view that wraps the existing `ExerciseMediaView`.
+- **Views**: `Setory/Views/ContentView.swift` (plan rows, draft rows, saved-session rows; `seriesRow` must receive the `Exercise`, not just its name); a new small media viewer sheet view that wraps the existing `ExerciseMediaView`.
 - **Reused as-is**: `ExerciseThumbnailView`, `ExerciseMediaView`, `AnimatedGIFView`, `ExerciseMediaStore` (no service/API changes; media stays offline-first with the pinned CDN for GIFs).
-- **Localization**: new keys in `gymapp/Localizable.xcstrings` with `es` translations (`LocalizationTests` audits completeness).
+- **Localization**: new keys in `Setory/Localizable.xcstrings` with `es` translations (`LocalizationTests` audits completeness).
 - **Tests**: UI tests for thumbnail presence and viewer opening on the logging screen; existing workout-logging UI tests may need row-accessibility updates.
 - **No changes** to SwiftData models, the exercise catalog, or the AI suggestion flow.

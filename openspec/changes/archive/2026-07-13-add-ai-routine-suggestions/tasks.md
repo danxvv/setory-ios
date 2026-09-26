@@ -15,7 +15,7 @@
 ## 3. OpenRouter client
 
 - [x] 3.1 Define `RoutineSuggestionService` protocol (`suggestRoutine(request:) async throws -> SuggestedRoutine`) and implement `OpenRouterSuggestionService` with `URLSession` async/await: POST `https://openrouter.ai/api/v1/chat/completions`, Bearer key from `APIKeyStore`, model from override-or-default constant, ~60 s timeout, cancellation support.
-- [x] 3.2 Implement `StubSuggestionService` (configurable success/failure/delay) and the `-uitest-ai <scenario>` launch-argument wiring in `gymappApp.swift` (stub service + in-memory key store), consistent with existing `-uitest-reset`/`-uitest-seed` handling.
+- [x] 3.2 Implement `StubSuggestionService` (configurable success/failure/delay) and the `-uitest-ai <scenario>` launch-argument wiring in `SetoryApp.swift` (stub service + in-memory key store), consistent with existing `-uitest-reset`/`-uitest-seed` handling.
 - [x] 3.3 Unit-test `OpenRouterSuggestionService` request assembly and response handling with a `URLProtocol`-based fake (no real network): headers, body shape, model selection, error paths.
 
 ## 4. AI settings screen

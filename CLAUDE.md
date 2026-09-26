@@ -1,6 +1,8 @@
-# gymapp
+# Setory
 
-SwiftUI + SwiftData iOS app (Xcode 26.6, iOS 26.5 SDK, iPhone 17 Pro simulator). The pbxproj uses `PBXFileSystemSynchronizedRootGroup`: files added on disk under `gymapp/`, `gymappTests/`, or `gymappUITests/` join their target automatically, nested directories included — no pbxproj edits needed.
+Use **Setory** as the product name throughout code and documentation. The repository is `setory-ios`; the Xcode project, app target, scheme, and Swift module are `Setory`; the app bundle identifier is `danxvv.setory`.
+
+SwiftUI + SwiftData iOS app (Xcode 26.6, iOS 26.5 SDK, iPhone 17 Pro simulator). The pbxproj uses `PBXFileSystemSynchronizedRootGroup`: files added on disk under `Setory/`, `SetoryTests/`, or `SetoryUITests/` join their target automatically, nested directories included — no pbxproj edits needed.
 
 ## Source layout
 
@@ -29,17 +31,17 @@ Always pass a scratch `-derivedDataPath` — Xcode's previews agent clobbers the
 
 ```bash
 # Unit tests
-xcodebuild test -project gymapp.xcodeproj -scheme gymapp \
+xcodebuild test -project Setory.xcodeproj -scheme Setory \
   -destination "platform=iOS Simulator,name=iPhone 17 Pro" \
-  -derivedDataPath /tmp/gymapp-deriveddata \
-  -only-testing:gymappTests
+  -derivedDataPath /tmp/setory-deriveddata \
+  -only-testing:SetoryTests
 
 # UI tests — use the fast runner (pre-boots the base simulator, runs 6
 # parallel simulator clones)
 scripts/uitest.sh
-scripts/uitest.sh -only-testing:gymappUITests/ProgressUITests
+scripts/uitest.sh -only-testing:SetoryUITests/ProgressUITests
 WORKERS=3 scripts/uitest.sh
-DERIVED_DATA=/tmp/gymapp-dd-mybranch scripts/uitest.sh
+DERIVED_DATA=/tmp/setory-dd-mybranch scripts/uitest.sh
 ```
 
 For fast iteration: `xcodebuild build-for-testing` once against the same DerivedData path, then `test-without-building` per run.
@@ -59,7 +61,7 @@ Notes:
 Any argument prefixed `-uitest` also disables UIKit animations so XCUITest quiescence waits don't pay animation durations.
 
 - `-uitest-reset` — wipes WorkoutSession/WorkoutSeries/RoutineTemplate(Item) and restores edited catalog exercises to pristine via `CatalogSeeder.restorePristineCatalog` (catalog JSON is parsed only when an edit actually leaked from a prior test — do NOT reintroduce a full Exercise wipe + reseed; the 1324-row reseed per launch is what made the suite slow).
-- `-uitest-seed` — inserts two known sessions (combine with reset): today = Barbell Bench Press (gv0025) 10×40 + Run (gv0685) 15 min; three days earlier = Barbell Full Squat (gv0043) 8×70. See `UITestSeeding` in gymappApp.swift.
+- `-uitest-seed` — inserts two known sessions (combine with reset): today = Barbell Bench Press (gv0025) 10×40 + Run (gv0685) 15 min; three days earlier = Barbell Full Squat (gv0043) 8×70. See `UITestSeeding` in SetoryApp.swift.
 - `-uitest-offline-media` — disables the media store's network path so detail screens deterministically show thumbnail + retry state.
 - `-uitest-ai <scenario>` — success | error | no-key; swaps AI deps for an in-memory key store + stub service.
 - `-uitest-disable-animations` — no behavior of its own beyond the `-uitest` prefix; used by relaunch-without-reset persistence tests so their second launch still skips animations.
@@ -67,9 +69,9 @@ Any argument prefixed `-uitest` also disables UIKit animations so XCUITest quies
 
 ## Conventions & gotchas
 
-- Exercise ids are `gv`-prefixed dataset ids; catalog names are English-only. Bump `CatalogSeeder.bundledCatalogVersion` together with `version` in `gymapp/Resources/exercise-catalog.json`.
+- Exercise ids are `gv`-prefixed dataset ids; catalog names are English-only. Bump `CatalogSeeder.bundledCatalogVersion` together with `version` in `Setory/Resources/exercise-catalog.json`.
 - The target enables `MemberImportVisibility`: using a SwiftData extension member (e.g. `.modelContainer(for:)`) requires an explicit `import SwiftData` in that file.
 - Swift Testing: don't nest `#require` inside another macro call ("recursive expansion of macro 'require'") — bind the inner value with its own `try #require(...)` first.
 - SwiftUI AX quirks for XCUITest: identifiers on List rows aren't `app.cells[id]` (query `app.descendants(matching: .any).matching(identifier:)`); `LabeledContent` exposes one combined element (label in `.label`, value in `.value`); offscreen `Menu` items need `app.swipeUp()` first; `.searchable` in a sheet docks at the bottom and hides the nav bar while active — dismiss via the search bar's close button (localized label, no identifier).
 - Headless visual verification: UI tests attach screenshots (`XCTAttachment`, `.keepAlways`); export with `xcrun xcresulttool export attachments` and read the PNGs. `VisualSmokeUITests` covers the library, detail, picker, and AI surfaces — **not** the Log tab, so log-screen layout changes need a `simctl io screenshot` check or a new case.
-- `gymappTests/Fixtures/*.json` are golden OpenRouter request bodies, located via `#filePath` rather than the test bundle. A diff there means the REST contract moved; `UPDATE_REQUEST_FIXTURES=1` rewrites them after an intentional change.
+- `SetoryTests/Fixtures/*.json` are golden OpenRouter request bodies, located via `#filePath` rather than the test bundle. A diff there means the REST contract moved; `UPDATE_REQUEST_FIXTURES=1` rewrites them after an intentional change.

@@ -1,6 +1,6 @@
 ## Context
 
-The main page is the Log tab (`gymapp/Views/ContentView.swift`): a `NavigationStack` → `List` with a calendar header, a plan section, and a series section. The "current routine" is derived at display time and appears in one of three states:
+The main page is the Log tab (`Setory/Views/ContentView.swift`): a `NavigationStack` → `List` with a calendar header, a plan section, and a series section. The "current routine" is derived at display time and appears in one of three states:
 
 - **Staged plan** (unsaved day with an applied template): `plans[selectedDate]` is a `DayPlan`; each `PlannedExercise` holds a concrete `Exercise` (`ContentView.swift:118-163`).
 - **Draft series** (unsaved day, logging in progress): each `DraftSeries` exposes `.exercise` (`ContentView.swift:224-249`).
@@ -8,8 +8,8 @@ The main page is the Log tab (`gymapp/Views/ContentView.swift`): a `NavigationSt
 
 A complete media stack already exists and is used everywhere except the main page:
 
-- `ExerciseThumbnailView(exercise: Exercise, size: CGFloat = 40)` — bundled thumbnail, synchronous/offline, category-icon fallback (`gymapp/Views/ExerciseThumbnailView.swift`).
-- `ExerciseMediaView(exercise: Exercise)` — 180×180 animated GIF with loading state, thumbnail degradation, retry, and the Gym visual attribution (`gymapp/Views/ExerciseMediaView.swift`).
+- `ExerciseThumbnailView(exercise: Exercise, size: CGFloat = 40)` — bundled thumbnail, synchronous/offline, category-icon fallback (`Setory/Views/ExerciseThumbnailView.swift`).
+- `ExerciseMediaView(exercise: Exercise)` — 180×180 animated GIF with loading state, thumbnail degradation, retry, and the Gym visual attribution (`Setory/Views/ExerciseMediaView.swift`).
 - `ExerciseMediaStore` (environment: `\.exerciseMediaStore`) — bundle thumbnails + pinned-CDN GIF download with permanent on-disk cache keyed by exercise `id`.
 - Media gate: `exercise.hasMedia` (`gifFileName != nil`).
 
@@ -31,7 +31,7 @@ A complete media stack already exists and is used everywhere except the main pag
 
 1. **Row thumbnails via `ExerciseThumbnailView`** (size 40, matching library rows). It is synchronous and bundle-backed, so it is safe inside `List` rows, and it already implements the category-icon fallback required for exercises without media. Alternative — inline `AnimatedGIFView` per row — rejected: decoding N GIFs in a list is expensive and visually noisy.
 
-2. **Animated demonstration in a sheet, not a navigation push.** A new lightweight view (`RoutineMediaSheet`, new file in `gymapp/Views/`) wraps the existing `ExerciseMediaView(exercise:)` in a `NavigationStack` with the exercise's localized name as title and a Done button. `ExerciseMediaView` already provides on-demand fetch, disk cache, thumbnail degradation with retry, and the attribution caption, so the sheet adds only chrome. Alternative — navigating to `ExerciseDetailView` — rejected: it pulls the user out of the logging context and drags in unrelated detail content.
+2. **Animated demonstration in a sheet, not a navigation push.** A new lightweight view (`RoutineMediaSheet`, new file in `Setory/Views/`) wraps the existing `ExerciseMediaView(exercise:)` in a `NavigationStack` with the exercise's localized name as title and a Done button. `ExerciseMediaView` already provides on-demand fetch, disk cache, thumbnail degradation with retry, and the attribution caption, so the sheet adds only chrome. Alternative — navigating to `ExerciseDetailView` — rejected: it pulls the user out of the logging context and drags in unrelated detail content.
 
 3. **Thumbnail tap = borderless button inside the row.** Each thumbnail is wrapped in a `Button` with `.buttonStyle(.borderless)`, which is the SwiftUI-sanctioned way to have an independently tappable region inside a `List` row without hijacking the row's primary action (set-entry popup on plan rows, `NavigationLink` on saved rows). Alternative — `.onTapGesture` on the image — rejected: fights `List` selection and is worse for accessibility. The button is only attached when `exercise.hasMedia`; otherwise the thumbnail (fallback icon) is inert.
 

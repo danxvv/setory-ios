@@ -2,7 +2,7 @@
 
 ## 1. App structure
 
-- [x] 1.1 Create `RootTabView` with "Log" (existing `ContentView`) and "Routines" tabs, each in its own `NavigationStack`, and make it the root view in `gymappApp`
+- [x] 1.1 Create `RootTabView` with "Log" (existing `ContentView`) and "Routines" tabs, each in its own `NavigationStack`, and make it the root view in `SetoryApp`
 
 ## 2. Routine detail view
 

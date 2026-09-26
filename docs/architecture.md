@@ -24,12 +24,12 @@ flowchart TD
 
 ## Startup
 
-The entry point is [gymappApp.swift](../gymapp/App/gymappApp.swift).
+The entry point is [SetoryApp.swift](../Setory/App/SetoryApp.swift).
 
 - It constructs an `ExerciseMediaStore` and the AI dependencies once per app instance.
 - Normal AI dependencies are `KeychainAPIKeyStore`, `OpenRouterSuggestionService`, and `OpenRouterPhotoMatchService`.
 - Debug launch overrides can substitute deterministic services, an in-memory key, and offline media behavior.
-- [AppModelContainer](../gymapp/App/AppModelContainer.swift) declares all five persisted model types and creates the on-disk container.
+- [AppModelContainer](../Setory/App/AppModelContainer.swift) declares all five persisted model types and creates the on-disk container.
 - Container initialization applies an optional test reset, seeds the catalog if required, then optionally seeds test sessions. This order ensures sessions reference existing exercises.
 - The window installs `RootTabView`, injects services through environment values, and attaches the model container.
 
@@ -70,7 +70,7 @@ Catalog startup writes are a separate path in `CatalogSeeder`.
 
 ## Navigation and sheets
 
-[RootTabView](../gymapp/App/RootTabView.swift) creates four tabs. Log, Exercises, and Progress provide their own navigation stacks; RootTabView wraps Routines in a stack.
+[RootTabView](../Setory/App/RootTabView.swift) creates four tabs. Log, Exercises, and Progress provide their own navigation stacks; RootTabView wraps Routines in a stack.
 
 `ExerciseRoute.detail(id)` and `.progression(id)` are registered by `exerciseDestinations()` in the Exercises and Progress stacks. Detail screens resolve a stable exercise ID against local records. Saved workout details are pushed directly with their `WorkoutSession`.
 

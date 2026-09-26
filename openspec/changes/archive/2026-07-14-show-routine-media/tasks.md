@@ -1,6 +1,6 @@
 ## 1. Media viewer sheet
 
-- [x] 1.1 Create `gymapp/Views/RoutineMediaSheet.swift`: a `NavigationStack` wrapping `ExerciseMediaView(exercise:)` with the exercise's localized name as the title and a Done button that dismisses the sheet
+- [x] 1.1 Create `Setory/Views/RoutineMediaSheet.swift`: a `NavigationStack` wrapping `ExerciseMediaView(exercise:)` with the exercise's localized name as the title and a Done button that dismisses the sheet
 - [x] 1.2 Add accessibility identifiers to the sheet and its media area so UI tests can assert the viewer opened for the right exercise
 
 ## 2. Main-page row integration (ContentView)

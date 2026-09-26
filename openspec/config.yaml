@@ -1,7 +1,7 @@
 schema: spec-driven
 
 context: |
-  Product: iOS app for tracking gym workouts. The user records each exercise
+  Product: Setory, an iOS app for tracking gym workouts. The user records each exercise
   in a session as either repetitions (sets x reps, optional weight) or
   time-based duration, then saves the whole session as a reusable routine.
   An AI service suggests the next day's routine based on workout history.

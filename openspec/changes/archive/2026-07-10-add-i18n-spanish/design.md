@@ -32,7 +32,7 @@ Existing UI tests assert literal English strings ("No routines yet", "10 reps ·
 ### D1: String Catalog (`Localizable.xcstrings`), not legacy `.strings`
 The build settings already opt into catalogs, Xcode auto-extracts SwiftUI `LocalizedStringKey` literals at build time, and one JSON file carries all languages with per-key translation state. Alternative — `.lproj/Localizable.strings` pairs — rejected: legacy format, no extraction state tracking, no built-in plural support (would also need `.stringsdict`).
 
-The catalog lives at `gymapp/Localizable.xcstrings`; the synchronized root group includes it automatically. `es` is added to `knownRegions` in `project.pbxproj` (the one required project-file edit).
+The catalog lives at `Setory/Localizable.xcstrings`; the synchronized root group includes it automatically. `es` is added to `knownRegions` in `project.pbxproj` (the one required project-file edit).
 
 ### D2: View literals stay as literals; non-view strings adopt `String(localized:)`
 View code keeps `Text("Workout Log")` etc. — already `LocalizedStringKey`, zero code churn, auto-extracted. Model-layer strings (`DraftSeries.summary` components, `Muscle.displayName`, the `"Exercise"` fallback name) switch to `String(localized:)` so they extract too. Alternative — routing everything through a central strings enum — rejected as ceremony the 5-view app doesn't need; the generated-symbols setting already provides compile-time safety where wanted.

@@ -2,7 +2,7 @@
 
 ## Context
 
-The app seeds a 40-exercise catalog from `gymapp/Resources/exercises.json` through the `ExerciseCatalogSource` protocol → `CatalogSeeder` pipeline into SwiftData. Exercise text localizes at render time from two id-keyed string catalogs (`ExerciseNames.xcstrings`, `ExerciseContent.xcstrings`). There is no media handling anywhere (SF Symbols only), no equipment concept, and the AI suggestion request embeds the entire catalog plus an id-enum response schema.
+The app seeds a 40-exercise catalog from `Setory/Resources/exercises.json` through the `ExerciseCatalogSource` protocol → `CatalogSeeder` pipeline into SwiftData. Exercise text localizes at render time from two id-keyed string catalogs (`ExerciseNames.xcstrings`, `ExerciseContent.xcstrings`). There is no media handling anywhere (SF Symbols only), no equipment concept, and the AI suggestion request embeds the entire catalog plus an id-enum response schema.
 
 The source dataset (`github.com/hasaneyldrm/exercises-dataset`) provides 1,324 exercises: one 15 MB JSON (instructions in 9 languages), 8.5 MB of 180×180 JPG thumbnails, and 123 MB of 180×180 animated GIFs (~95 KB each). Data/instruction text is MIT; media is © Gym visual, redistributed with permission at this resolution, attribution string required.
 
@@ -35,8 +35,8 @@ Constraints:
 ### D1 — Offline transform pipeline, checked-in outputs
 
 A Python script in `tools/catalog/` reads the dataset at a **pinned commit SHA** and emits:
-- `gymapp/Resources/exercise-catalog.json` (~3 MB): id, cleaned name, category, mapped muscles, equipment, media file names, en/es summary + instruction steps.
-- `gymapp/Resources/ExerciseThumbnails/` (blue folder reference): the 1,324 JPGs, named by exercise id.
+- `Setory/Resources/exercise-catalog.json` (~3 MB): id, cleaned name, category, mapped muscles, equipment, media file names, en/es summary + instruction steps.
+- `Setory/Resources/ExerciseThumbnails/` (blue folder reference): the 1,324 JPGs, named by exercise id.
 - `tools/catalog/legacy-mapping.json`: hand-curated 40-row map from legacy ids to dataset ids (38 direct, 2 marked unmappable).
 
 The transform runs offline, once per dataset upgrade; the app never parses the raw 15 MB dataset. Rationale: keeps launch cost low, keeps taxonomy mapping and name cleanup (mojibake like `45в°`, title-casing) out of app code, and makes dataset upgrades an explicit, reviewable diff.

@@ -4,9 +4,9 @@
 
 ## Bundled catalog
 
-[exercise-catalog.json](../gymapp/Resources/exercise-catalog.json) contains 1,324 exercises imported into SwiftData. [ExerciseCatalog.swift](../gymapp/Persistence/ExerciseCatalog.swift) defines its decoding types. Stable exercise IDs use the `gv` prefix, such as `gv0025`.
+[exercise-catalog.json](../Setory/Resources/exercise-catalog.json) contains 1,324 exercises imported into SwiftData. [ExerciseCatalog.swift](../Setory/Persistence/ExerciseCatalog.swift) defines its decoding types. Stable exercise IDs use the `gv` prefix, such as `gv0025`.
 
-[CatalogSeeder](../gymapp/Persistence/CatalogSeeder.swift) currently declares bundled version 2. On launch it skips loading the JSON when the stored version matches and at least one exercise exists. Otherwise it reads the catalog and:
+[CatalogSeeder](../Setory/Persistence/CatalogSeeder.swift) currently declares bundled version 2. On launch it skips loading the JSON when the stored version matches and at least one exercise exists. Otherwise it reads the catalog and:
 
 1. Inserts missing exercise IDs.
 2. Aligns fields on existing, non-user-modified exercises.
@@ -21,18 +21,18 @@ This is an upsert/backfill pass, not an exact mirror: it does not generally remo
 
 The pinned dataset revision is `118e4bd6b14da6df0e36605d7169b65db18389a4`. When changing catalog content, keep the transformer's `CATALOG_VERSION`, JSON `version`, and `CatalogSeeder.bundledCatalogVersion` aligned. When upgrading the media source, align the transformer's `PINNED_COMMIT` and `ExerciseMediaStore.datasetCommit`, and add Spanish names for new IDs.
 
-[The catalog tooling guide](../tools/catalog/README.md) provides its input/output workflow. Its older `gymapp/Services/ExerciseMediaStore.swift` reference has moved to [gymapp/Media/ExerciseMediaStore.swift](../gymapp/Media/ExerciseMediaStore.swift).
+[The catalog tooling guide](../tools/catalog/README.md) provides its input/output workflow. Its older `Setory/Services/ExerciseMediaStore.swift` reference has moved to [Setory/Media/ExerciseMediaStore.swift](../Setory/Media/ExerciseMediaStore.swift).
 
 ## Two localization layers
 
 | Layer | Source | Behavior |
 | --- | --- | --- |
-| UI labels, enum labels, messages | [Localizable.xcstrings](../gymapp/Localizable.xcstrings) and localized string calls | English/Spanish UI text follows platform localization |
+| UI labels, enum labels, messages | [Localizable.xcstrings](../Setory/Localizable.xcstrings) and localized string calls | English/Spanish UI text follows platform localization |
 | Exercise names, descriptions, instructions | Translation dictionaries on `Exercise`, seeded from JSON | Explicit language-code methods resolve translated content with stored-text fallback |
 
 `Exercise.localizedName(languageCode:)` falls back when a translation is missing or empty. Instructions similarly fall back for missing/empty translated arrays. Summary falls back when its translation key is absent. `isUserModified` bypasses translation lookup for all three content fields.
 
-[ExerciseDisplay.swift](../gymapp/DesignSystem/ExerciseDisplay.swift) supplies current-language convenience properties, localized sorting/search, and localized session exercise names. Persisted entity methods accept explicit language codes so tests need not depend on the simulator's language.
+[ExerciseDisplay.swift](../Setory/DesignSystem/ExerciseDisplay.swift) supplies current-language convenience properties, localized sorting/search, and localized session exercise names. Persisted entity methods accept explicit language codes so tests need not depend on the simulator's language.
 
 Search checks both the localized and stored name, so an unmodified Spanish-display exercise can still be found by its English catalog name. Filtering uses stable raw taxonomy values. Template names are saved user content and do not automatically translate after a locale change.
 
@@ -46,4 +46,4 @@ There is no built-in cache expiry, size limit, or revision namespace: cache file
 
 ## Attribution
 
-The app's About screen distinguishes dataset/instruction text from Gym visual media and includes the dataset MIT license and media attribution. The shared demonstration view displays `ExerciseMediaStore.attribution`. Preserve the existing attribution when modifying or reusing media surfaces; see [AboutView.swift](../gymapp/Features/Settings/AboutView.swift) for the project's shipped wording.
+The app's About screen distinguishes dataset/instruction text from Gym visual media and includes the dataset MIT license and media attribution. The shared demonstration view displays `ExerciseMediaStore.attribution`. Preserve the existing attribution when modifying or reusing media surfaces; see [AboutView.swift](../Setory/Features/Settings/AboutView.swift) for the project's shipped wording.

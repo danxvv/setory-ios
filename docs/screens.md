@@ -4,7 +4,7 @@
 
 ## Log
 
-Main source: [LogView.swift](../gymapp/Features/Log/LogView.swift).
+Main source: [LogView.swift](../Setory/Features/Log/LogView.swift).
 
 The screen owns the selected start-of-day date, drafts keyed by date, day plans keyed by date, and sheet state. It queries sessions, templates, and saved series. A matching saved session decides whether the selected day is editable.
 
@@ -37,7 +37,7 @@ Replacing an existing plan asks for confirmation and preserves logged drafts. Un
 
 ## Exercises
 
-Sources: [ExerciseLibraryView](../gymapp/Features/Catalog/ExerciseLibraryView.swift), [FilteredExerciseList](../gymapp/Features/Catalog/FilteredExerciseList.swift).
+Sources: [ExerciseLibraryView](../Setory/Features/Catalog/ExerciseLibraryView.swift), [FilteredExerciseList](../Setory/Features/Catalog/FilteredExerciseList.swift).
 
 The catalog browser and both exercise pickers share a list shell. Search, an optional primary-muscle filter, and an optional equipment filter combine with AND semantics. Search matches the localized display name or canonical stored name and ignores case and diacritics. Results sort by localized name. No results produces an empty state while retaining search/filter controls.
 
@@ -45,7 +45,7 @@ The catalog browser and both exercise pickers share a list shell. Search, an opt
 
 ### Exercise detail
 
-[ExerciseDetailView](../gymapp/Features/Catalog/ExerciseDetailView.swift) resolves the routed ID and shows:
+[ExerciseDetailView](../Setory/Features/Catalog/ExerciseDetailView.swift) resolves the routed ID and shows:
 
 - Animation/thumbnail when media exists, category, equipment, and primary/secondary muscles.
 - Description and ordered instructions when available.
@@ -63,7 +63,7 @@ Saving requires a nonblank trimmed name and at least one primary muscle. Normali
 
 ## Routines
 
-[RoutineListView](../gymapp/Features/Routines/RoutineListView.swift) has two independent sections:
+[RoutineListView](../Setory/Features/Routines/RoutineListView.swift) has two independent sections:
 
 | Section | Ordering and actions |
 | --- | --- |
@@ -74,7 +74,7 @@ Template rows derive muscle coverage from current exercise references. Duplicate
 
 ### Template editor
 
-[TemplateEditForm](../gymapp/Features/Routines/TemplateEditForm.swift) handles blank creation, editing, conversion from a session, and AI review. All edits accumulate in `TemplateDraft` until Save.
+[TemplateEditForm](../Setory/Features/Routines/TemplateEditForm.swift) handles blank creation, editing, conversion from a session, and AI review. All edits accumulate in `TemplateDraft` until Save.
 
 - Add exercises with the multi-picker or photo matching. New rows default to three sets.
 - Change targets between 1 and 10, delete rows, and reorder them.
@@ -87,13 +87,13 @@ A session-derived draft combines sets for each exercise in first-appearance orde
 
 ### Saved workout detail
 
-[RoutineDetailView](../gymapp/Features/Routines/RoutineDetailView.swift) shows the workout date, deduplicated primary muscles, and saved series in recorded order. “Save as template” opens the standard editor with a prefilled draft. Nothing new is saved until the user saves that editor.
+[RoutineDetailView](../Setory/Features/Routines/RoutineDetailView.swift) shows the workout date, deduplicated primary muscles, and saved series in recorded order. “Save as template” opens the standard editor with a prefilled draft. Nothing new is saved until the user saves that editor.
 
 ## Progress
 
-[ProgressTabView](../gymapp/Features/Progress/ProgressTabView.swift) shows an empty state until a session exists. Otherwise it presents an eight-week workout chart, week/month workout and series totals, muscle balance for the selected week or month, and a searchable list of performed exercises.
+[ProgressTabView](../Setory/Features/Progress/ProgressTabView.swift) shows an empty state until a session exists. Otherwise it presents an eight-week workout chart, week/month workout and series totals, muscle balance for the selected week or month, and a searchable list of performed exercises.
 
-Entering search text hides overview and balance sections to focus on exercises. Unperformed catalog exercises are excluded. Selecting an exercise opens [ExerciseProgressionView](../gymapp/Features/Progress/ExerciseProgressionView.swift), which presents the relevant metric, personal records, and weighted volume where applicable. See [exact calculation rules](data-and-statistics.md).
+Entering search text hides overview and balance sections to focus on exercises. Unperformed catalog exercises are excluded. Selecting an exercise opens [ExerciseProgressionView](../Setory/Features/Progress/ExerciseProgressionView.swift), which presents the relevant metric, personal records, and weighted volume where applicable. See [exact calculation rules](data-and-statistics.md).
 
 ## AI and settings
 

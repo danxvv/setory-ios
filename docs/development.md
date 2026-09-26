@@ -4,9 +4,9 @@
 
 ## Project setup
 
-Open [gymapp.xcodeproj](../gymapp.xcodeproj) in Xcode and select the `gymapp` scheme. The checked-in project sets the iOS deployment target to 26.5 and Swift language mode to 5.0. [CLAUDE.md](../CLAUDE.md) records Xcode 26.6, the iOS 26.5 SDK, and iPhone 17 Pro as the project's development setup; these are repository settings/notes, not a freshly verified local toolchain inventory.
+Open [Setory.xcodeproj](../Setory.xcodeproj) in Xcode and select the `Setory` scheme. The checked-in project sets the iOS deployment target to 26.5 and Swift language mode to 5.0. [CLAUDE.md](../CLAUDE.md) records Xcode 26.6, the iOS 26.5 SDK, and iPhone 17 Pro as the project's development setup; these are repository settings/notes, not a freshly verified local toolchain inventory.
 
-The application and test directories use `PBXFileSystemSynchronizedRootGroup`: adding files beneath `gymapp/`, `gymappTests/`, or `gymappUITests/` includes them in their respective targets without manual project-file entries. This `docs/` directory sits outside those source roots.
+The application and test directories use `PBXFileSystemSynchronizedRootGroup`: adding files beneath `Setory/`, `SetoryTests/`, or `SetoryUITests/` includes them in their respective targets without manual project-file entries. This `docs/` directory sits outside those source roots.
 
 Core functionality uses bundled data and local persistence. An OpenRouter key is optional and configured in the running app. GIF demonstrations are fetched on demand. There is no package installation or separate app-server startup step in the inspected project.
 
@@ -16,17 +16,17 @@ The following commands reproduce the repository's documented workflow. Use a scr
 
 ```sh
 # Unit suite
-xcodebuild test -project gymapp.xcodeproj -scheme gymapp \
+xcodebuild test -project Setory.xcodeproj -scheme Setory \
   -destination "platform=iOS Simulator,name=iPhone 17 Pro" \
-  -derivedDataPath /tmp/gymapp-docs-tests \
-  -only-testing:gymappTests
+  -derivedDataPath /tmp/setory-docs-tests \
+  -only-testing:SetoryTests
 
 # UI suite through the repository runner
 scripts/uitest.sh
 
 # One UI suite with fewer simulator workers and isolated build output
-WORKERS=3 DERIVED_DATA=/tmp/gymapp-ui-tests \
-  scripts/uitest.sh -only-testing:gymappUITests/ProgressUITests
+WORKERS=3 DERIVED_DATA=/tmp/setory-ui-tests \
+  scripts/uitest.sh -only-testing:SetoryUITests/ProgressUITests
 ```
 
 [scripts/uitest.sh](../scripts/uitest.sh) boots the base simulator before starting parallel workers, defaults to six workers and the iPhone 17 Pro, and forwards additional arguments. `DEVICE`, `DERIVED_DATA`, and `WORKERS` can override its defaults. Its default test target is the UI suite unless an explicit `-only-testing:` argument is supplied.
@@ -47,7 +47,7 @@ These are run instructions, not a claim that the suites were executed for this d
 | Photo request/service tests, `AIFlowTests` | Image matching contracts and end-to-end flow logic without UI |
 | `RequestBodyFixtureTests` | Golden JSON request bodies |
 | `ExerciseMediaStoreTests` | Bundled media and cache/network behavior |
-| `gymappUITests/` | Logging, library, routines/templates, progress, AI, photo matching, and visual flows |
+| `SetoryUITests/` | Logging, library, routines/templates, progress, AI, photo matching, and visual flows |
 
 Unit tests use Swift Testing; UI tests use XCTest/XCUITest. AI tests substitute service implementations or mock transport instead of depending on live paid requests. Persistence tests can construct in-memory containers and inject a throwing commit closure.
 
@@ -55,7 +55,7 @@ Golden request bodies are located with `#filePath`, not copied from the test bun
 
 ## Debug launch options
 
-[LaunchOptions.swift](../gymapp/TestSupport/LaunchOptions.swift) is the single argument parser. [TestOverrides.swift](../gymapp/TestSupport/TestOverrides.swift) exposes production-safe accessors and inert Release behavior. Supporting test-only implementations are Debug-gated.
+[LaunchOptions.swift](../Setory/TestSupport/LaunchOptions.swift) is the single argument parser. [TestOverrides.swift](../Setory/TestSupport/TestOverrides.swift) exposes production-safe accessors and inert Release behavior. Supporting test-only implementations are Debug-gated.
 
 | Argument | Effect |
 | --- | --- |
@@ -79,7 +79,7 @@ Tests that assert literal UI text pin language/locale. Pure exercise-content tes
 | New exercise data field | `Exercise`, `ExerciseCatalog`, `CatalogSeeder`, transformer, edit/display code, catalog tests |
 | Progress calculation | `ProgressStatsProvider`, `ExerciseHistoryProvider`, progression UI, provider tests |
 | AI contract | Feature builder, wire types, parser, service, flow, and fixture tests |
-| Shared UI styling | `GymTheme` and shared rows/chips/media components |
+| Shared UI styling | `SetoryTheme` and shared rows/chips/media components |
 | New persisted model | Entity implementation, `AppModelContainer.schema`, preview/test containers, and schema migration implications |
 
 The project enables `MemberImportVisibility`; files using SwiftData extension APIs need an explicit SwiftData import. Keep code legible, use native language operations, and maintain the architectural boundaries described in [architecture.md](architecture.md).

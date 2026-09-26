@@ -1,0 +1,43 @@
+//
+//  RootTabView.swift
+//  Setory
+//
+
+import SwiftUI
+import SwiftData
+
+/// App root: the "Log" tab (daily logging), the "Exercises" tab (catalog
+/// browser and detail screens), the "Routines" tab (saved session
+/// history), and the "Progress" tab (charts and stats). Each tab owns its
+/// own navigation stack — LogView, ExerciseLibraryView, and
+/// ProgressTabView bring their own; the Routines tab gets one here.
+struct RootTabView: View {
+    var body: some View {
+        TabView {
+            Tab("Log", systemImage: "calendar") {
+                LogView()
+            }
+            Tab("Exercises", systemImage: "figure.strengthtraining.traditional") {
+                ExerciseLibraryView()
+            }
+            Tab("Routines", systemImage: "square.stack.3d.up") {
+                NavigationStack {
+                    RoutineListView()
+                }
+            }
+            Tab("Progress", systemImage: "chart.xyaxis.line") {
+                ProgressTabView()
+            }
+        }
+        .tint(.accentColor)
+        .fontDesign(.rounded)
+    }
+}
+
+#Preview {
+    RootTabView()
+        .modelContainer(
+            for: [Exercise.self, WorkoutSession.self, WorkoutSeries.self, RoutineTemplate.self, RoutineTemplateItem.self],
+            inMemory: true
+        )
+}

@@ -1,11 +1,11 @@
 ## Context
 
-This is the first feature change. The Xcode project already exists as a fresh SwiftUI + SwiftData template: single target `gymapp` (no test target yet), with the template's placeholder `Item` model, boilerplate `ContentView`, and a `ModelContainer` in `gymappApp.swift` currently registering `Item.self`. This change replaces that scaffolding and delivers the daily workout logging screen: calendar header, exercise dropdown, set-entry popup, series list, and a "Finish Day" save action. Everything is offline and local-only; the AI suggestion backend is a later, separate change. Muscle-target metadata must be modeled from day one because the future AI contract depends on it.
+This is the first feature change. The Xcode project already exists as a fresh SwiftUI + SwiftData template: single target `Setory` (no test target yet), with the template's placeholder `Item` model, boilerplate `ContentView`, and a `ModelContainer` in `SetoryApp.swift` currently registering `Item.self`. This change replaces that scaffolding and delivers the daily workout logging screen: calendar header, exercise dropdown, set-entry popup, series list, and a "Finish Day" save action. Everything is offline and local-only; the AI suggestion backend is a later, separate change. Muscle-target metadata must be modeled from day one because the future AI contract depends on it.
 
 ## Goals / Non-Goals
 
 **Goals:**
-- Restructure the existing `gymapp` target into a clean layout the rest of the app can grow into, removing the template scaffolding.
+- Restructure the existing `Setory` target into a clean layout the rest of the app can grow into, removing the template scaffolding.
 - SwiftData models for Exercise, WorkoutSession, and WorkoutSeries, including muscle-target metadata.
 - Seed a bundled exercise catalog from a JSON resource, idempotently.
 - Implement the logging screen per the `workout-logging` spec with a polished, native look.
@@ -18,7 +18,7 @@ This is the first feature change. The Xcode project already exists as a fresh Sw
 
 ## Decisions
 
-- **Project layout**: keep the existing single app target `gymapp`; add folder groups `Models/`, `Views/`, `Services/`, `Resources/` inside it. Delete `Item.swift`, rewrite `ContentView.swift` as the logging screen, and update the `ModelContainer` schema in `gymappApp.swift` to register the new models. Plain MV pattern (SwiftUI views + `@Query`/`@Environment(\.modelContext)`); no ViewModel layer — the screen's state is simple enough that MVVM would add indirection without benefit at this size.
+- **Project layout**: keep the existing single app target `Setory`; add folder groups `Models/`, `Views/`, `Services/`, `Resources/` inside it. Delete `Item.swift`, rewrite `ContentView.swift` as the logging screen, and update the `ModelContainer` schema in `SetoryApp.swift` to register the new models. Plain MV pattern (SwiftUI views + `@Query`/`@Environment(\.modelContext)`); no ViewModel layer — the screen's state is simple enough that MVVM would add indirection without benefit at this size.
 - **SwiftData models**:
   - `Exercise`: `id` (stable string from seed data), `name`, `category` (enum `strength`/`cardio` stored as raw string), `primaryMuscles: [String]`, `secondaryMuscles: [String]`, `isCustom: Bool` (false for seeded; reserved for the future custom-exercise change).
   - `WorkoutSession`: `date` (normalized to start-of-day, unique per day), `finishedAt`, ordered relationship to series.

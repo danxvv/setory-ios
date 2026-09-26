@@ -1,6 +1,6 @@
 ## Context
 
-The bundled catalog (`gymapp/Resources/exercise-catalog.json`, 1,324 entries, `version: 1`) already carries `localizedSummaries` and `localizedInstructions`; the working tree now adds a third per-entry map:
+The bundled catalog (`Setory/Resources/exercise-catalog.json`, 1,324 entries, `version: 1`) already carries `localizedSummaries` and `localizedInstructions`; the working tree now adds a third per-entry map:
 
 ```json
 {"id":"gv0001","name":"3/4 Sit-Up", ... ,"localizedNames":{"es":"Sit-Up 3/4"}}
@@ -8,7 +8,7 @@ The bundled catalog (`gymapp/Resources/exercise-catalog.json`, 1,324 entries, `v
 
 Verified against the file: all 1,324 entries have a `localizedNames.es` value, none empty, and `es` is the only language key. Eight Spanish strings collide across different ids (e.g. two entries both named "Remo Inclinado con Barra") — the same kind of near-duplicate the English dataset already contains.
 
-The app currently drops the field on the floor. `CatalogExercise` ([ExerciseCatalogSource.swift:26](gymapp/Services/ExerciseCatalogSource.swift:26)) decodes only the two content maps, `Exercise` stores `summaryTranslations` / `instructionTranslations` ([Exercise.swift:40](gymapp/Models/Exercise.swift:40)), and `Exercise.localizedName` is a stub that returns the stored name with a comment saying the dataset ships no translated names ([Exercise.swift:53](gymapp/Models/Exercise.swift:53)). That comment is now false.
+The app currently drops the field on the floor. `CatalogExercise` ([ExerciseCatalogSource.swift:26](Setory/Services/ExerciseCatalogSource.swift:26)) decodes only the two content maps, `Exercise` stores `summaryTranslations` / `instructionTranslations` ([Exercise.swift:40](Setory/Models/Exercise.swift:40)), and `Exercise.localizedName` is a stub that returns the stored name with a comment saying the dataset ships no translated names ([Exercise.swift:53](Setory/Models/Exercise.swift:53)). That comment is now false.
 
 The good news: ~25 call sites across views and models already read `exercise.localizedName` rather than `exercise.name`. The indirection was built for exactly this. Making the accessor honest is the whole UI change.
 
@@ -58,7 +58,7 @@ The non-empty guard matters here in a way it doesn't for summaries: a blank name
 
 ### 2. Search matches resolved name OR canonical English name, via one shared model helper
 
-Two independent search predicates exist today — [ExerciseFilterBar.swift:31](gymapp/Views/ExerciseFilterBar.swift:31) (library, both pickers) and [ProgressTabView.swift:169](gymapp/Views/ProgressTabView.swift:169) (progression list). Both get replaced by a single `Exercise.matchesSearch(_:)` so they can't drift:
+Two independent search predicates exist today — [ExerciseFilterBar.swift:31](Setory/Views/ExerciseFilterBar.swift:31) (library, both pickers) and [ProgressTabView.swift:169](Setory/Views/ProgressTabView.swift:169) (progression list). Both get replaced by a single `Exercise.matchesSearch(_:)` so they can't drift:
 
 ```swift
 func matchesSearch(_ text: String) -> Bool {
@@ -78,11 +78,11 @@ Sorting stays `localizedName.localizedStandardCompare` (already the case at all 
 
 ### 4. Pin the OpenRouter photo-match listing to canonical names — explicitly
 
-[PhotoMatchRequestBuilder.swift:79](gymapp/Services/PhotoMatchRequestBuilder.swift:79) already sends `$0.name`, so today this is correct by accident. Once `localizedName` becomes language-dependent, a well-meaning "localize this too" edit would start sending Spanish names to a model reasoning over an English dataset, degrading matches only for Spanish users — a bug that would never show up in an English test run. This gets a comment at the call site and a regression test asserting the payload carries the canonical name even when a Spanish translation exists.
+[PhotoMatchRequestBuilder.swift:79](Setory/Services/PhotoMatchRequestBuilder.swift:79) already sends `$0.name`, so today this is correct by accident. Once `localizedName` becomes language-dependent, a well-meaning "localize this too" edit would start sending Spanish names to a model reasoning over an English dataset, degrading matches only for Spanish users — a bug that would never show up in an English test run. This gets a comment at the call site and a regression test asserting the payload carries the canonical name even when a Spanish translation exists.
 
 ### 5. Version bump to 2, in all three places
 
-`version` in the JSON, `CATALOG_VERSION` in [transform.py](tools/catalog/transform.py), and `CatalogSeeder.bundledCatalogVersion` ([CatalogSeeder.swift:18](gymapp/Services/CatalogSeeder.swift:18)) all move 1 → 2. Without it, `seedIfNeeded` short-circuits and no existing install ever gains the name table. `align(_:with:)` then backfills `nameTranslations` on every non-user-modified row on next launch; user-modified rows are skipped by the existing `guard`.
+`version` in the JSON, `CATALOG_VERSION` in [transform.py](tools/catalog/transform.py), and `CatalogSeeder.bundledCatalogVersion` ([CatalogSeeder.swift:18](Setory/Services/CatalogSeeder.swift:18)) all move 1 → 2. Without it, `seedIfNeeded` short-circuits and no existing install ever gains the name table. `align(_:with:)` then backfills `nameTranslations` on every non-user-modified row on next launch; user-modified rows are skipped by the existing `guard`.
 
 ### 6. Preserve the translations in the transform pipeline via a checked-in sidecar
 

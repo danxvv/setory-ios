@@ -1,6 +1,6 @@
 <div align="center">
 
-# Setwise
+# Setory
 
 ### Every set tells a story.
 
@@ -17,7 +17,7 @@ and seeing your progress—one session at a time.
 
 ## Built for your training
 
-Setwise brings your exercise library, daily workout log, reusable routines, and progress charts together in one app. Core training features work locally without an account or an AI key.
+Setory brings your exercise library, daily workout log, reusable routines, and progress charts together in one app. Core training features work locally without an account or an AI key.
 
 | Explore | Train | Reflect |
 | :--- | :--- | :--- |
@@ -54,14 +54,16 @@ Suggestions and photo matches enter a draft for your review before you save them
 ### Run locally
 
 ```sh
-git clone git@github.com:danxvv/setwise-ios.git
-cd setwise-ios
-open gymapp.xcodeproj
+git clone git@github.com:danxvv/setory-ios.git
+cd setory-ios
+open Setory.xcodeproj
 ```
 
-Select the **gymapp** scheme, choose an available simulator, and run. For a physical device, configure your signing team in Xcode.
+Select the **Setory** scheme, choose an available simulator, and run. For a physical device, configure your signing team in Xcode.
 
-The Xcode project and targets retain their original `gymapp` names. There is no package installation or separate backend to start. The exercise catalog is bundled and seeded automatically on launch.
+The app, Xcode project, scheme, and Swift module are named **Setory**. The repository is `setory-ios`, and the app's bundle identifier is `danxvv.setory`. There is no package installation or separate backend to start. The exercise catalog is bundled and seeded automatically on launch.
+
+Builds installed under an earlier bundle identifier remain separate apps. Their local workouts, templates, preferences, and API key do not automatically transfer to Setory.
 
 ### Run tests
 
@@ -69,13 +71,13 @@ Use a dedicated DerivedData directory to avoid interference from Xcode previews:
 
 ```sh
 # Unit tests
-xcodebuild test -project gymapp.xcodeproj -scheme gymapp \
+xcodebuild test -project Setory.xcodeproj -scheme Setory \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-  -derivedDataPath /tmp/setwise-unit-tests \
-  -only-testing:gymappTests
+  -derivedDataPath /tmp/setory-unit-tests \
+  -only-testing:SetoryTests
 
 # UI tests: boots the simulator and runs parallel workers
-DERIVED_DATA=/tmp/setwise-ui-tests scripts/uitest.sh
+DERIVED_DATA=/tmp/setory-ui-tests scripts/uitest.sh
 ```
 
 The UI runner accepts `DEVICE`, `WORKERS`, and `DERIVED_DATA` overrides. See [development and testing](docs/development.md) for focused runs, test fixtures, and launch options.
@@ -85,7 +87,7 @@ The UI runner accepts `DEVICE`, `WORKERS`, and `DERIVED_DATA` overrides. See [de
 The app uses **SwiftUI** for its interface, **SwiftData** for local persistence, **Swift Testing** for unit tests, and **XCUITest** for UI flows.
 
 ```text
-gymapp/
+Setory/
 ├── App/             App entry point, navigation, and model container
 ├── Domain/          Persisted entities, drafts, vocabulary, and statistics
 ├── Persistence/     Catalog seeding and dedicated write stores
@@ -121,4 +123,4 @@ Workouts and templates are stored on the device. The current app has no account 
 
 Exercise data and instruction text are sourced from **hasaneyldrm/exercises-dataset**, with its MIT license reproduced in the app's About screen. Exercise images and animations are **© Gym visual** and have separate reuse terms; the app records permission for redistribution at 180×180 resolution.
 
-See [AboutView.swift](gymapp/Features/Settings/AboutView.swift) for the shipped attribution and [catalog tooling](tools/catalog/README.md) for the import workflow. The dataset license does not grant rights to the application or exercise media.
+See [AboutView.swift](Setory/Features/Settings/AboutView.swift) for the shipped attribution and [catalog tooling](tools/catalog/README.md) for the import workflow. The dataset license does not grant rights to the application or exercise media.

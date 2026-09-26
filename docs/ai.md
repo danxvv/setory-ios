@@ -4,11 +4,11 @@
 
 ## Shared infrastructure
 
-The app sends requests directly to OpenRouter using the user's API key; no application proxy backend appears in this repository. [OpenRouterClient](../gymapp/AI/Shared/OpenRouterClient.swift) owns the POST to `https://openrouter.ai/api/v1/chat/completions`, bearer authorization, JSON content type, and a 60-second request timeout.
+The app sends requests directly to OpenRouter using the user's API key; no application proxy backend appears in this repository. [OpenRouterClient](../Setory/AI/Shared/OpenRouterClient.swift) owns the POST to `https://openrouter.ai/api/v1/chat/completions`, bearer authorization, JSON content type, and a 60-second request timeout.
 
 The key lives in a Keychain generic-password item whose service is the bundle identifier and account is `openrouter-api-key`. A missing/empty key prevents transport from starting. The model comes from `AIModelPreference`: the trimmed `aiModelOverride` preference, or the checked-in default `openai/gpt-5.4-mini`. This is the app's configured default, not a claim about current provider availability or pricing. Both features use the same setting.
 
-[AIEnvironment](../gymapp/AI/Shared/AIEnvironment.swift) exposes protocol-backed dependencies to views. Tests can replace key storage and both services. The normal suggestion/photo services each combine their own builder and parser with the shared client.
+[AIEnvironment](../Setory/AI/Shared/AIEnvironment.swift) exposes protocol-backed dependencies to views. Tests can replace key storage and both services. The normal suggestion/photo services each combine their own builder and parser with the shared client.
 
 ## Routine suggestion
 
@@ -39,7 +39,7 @@ Template editor → PhotoMatchSheet capture → PhotoMatchFlow
   → local exercise matches → user selection → append to template draft
 ```
 
-The sheet accepts up to three photos from the camera or system picker. [PhotoPreprocessor](../gymapp/AI/PhotoMatch/PhotoPreprocessor.swift) downsizes images above its 1024 longest-edge size budget, preserves aspect ratio, and JPEG-encodes at quality 0.7. The request embeds JPEG bytes as base64 data URLs.
+The sheet accepts up to three photos from the camera or system picker. [PhotoPreprocessor](../Setory/AI/PhotoMatch/PhotoPreprocessor.swift) downsizes images above its 1024 longest-edge size budget, preserves aspect ratio, and JPEG-encodes at quality 0.7. The request embeds JPEG bytes as base64 data URLs.
 
 The description is trimmed, omitted if blank, and capped at 200 characters. An optional muscle filters the catalog by **primary** muscle. Without that filter the photo request includes the full catalog, unlike suggestions' 200-entry cap. Entries include ID, canonical stored name, equipment, and primary muscles, ordered by ID. For edited exercises the stored name may be user text rather than English.
 
@@ -68,4 +68,4 @@ Photos and hints are transient in app state and are not written to its database 
 
 ## Contract maintenance
 
-Request-body fixtures live in [gymappTests/Fixtures](../gymappTests/Fixtures). Changes to JSON field names, taxonomy raw values, prompts, schema, or model selection can affect the contract. Review builder/parser/service tests together. `UPDATE_REQUEST_FIXTURES=1` intentionally rewrites golden bodies through the fixture test harness; use it only when accepting a deliberate contract change.
+Request-body fixtures live in [SetoryTests/Fixtures](../SetoryTests/Fixtures). Changes to JSON field names, taxonomy raw values, prompts, schema, or model selection can affect the contract. Review builder/parser/service tests together. `UPDATE_REQUEST_FIXTURES=1` intentionally rewrites golden bodies through the fixture test harness; use it only when accepting a deliberate contract change.

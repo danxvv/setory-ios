@@ -61,7 +61,7 @@ Sparkle "Suggest with AI" button in the Routines tab toolbar/list → sheet: opt
 
 ### D7: Test hooks
 - Unit tests (Swift Testing): prompt payload building from seeded models, parser validation (unknown IDs, clamping, empty), `APIKeyStore` round-trip, error mapping from OpenRouter error JSON fixtures (HTTP error body and embedded `finish_reason == "error"` case).
-- UI tests: new launch argument `-uitest-ai <scenario>` (`success`, `error`, `no-key`) wires `StubSuggestionService` and a non-Keychain in-memory key store, consistent with `-uitest-reset`/`-uitest-seed` handling in `gymappApp.swift`.
+- UI tests: new launch argument `-uitest-ai <scenario>` (`success`, `error`, `no-key`) wires `StubSuggestionService` and a non-Keychain in-memory key store, consistent with `-uitest-reset`/`-uitest-seed` handling in `SetoryApp.swift`.
 
 ## Risks / Trade-offs
 

@@ -1,8 +1,8 @@
 ## 1. Project Restructuring
 
-- [x] 1.1 Restructure the existing `gymapp` target: add folder groups `Models/`, `Views/`, `Services/`, `Resources/`; delete the template `Item.swift` and strip the boilerplate list UI from `ContentView.swift`
+- [x] 1.1 Restructure the existing `Setory` target: add folder groups `Models/`, `Views/`, `Services/`, `Resources/`; delete the template `Item.swift` and strip the boilerplate list UI from `ContentView.swift`
 - [x] 1.2 Add a unit-test target to the project (the template ships without one) and verify it runs
-- [x] 1.3 Update the `ModelContainer` schema in `gymappApp.swift` to register the new models (as they land in group 2) and verify the app builds and runs on the simulator
+- [x] 1.3 Update the `ModelContainer` schema in `SetoryApp.swift` to register the new models (as they land in group 2) and verify the app builds and runs on the simulator
 
 ## 2. Data Models
 
@@ -35,4 +35,4 @@
 ## 6. Verification
 
 - [x] 6.1 Run all unit tests and fix failures
-- [x] 6.2 Manual end-to-end pass on the simulator: log strength and cardio series, delete one, finish the day, relaunch the app, and confirm persistence and calendar highlight (automated as `gymappUITests/testLogWorkoutEndToEnd`)
+- [x] 6.2 Manual end-to-end pass on the simulator: log strength and cardio series, delete one, finish the day, relaunch the app, and confirm persistence and calendar highlight (automated as `SetoryUITests/testLogWorkoutEndToEnd`)

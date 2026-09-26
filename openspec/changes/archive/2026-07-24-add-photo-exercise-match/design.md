@@ -69,7 +69,7 @@ The service uses `OpenRouterSuggestionService.defaultModel` and honors the exist
 
 ### 7. Test hooks: `-uitest-photo-match <scenario>` + fixture image
 
-Mirroring `-uitest-ai`: scenarios `success` (returns fixed known ids, e.g. gv0025 + gv0043), `error` (throws `.network`), `no-key` (in-memory empty key store). The stub service is swapped via the environment in `gymappApp.init()`. Additionally the sheet exposes a test-only path that loads a bundled fixture image instead of opening camera/`PhotosPicker`, so XCUITest never touches system UI. Unit tests cover the request builder (content-parts shape, schema enum, image part count) and validation (unknown-id dropping, dedupe) with the established `MockURLProtocol` pattern (reading `httpBodyStream`, not `httpBody`).
+Mirroring `-uitest-ai`: scenarios `success` (returns fixed known ids, e.g. gv0025 + gv0043), `error` (throws `.network`), `no-key` (in-memory empty key store). The stub service is swapped via the environment in `SetoryApp.init()`. Additionally the sheet exposes a test-only path that loads a bundled fixture image instead of opening camera/`PhotosPicker`, so XCUITest never touches system UI. Unit tests cover the request builder (content-parts shape, schema enum, image part count) and validation (unknown-id dropping, dedupe) with the established `MockURLProtocol` pattern (reading `httpBodyStream`, not `httpBody`).
 
 ### 8. Localization
 

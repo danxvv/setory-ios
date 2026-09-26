@@ -16,10 +16,10 @@ The diagram shows the intended ownership structure. Child-to-parent and child-to
 
 | Model | Fields and rules |
 | --- | --- |
-| [Exercise](../gymapp/Domain/Entities/Exercise.swift) | Unique string `id`; name, category, primary/secondary muscle raw values, equipment, summary, instruction steps, GIF filename, translation dictionaries, and `isUserModified` |
-| [WorkoutSession](../gymapp/Domain/Entities/WorkoutSession.swift) | Unique `date`, normalized to the current calendar's start of day on initialization; `finishedAt`; owned series |
+| [Exercise](../Setory/Domain/Entities/Exercise.swift) | Unique string `id`; name, category, primary/secondary muscle raw values, equipment, summary, instruction steps, GIF filename, translation dictionaries, and `isUserModified` |
+| [WorkoutSession](../Setory/Domain/Entities/WorkoutSession.swift) | Unique `date`, normalized to the current calendar's start of day on initialization; `finishedAt`; owned series |
 | `WorkoutSeries` in the same file | Zero-based `order`, optional exercise/session references, optional `reps`, `weightKg`, and `durationSeconds` |
-| [RoutineTemplate](../gymapp/Domain/Entities/RoutineTemplate.swift) | Name, creation date, owned items; no relationship to workout sessions |
+| [RoutineTemplate](../Setory/Domain/Entities/RoutineTemplate.swift) | Name, creation date, owned items; no relationship to workout sessions |
 | `RoutineTemplateItem` in the same file | Zero-based `order`, exercise/template references, target sets clamped to 1–10 on initialization |
 
 Both parent-to-child relationships use cascade deletion. Deleting a template removes its items; the schema likewise cascades session deletion to series, although the production screens currently expose no session deletion action.
@@ -55,7 +55,7 @@ Validation primarily lives in forms and draft types. Stores are not a general-pu
 
 ## History and best sets
 
-[ExerciseHistoryProvider](../gymapp/Domain/Stats/ExerciseHistoryProvider.swift) filters saved series by exercise ID and groups them by attached session date. Series without a session date are excluded from the resulting history. Sessions sort newest first; series within each session sort by `order`. The default recent-history limit is five sessions.
+[ExerciseHistoryProvider](../Setory/Domain/Stats/ExerciseHistoryProvider.swift) filters saved series by exercise ID and groups them by attached session date. Series without a session date are excluded from the resulting history. Sessions sort newest first; series within each session sort by `order`. The default recent-history limit is five sessions.
 
 Best-set selection is category-dependent:
 
@@ -69,7 +69,7 @@ A recorded weight of zero still counts as a weighted set because the rule tests 
 
 ## Overview and muscle balance
 
-[ProgressStatsProvider](../gymapp/Domain/Stats/ProgressStatsProvider.swift) operates on fetched models and accepts a calendar and reference date for deterministic tests.
+[ProgressStatsProvider](../Setory/Domain/Stats/ProgressStatsProvider.swift) operates on fetched models and accepts a calendar and reference date for deterministic tests.
 
 - Weekly chart: eight calendar-week buckets by default, oldest first, ending in the current week. Empty weeks remain visible as zero.
 - Headlines: session counts and sum of each matching session's series count in the current calendar week/month, using calendar date intervals.

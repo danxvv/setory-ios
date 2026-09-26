@@ -2,8 +2,8 @@
 
 ## 1. Localization infrastructure
 
-- [x] 1.1 Add `es` to `knownRegions` in `gymapp.xcodeproj/project.pbxproj`
-- [x] 1.2 Create `gymapp/Localizable.xcstrings` with `en` as source language and `es` as a target (synchronized file group picks it up automatically)
+- [x] 1.1 Add `es` to `knownRegions` in `Setory.xcodeproj/project.pbxproj`
+- [x] 1.2 Create `Setory/Localizable.xcstrings` with `en` as source language and `es` as a target (synchronized file group picks it up automatically)
 - [x] 1.3 Build the app target so Xcode auto-extracts the SwiftUI `LocalizedStringKey` literals into the catalog; confirm the ~30 view-layer strings from `ContentView`, `SetEntrySheet`, `RoutineListView`, `RoutineDetailView`, `RootTabView` appear as keys (verified via emitted `.stringsdata`; CLI builds don't write back into the source catalog, so keys are authored in the catalog from the extracted inventory)
 
 ## 2. Externalize non-view strings
@@ -17,7 +17,7 @@
 ## 3. Exercise display-name localization
 
 - [x] 3.1 Add a computed `localizedName` to `Exercise` that resolves `Bundle.main.localizedString(forKey: "exercise.\(id)", value: name, table: "ExerciseNames")`
-- [x] 3.2 Create `gymapp/ExerciseNames.xcstrings` with one key per bundled exercise id (40 keys from `exercises.json`), English values matching the stored names
+- [x] 3.2 Create `Setory/ExerciseNames.xcstrings` with one key per bundled exercise id (40 keys from `exercises.json`), English values matching the stored names
 - [x] 3.3 Switch all display sites to `localizedName`: exercise picker and series rows in `ContentView`, `SetEntrySheet` navigation title, `RoutineDetailView` series rows, and the exercise-name summary used by `RoutineListView` (keep `WorkoutSession.exerciseNames` canonical for unit tests; add a localized accessor for the view)
 - [x] 3.4 Sort the exercise picker in memory by `localizedName` using `localizedStandardCompare` (SwiftData can't sort on computed properties)
 

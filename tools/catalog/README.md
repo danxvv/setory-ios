@@ -8,7 +8,7 @@ into the app's bundled catalog. Run once per dataset upgrade; outputs are checke
 - Commit: `118e4bd6b14da6df0e36605d7169b65db18389a4`
 - GIFs are fetched at runtime from jsDelivr pinned to that commit:
   `https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@118e4bd6b14da6df0e36605d7169b65db18389a4/videos/<gifFileName>`
-  (the constant lives in `gymapp/Services/ExerciseMediaStore.swift`; keep both in sync
+  (the constant lives in `Setory/Media/ExerciseMediaStore.swift`; keep both in sync
   with `PINNED_COMMIT` in `transform.py` when upgrading)
 
 ## Usage
@@ -28,9 +28,9 @@ Inputs beside the script (hand-curated, checked in — not derived from the data
   instruction steps need no sidecar — the dataset carries those in both languages.
 
 Outputs:
-- `gymapp/Resources/exercise-catalog.json` — 1,324 exercises, en/es names and content,
+- `Setory/Resources/exercise-catalog.json` — 1,324 exercises, en/es names and content,
   taxonomy mapped onto the app's `Muscle`/`ExerciseCategory`/`Equipment` vocabulary
-- `gymapp/Resources/ExerciseThumbnails/` — 180×180 JPGs renamed `<exercise-id>.jpg`
+- `Setory/Resources/ExerciseThumbnails/` — 180×180 JPGs renamed `<exercise-id>.jpg`
 
 The script fails loudly on unmapped taxonomy values, missing instructions, missing
 images, or missing Spanish names.

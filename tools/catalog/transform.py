@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Transform the Gym visual exercises dataset into gymapp's bundled catalog.
+"""Transform the Gym visual exercises dataset into Setory's bundled catalog.
 
 Reads a local checkout/extract of github.com/hasaneyldrm/exercises-dataset
 (pinned commit: see PINNED_COMMIT) and emits:
 
-  gymapp/Resources/exercise-catalog.json      slimmed catalog (en/es)
-  gymapp/Resources/ExerciseThumbnails/*.jpg   thumbnails renamed by exercise id
+  Setory/Resources/exercise-catalog.json      slimmed catalog (en/es)
+  Setory/Resources/ExerciseThumbnails/*.jpg   thumbnails renamed by exercise id
 
 Usage:
   python3 tools/catalog/transform.py <dataset-dir> [<repo-root>]
@@ -24,7 +24,7 @@ PINNED_COMMIT = "118e4bd6b14da6df0e36605d7169b65db18389a4"
 CATALOG_VERSION = 2
 LANGS = ("en", "es")
 
-# Dataset target/secondary vocabulary -> gymapp Muscle raw values.
+# Dataset target/secondary vocabulary -> Setory Muscle raw values.
 MUSCLE_MAP = {
     "abductors": "glutes",
     "abs": "abs",
@@ -201,7 +201,7 @@ def summary(category, equipment_key, primaries, secondaries, lang):
 def main():
     dataset_dir = Path(sys.argv[1])
     repo_root = Path(sys.argv[2]) if len(sys.argv) > 2 else Path(__file__).resolve().parents[2]
-    resources = repo_root / "gymapp" / "Resources"
+    resources = repo_root / "Setory" / "Resources"
     thumbs_dir = resources / "ExerciseThumbnails"
 
     records = json.loads((dataset_dir / "data" / "exercises.json").read_text())

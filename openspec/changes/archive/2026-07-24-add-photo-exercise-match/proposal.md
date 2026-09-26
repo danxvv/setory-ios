@@ -27,7 +27,7 @@ Finding the right exercise among 1324 catalog entries requires knowing its name,
 ## Impact
 
 - **New code**: photo match service + request builder (parallel to `RoutineSuggestionService` / `SuggestionPromptBuilder`, reusing `APIKeyStoring`, response-parsing envelope, and `SuggestionError`-style error mapping), a capture/selection view (`PhotosPicker` + `UIImagePickerController`-or-AVFoundation camera sheet), a match-results sheet, and a new `@Entry` environment value for injection.
-- **Modified code**: `TemplateEditForm` (new entry point), `AISettingsView` (privacy note text), `gymappApp.swift` (launch-argument hook), `Localizable.xcstrings` (new EN/ES strings).
+- **Modified code**: `TemplateEditForm` (new entry point), `AISettingsView` (privacy note text), `SetoryApp.swift` (launch-argument hook), `Localizable.xcstrings` (new EN/ES strings).
 - **Project settings**: `INFOPLIST_KEY_NSCameraUsageDescription` added to Debug/Release build settings in the pbxproj (one of the few required pbxproj edits).
 - **External dependency**: OpenRouter chat completions REST contract, extended to multimodal user messages (`image_url` content parts with base64 data URLs); requires a vision-capable model. No new backend.
 - **Tests**: unit tests for the request builder/response validation (Swift Testing, `MockURLProtocol` pattern), a UI test for the stubbed happy path and error path, and Spanish entries for every new string so `LocalizationTests` passes.

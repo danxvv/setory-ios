@@ -25,6 +25,6 @@ Saved workout sessions (routines) can currently only be seen by selecting their 
 ## Impact
 
 - **New code**: `Views/RoutineListView.swift`, `Views/RoutineDetailView.swift`; a root `TabView` container.
-- **Modified code**: `gymappApp.swift` (root view becomes the tab container), `Views/ContentView.swift` and `Views/MonthCalendarView.swift` (navigation from a saved calendar day to the detail view).
+- **Modified code**: `SetoryApp.swift` (root view becomes the tab container), `Views/ContentView.swift` and `Views/MonthCalendarView.swift` (navigation from a saved calendar day to the detail view).
 - **Data**: read-only over existing SwiftData models (`WorkoutSession`, `WorkoutSeries`, `Exercise`); no schema changes, no migrations.
 - **Dependencies/systems**: none — local-only feature, no backend involvement.

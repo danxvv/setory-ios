@@ -24,7 +24,7 @@ The app currently has a single screen (`ContentView`): a month calendar plus the
 The new screen is a peer of the logging screen, not a sub-screen of it. A tab bar is the standard iOS pattern for two top-level destinations and leaves room for a future "Suggestions" tab.
 
 - *Alternative considered*: a toolbar button on the logging screen pushing the list. Rejected — hides the history behind the logging flow and couples two unrelated screens' navigation stacks.
-- `gymappApp` keeps owning the `ModelContainer`; the new `RootTabView` (or inline `TabView` in the `WindowGroup`) wraps `ContentView` and `RoutineListView`. Each tab owns its own `NavigationStack`.
+- `SetoryApp` keeps owning the `ModelContainer`; the new `RootTabView` (or inline `TabView` in the `WindowGroup`) wraps `ContentView` and `RoutineListView`. Each tab owns its own `NavigationStack`.
 
 ### 2. Plain SwiftData `@Query`, no view model
 

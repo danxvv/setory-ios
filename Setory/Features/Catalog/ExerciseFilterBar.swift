@@ -1,0 +1,101 @@
+//
+//  ExerciseFilterBar.swift
+//  Setory
+//
+//  Muscle and equipment filters shared by the exercise library and the
+//  exercise pickers. Filters combine with each other and with search; the
+//  bar lives above the list (not in the navigation bar) so it stays
+//  visible while search is active. The selection and filter pipeline live
+//  in ExerciseFilters; this file only renders them.
+//
+
+import SwiftUI
+
+struct ExerciseFilterBar: View {
+    @Binding var filters: ExerciseFilters
+
+    var body: some View {
+        ViewThatFits(in: .horizontal) {
+            filterControls
+            ScrollView(.horizontal) { filterControls }
+                .scrollIndicators(.hidden)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 8)
+    }
+
+    private var filterControls: some View {
+        HStack(spacing: 10) {
+            Menu {
+                Button("All muscles") { filters.muscle = nil }
+                ForEach(Muscle.allCases, id: \.self) { muscle in
+                    Button {
+                        filters.muscle = muscle
+                    } label: {
+                        if filters.muscle == muscle {
+                            Label(muscle.displayName, systemImage: "checkmark")
+                        } else {
+                            Text(muscle.displayName)
+                        }
+                    }
+                }
+            } label: {
+                chip(
+                    text: filters.muscle?.displayName ?? String(localized: "Muscle"),
+                    isActive: filters.muscle != nil
+                )
+            }
+            .accessibilityIdentifier("filter-muscle")
+
+            Menu {
+                Button("All equipment") { filters.equipment = nil }
+                ForEach(Equipment.allCases, id: \.self) { equipment in
+                    Button {
+                        filters.equipment = equipment
+                    } label: {
+                        if filters.equipment == equipment {
+                            Label(equipment.displayName, systemImage: "checkmark")
+                        } else {
+                            Text(equipment.displayName)
+                        }
+                    }
+                }
+            } label: {
+                chip(
+                    text: filters.equipment?.displayName ?? String(localized: "Equipment"),
+                    isActive: filters.equipment != nil
+                )
+            }
+            .accessibilityIdentifier("filter-equipment")
+
+            if filters.isActive {
+                Button {
+                    filters = ExerciseFilters()
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.secondary)
+                        .frame(minWidth: 44, minHeight: 44)
+                }
+                .accessibilityLabel(Text("Clear filters"))
+                .accessibilityIdentifier("filter-clear")
+            }
+
+            Spacer(minLength: 0)
+        }
+    }
+
+    private func chip(text: String, isActive: Bool) -> some View {
+        HStack(spacing: 4) {
+            Text(text)
+                .font(.subheadline.weight(.medium))
+                .lineLimit(1)
+            Image(systemName: "chevron.down")
+                .font(.caption2.weight(.semibold))
+        }
+        .padding(.horizontal, 12)
+        .frame(minHeight: 44)
+        .background(isActive ? SetoryTheme.softAccent : SetoryTheme.surface, in: Capsule())
+        .foregroundStyle(isActive ? AnyShapeStyle(.tint) : AnyShapeStyle(.primary))
+    }
+}

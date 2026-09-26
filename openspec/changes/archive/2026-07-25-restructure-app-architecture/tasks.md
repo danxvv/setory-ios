@@ -3,7 +3,7 @@ Each numbered group is one commit and must leave the app target building with bo
 Baseline commands (see `CLAUDE.md`):
 
 ```bash
-xcodebuild test -project gymapp.xcodeproj -scheme gymapp -destination "platform=iOS Simulator,name=iPhone 17 Pro" -derivedDataPath /tmp/gymapp-deriveddata -only-testing:gymappTests
+xcodebuild test -project Setory.xcodeproj -scheme Setory -destination "platform=iOS Simulator,name=iPhone 17 Pro" -derivedDataPath /tmp/setory-deriveddata -only-testing:SetoryTests
 ```
 
 ```bash
@@ -14,24 +14,24 @@ scripts/uitest.sh
 
 - [x] 1.1 Record the pre-restructure baseline: run the unit suite and `scripts/uitest.sh`, save the pass counts, and confirm the working tree is clean on a branch off `main`.
   - **Baseline (commit `07207af`, branch `restructure-app-architecture`): unit 191 passed / 0 failed · UI 33 passed / 0 failed.**
-- [x] 1.2 Capture request-body fixtures for byte-equality checks later: serialize one suggestion body and one photo-match body from fixed inputs into `gymappTests/Fixtures/` and add a test asserting each matches its fixture.
+- [x] 1.2 Capture request-body fixtures for byte-equality checks later: serialize one suggestion body and one photo-match body from fixed inputs into `SetoryTests/Fixtures/` and add a test asserting each matches its fixture.
   - Three goldens (suggestion, photo-match, photo-match+muscle) located via `#filePath` rather than the test bundle, so no resource-copy phase is involved. Inputs are date-free so goldens can't drift with the host time zone. `UPDATE_REQUEST_FIXTURES=1` rewrites them after an intentional contract change. Unit suite: 195 passed / 0 failed.
-- [x] 1.3 Probe the synchronized group: `git mv` one leaf file (e.g. `MonthGrid.swift`) into `gymapp/Domain/Stats/`, build, confirm the target picked it up with no pbxproj edit, then revert. If it fails, stop and reassess the layout strategy before continuing.
-  - Confirmed: `MonthGrid.swift` compiled from `gymapp/Domain/Stats/` with no pbxproj change. Move kept rather than reverted — group 2 would only redo it.
+- [x] 1.3 Probe the synchronized group: `git mv` one leaf file (e.g. `MonthGrid.swift`) into `Setory/Domain/Stats/`, build, confirm the target picked it up with no pbxproj edit, then revert. If it fails, stop and reassess the layout strategy before continuing.
+  - Confirmed: `MonthGrid.swift` compiled from `Setory/Domain/Stats/` with no pbxproj change. Move kept rather than reverted — group 2 would only redo it.
 
 ## 2. Move files into the layer tree
 
 - [x] 2.1 Create the layer directories and `git mv` all `Domain/` files into `Entities/`, `Vocabulary/`, `Drafts/`, `Stats/` per design D1. No content edits.
 - [x] 2.2 `git mv` the persistence, media, and AI files into `Persistence/`, `Media/`, `AI/Shared/`, `AI/Suggestion/`, `AI/PhotoMatch/`. No content edits.
 - [x] 2.3 `git mv` the view files into `Features/Log/`, `Features/Catalog/`, `Features/Routines/`, `Features/Progress/`, `Features/AI/`, `Features/Settings/`, and the reusable components into `DesignSystem/`. No content edits.
-- [x] 2.4 `git mv` `gymappApp.swift` and `RootTabView.swift` into `App/`, and the two stub services into `TestSupport/`. Confirm `Assets.xcassets`, `Resources/`, and `Localizable.xcstrings` stayed at the target root.
+- [x] 2.4 `git mv` `SetoryApp.swift` and `RootTabView.swift` into `App/`, and the two stub services into `TestSupport/`. Confirm `Assets.xcassets`, `Resources/`, and `Localizable.xcstrings` stayed at the target root.
 - [x] 2.5 Split three files mechanically, no logic changes: `ExerciseCategory` out of `Muscle.swift` into `Domain/Vocabulary/ExerciseCategory.swift`; `InMemoryAPIKeyStore` out of `APIKeyStore.swift` into `TestSupport/InMemoryAPIKeyStore.swift`; `ExerciseFilters` out of `ExerciseFilterBar.swift` into `Features/Catalog/ExerciseFilters.swift`.
 - [x] 2.6 Build and run both suites. Verify no `Models/`, `Services/`, or `Views/` directory remains and that `git log --follow` resolves a moved file's history.
 
 ## 3. Thin out the app entry point
 
-- [x] 3.1 Extract the schema and `ModelContainer` construction from `gymappApp.swift` into `App/AppModelContainer.swift`, keeping the `-uitest-reset` and seeding call order byte-identical for now.
-- [x] 3.2 Extract `UITestSeeding` from `gymappApp.swift` into `TestSupport/UITestSeeding.swift` unchanged.
+- [x] 3.1 Extract the schema and `ModelContainer` construction from `SetoryApp.swift` into `App/AppModelContainer.swift`, keeping the `-uitest-reset` and seeding call order byte-identical for now.
+- [x] 3.2 Extract `UITestSeeding` from `SetoryApp.swift` into `TestSupport/UITestSeeding.swift` unchanged.
 - [x] 3.3 Build and run both suites; confirm `-uitest-reset -uitest-seed` still produces the two known sessions.
 
 ## 4. Rename and extract the shared AI pieces
@@ -87,7 +87,7 @@ scripts/uitest.sh
 ## 10. Quarantine the test scaffolding
 
 - [x] 10.1 Add `TestSupport/LaunchOptions.swift` as the single reader of `CommandLine.arguments`, exposing typed options for reset, seed, offline media, the two AI scenarios, and animation disabling.
-- [x] 10.2 Add `TestSupport/TestOverrides.swift` with the `#if DEBUG` seam returning overrides in Debug and `nil` in Release, and route `gymappApp`'s dependency resolution through it.
+- [x] 10.2 Add `TestSupport/TestOverrides.swift` with the `#if DEBUG` seam returning overrides in Debug and `nil` in Release, and route `SetoryApp`'s dependency resolution through it.
 - [x] 10.3 Move the reset routine into `TestSupport/UITestReset.swift`, delegating to `CatalogSeeder.restorePristineCatalog` and `seedIfNeeded` in `Persistence/`, and preserving the no-parse-unless-edited property.
 - [x] 10.4 Move the photo fixture and UI-test detection out of `PhotoMatchSheet` into `TestSupport/PhotoMatchFixture.swift`, delivering the fixture affordance to the sheet through the environment seam that already supplies its match service.
 - [x] 10.5 Wrap the stub services, in-memory key store, seeding, reset, and fixture in `#if DEBUG`.
@@ -101,7 +101,7 @@ scripts/uitest.sh
 - [x] 11.2 Rename `ContentView` to `LogView` and update `RootTabView` and the preview.
 - [x] 11.3 Extract `PhotoMatchCaptureSection` and `PhotoMatchResultsSection` out of `PhotoMatchSheet` as sections inside the same `Form`.
   - **Reordered after group 12 and done there.** Group 12 moved `phase`, `isMatching`, `matchError`, and `matchTask` into the flow model first, so the sections needed far fewer bindings than splitting beforehand would have.
-- [x] 11.4 Run `scripts/uitest.sh -only-testing:gymappUITests/VisualSmokeUITests`, export the screenshot attachments, and compare them against the baseline from 1.1 for layout drift. Run both suites.
+- [x] 11.4 Run `scripts/uitest.sh -only-testing:SetoryUITests/VisualSmokeUITests`, export the screenshot attachments, and compare them against the baseline from 1.1 for layout drift. Run both suites.
   - `VisualSmokeUITests` turns out not to screenshot the Log tab at all (it covers library, detail, picker, and the AI surfaces), so it cannot verify this split. Verified instead by a direct screenshot of the seeded Log tab — calendar, section grouping, numbered badges, thumbnails, and footer all unchanged — plus the functional `WorkoutLoggingUITests` and the finish-day template test.
   - Worth adding a Log-tab case to `VisualSmokeUITests` so this gap closes; noted, not done here.
 

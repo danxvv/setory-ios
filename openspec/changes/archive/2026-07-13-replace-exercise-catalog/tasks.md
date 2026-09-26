@@ -2,9 +2,9 @@
 
 ## 1. Dataset transform tooling (offline)
 
-- [x] 1.1 Create `tools/catalog/transform.py`: download/read the dataset at a pinned commit SHA; emit `gymapp/Resources/exercise-catalog.json` with `gv`-prefixed ids, cleaned names (mojibake, casing), category mapping (`body_part == cardio` → `cardio`, else `strength`), muscle taxonomy mapping onto the 16 `Muscle` raw values, equipment raw value, media file names, en/es summary and instruction steps, and a catalog version stamp
+- [x] 1.1 Create `tools/catalog/transform.py`: download/read the dataset at a pinned commit SHA; emit `Setory/Resources/exercise-catalog.json` with `gv`-prefixed ids, cleaned names (mojibake, casing), category mapping (`body_part == cardio` → `cardio`, else `strength`), muscle taxonomy mapping onto the 16 `Muscle` raw values, equipment raw value, media file names, en/es summary and instruction steps, and a catalog version stamp
 - [x] 1.2 Author `tools/catalog/legacy-mapping.json`: hand-reviewed map of all 40 legacy ids → dataset ids (38 mapped; `face-pull`, `rowing-machine` marked unmappable), and copy it into app resources for the migrator
-- [x] 1.3 Run the transform; copy the 1,324 thumbnails into `gymapp/Resources/ExerciseThumbnails/` (added to Xcode as a folder reference, files named by exercise id); record the pinned SHA and jsDelivr base URL in the transform README
+- [x] 1.3 Run the transform; copy the 1,324 thumbnails into `Setory/Resources/ExerciseThumbnails/` (added to Xcode as a folder reference, files named by exercise id); record the pinned SHA and jsDelivr base URL in the transform README
 - [x] 1.4 Spot-check transform output: record counts, muscle raw values all valid, en/es content non-empty, media file names match bundled thumbnails
 
 ## 2. Model and catalog source

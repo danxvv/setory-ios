@@ -30,9 +30,9 @@ None. This extends existing catalog and localization behavior.
 
 ## Impact
 
-- **Models**: `gymapp/Models/Exercise.swift` — new `nameTranslations` property (defaulted, lightweight migration), `localizedName` becomes language-resolved with a `languageCode:` variant.
-- **Services**: `gymapp/Services/ExerciseCatalogSource.swift` (decode `localizedNames`), `gymapp/Services/CatalogSeeder.swift` (insert, align, version bump), `gymapp/Services/PhotoMatchRequestBuilder.swift` (assert canonical name stays).
-- **Views**: `gymapp/Views/ExerciseFilterBar.swift` (search predicate); all other `localizedName` call sites are unchanged.
-- **Data & tooling**: `gymapp/Resources/exercise-catalog.json` (version bump), `tools/catalog/transform.py` + new name-translations sidecar + `tools/catalog/README.md`.
+- **Models**: `Setory/Models/Exercise.swift` — new `nameTranslations` property (defaulted, lightweight migration), `localizedName` becomes language-resolved with a `languageCode:` variant.
+- **Services**: `Setory/Services/ExerciseCatalogSource.swift` (decode `localizedNames`), `Setory/Services/CatalogSeeder.swift` (insert, align, version bump), `Setory/Services/PhotoMatchRequestBuilder.swift` (assert canonical name stays).
+- **Views**: `Setory/Views/ExerciseFilterBar.swift` (search predicate); all other `localizedName` call sites are unchanged.
+- **Data & tooling**: `Setory/Resources/exercise-catalog.json` (version bump), `tools/catalog/transform.py` + new name-translations sidecar + `tools/catalog/README.md`.
 - **Tests**: `ExerciseOverrideTests` (name resolution + override), `ExerciseCatalogSourceTests` (lenient decode), `CatalogSeederTests` (seed/align/restore), `LocalizationTests` (Spanish-name completeness); UI tests continue to run pinned to English, where names are unchanged.
 - **No** network, storage-location, or privacy changes; SwiftData migration is additive with a default value.

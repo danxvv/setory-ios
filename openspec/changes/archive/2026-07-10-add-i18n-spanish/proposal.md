@@ -28,7 +28,7 @@ The app is English-only: every user-facing string is a hardcoded literal, exerci
 ## Impact
 
 - **Code**: All 6 view files (`ContentView`, `SetEntrySheet`, `RoutineListView`, `RoutineDetailView`, `RootTabView`, `MonthCalendarView`), `Models/DraftSeries.swift`, `Models/Muscle.swift`, `Models/Exercise.swift` (new localized-name accessor), `Models/WorkoutSession.swift` (`exerciseNames` summary), `Services/CatalogSeeder.swift` (unchanged seeding, but sort behavior in the catalog query changes).
-- **Resources**: New `gymapp/Localizable.xcstrings` (picked up automatically by the synchronized file group); `exercises.json` unchanged.
+- **Resources**: New `Setory/Localizable.xcstrings` (picked up automatically by the synchronized file group); `exercises.json` unchanged.
 - **Project file**: `knownRegions` gains `es` in `project.pbxproj`.
-- **Tests**: `gymappUITests` gain a forced-English launch configuration (assertions on literal English strings otherwise break under a Spanish simulator); unit tests unaffected because stored data stays English.
+- **Tests**: `SetoryUITests` gain a forced-English launch configuration (assertions on literal English strings otherwise break under a Spanish simulator); unit tests unaffected because stored data stays English.
 - **Out of scope**: localizing user-generated content, the AI suggestion backend contract (external dependency), and additional languages beyond Spanish.

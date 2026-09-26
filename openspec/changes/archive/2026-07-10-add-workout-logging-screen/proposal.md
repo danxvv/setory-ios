@@ -26,7 +26,7 @@ The app is still the untouched Xcode SwiftUI + SwiftData template — this chang
 
 ## Impact
 
-- Existing `gymapp` target: delete template `Item.swift`, rewrite `ContentView.swift` as the logging screen, register the new models in the shared `ModelContainer` in `gymappApp.swift`.
+- Existing `Setory` target: delete template `Item.swift`, rewrite `ContentView.swift` as the logging screen, register the new models in the shared `ModelContainer` in `SetoryApp.swift`.
 - New SwiftData models: exercise, workout session, and series (set) entries.
 - New unit-test target (the template project ships without one).
 - New bundled resource: exercise catalog seed data (including muscle-target metadata required later by the AI suggestion contract).

@@ -1,6 +1,6 @@
-# gymapp documentation
+# Setory documentation
 
-`gymapp` is an iOS workout tracker built with SwiftUI and SwiftData. It combines an exercise library, daily set logging, reusable routine templates, workout history, progress charts, and optional AI assistance through OpenRouter.
+`Setory` is an iOS workout tracker built with SwiftUI and SwiftData. It combines an exercise library, daily set logging, reusable routine templates, workout history, progress charts, and optional AI assistance through OpenRouter.
 
 This documentation describes the checked-in implementation as inspected on September 7, 2026. Source links point to the implementation; archived OpenSpec proposals describe earlier decisions and can differ from current code.
 
