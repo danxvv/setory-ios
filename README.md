@@ -65,6 +65,68 @@ The app, Xcode project, scheme, and Swift module are named **Setory**. The repos
 
 Builds installed under an earlier bundle identifier remain separate apps. Their local workouts, templates, preferences, and API key do not automatically transfer to Setory.
 
+### Install on an iPhone from the CLI
+
+Run these commands from the repository root on your Mac. You need the full Xcode installation and a physical iPhone running **iOS 26.5 or later**.
+
+**Prepare signing and the phone once:**
+
+1. Sign in to your Apple Account in **Xcode → Settings → Apple Accounts** (called **Accounts** in some versions). A free Personal Team can install apps on your own device; a paid membership is not required for this workflow.
+2. Connect the unlocked iPhone by USB, accept **Trust This Computer**, and let Xcode finish pairing it. Enable **Settings → Privacy & Security → Developer Mode** on the iPhone, then restart and confirm when prompted. The option may appear only after pairing starts. See Apple's [Developer Mode instructions](https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device).
+3. In the **Setory** target's **Signing & Capabilities**, select your team and enable **Automatically manage signing**. You can find the selected team's identifier in **Build Settings → Development Team**. See Apple's [device signing setup](https://developer.apple.com/documentation/xcode/building-and-running-an-app).
+
+**Keep the bundle identifier `danxvv.setory` if your signing team can register or already owns it.** Installing through the CLI does not require changing it. If Xcode reports that the identifier is unavailable to your team, use a unique personal value such as `com.yourname.setory` in `SETORY_BUNDLE_ID` below. This overrides the identifier for that build; the app still displays **Setory**. Keep the chosen identifier and signing team stable for later updates. Changing the bundle identifier creates a separate app with separate local data. See Apple's [bundle identifier guidance](https://developer.apple.com/documentation/xcode/changing-the-bundle-identifier).
+
+Find the connected phone:
+
+```sh
+xcrun devicectl list devices
+xcodebuild -project Setory.xcodeproj -scheme Setory -showdestinations
+```
+
+From `xcodebuild`'s destinations, copy the `id` for your physical iPhone under **platform:iOS**, not an iOS Simulator. Use that hardware UDID for both building and installing; it is different from the app's bundle identifier and your signing Team ID.
+
+Replace the two placeholders below, then build a signed app:
+
+```sh
+SETORY_DEVICE_UDID="YOUR_IPHONE_UDID"
+SETORY_TEAM_ID="YOUR_TEAM_ID"
+SETORY_BUNDLE_ID="danxvv.setory"
+SETORY_BUILD_DIR="/tmp/setory-iphone"
+
+xcodebuild build \
+  -project Setory.xcodeproj \
+  -scheme Setory \
+  -configuration Debug \
+  -destination "platform=iOS,id=$SETORY_DEVICE_UDID" \
+  -derivedDataPath "$SETORY_BUILD_DIR" \
+  -allowProvisioningUpdates \
+  -allowProvisioningDeviceRegistration \
+  CODE_SIGN_STYLE=Automatic \
+  DEVELOPMENT_TEAM="$SETORY_TEAM_ID" \
+  PRODUCT_BUNDLE_IDENTIFIER="$SETORY_BUNDLE_ID"
+```
+
+The provisioning flags let Xcode create or update signing assets and register the destination device using the account configured in Xcode. The command-line signing values apply to this build without editing the project file.
+
+After the build succeeds, install and launch in the **same terminal session**:
+
+```sh
+xcrun devicectl device install app \
+  --device "$SETORY_DEVICE_UDID" \
+  "$SETORY_BUILD_DIR/Build/Products/Debug-iphoneos/Setory.app"
+
+xcrun devicectl device process launch \
+  --device "$SETORY_DEVICE_UDID" \
+  "$SETORY_BUNDLE_ID"
+```
+
+Keep the phone unlocked during installation and launch. If iOS requests developer trust, follow its instructions in **Settings → General → VPN & Device Management**. To install an updated build, repeat the build and install commands with the same identifiers; there is no need to uninstall the app first.
+
+With a free Personal Team, provisioning profiles expire after **7 days**, so you need to rebuild and reinstall periodically. See Apple's [Personal Team limits](https://developer.apple.com/help/account/basics/about-your-developer-account).
+
+If `xcodebuild` reports that it requires Xcode or `devicectl` cannot be found, check `xcode-select -p`. With Xcode installed in its usual location, select it using `sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer`, then open Xcode to complete any first-launch setup. If the iPhone is missing or listed as ineligible, check pairing, Developer Mode, its iOS version, and whether your installed Xcode supports that version.
+
 ### Run tests
 
 Use a dedicated DerivedData directory to avoid interference from Xcode previews:
