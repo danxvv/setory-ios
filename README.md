@@ -47,8 +47,8 @@ Suggestions and photo matches enter a draft for your review before you save them
 
 ### Requirements
 
-- A Mac with Xcode and an iOS SDK supporting the project's **iOS 26.5** deployment target.
-- An iOS 26.5+ simulator or device. The repository's documented development setup uses **Xcode 26.6** and an **iPhone 17 Pro** simulator.
+- A Mac with **Xcode 27** and its **iOS 27 SDK** installed. The instructions below use Xcode 27.0.
+- An iPhone or simulator running **iOS 26.5 or later**, including **iOS 27**. The project's minimum deployment target remains 26.5; using iOS 27 does not require raising it.
 - An OpenRouter key only if you want to use the optional AI features.
 
 ### Run locally
@@ -59,21 +59,32 @@ cd setory-ios
 open Setory.xcodeproj
 ```
 
-Select the **Setory** scheme, choose an available simulator, and run. For a physical device, configure your signing team in Xcode.
+For a simulator, select the **Setory** scheme, choose an iPhone running **iOS 27**, and press **⌘R**. Install the iOS 27 simulator runtime from **Xcode → Settings → Components** if it is missing. For a physical iPhone, follow the Xcode or CLI steps below.
 
 The app, Xcode project, scheme, and Swift module are named **Setory**. The repository is `setory-ios`, and the app's bundle identifier is `danxvv.setory`. There is no package installation or separate backend to start. The exercise catalog is bundled and seeded automatically on launch.
 
 Builds installed under an earlier bundle identifier remain separate apps. Their local workouts, templates, preferences, and API key do not automatically transfer to Setory.
 
+### Install on an iPhone with Xcode 27
+
+1. Open **Setory.xcodeproj** in Xcode 27 and sign in under **Xcode → Settings → Apple Accounts**. A free Personal Team is enough for testing on your own iPhone.
+2. Connect your unlocked **iOS 27** iPhone by USB and accept **Trust This Computer**. In Xcode's run-destination menu, choose **Manage Devices** to open [Device Hub](https://developer.apple.com/documentation/xcode/managing-your-simulated-and-physical-devices-in-device-hub) and finish pairing the phone.
+3. On the iPhone, enable **Settings → Privacy & Security → Developer Mode**, restart, and confirm. The switch may appear only after pairing begins. See Apple's [Developer Mode instructions](https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device).
+4. Select the blue **Setory** project in the Project navigator, then **TARGETS → Setory → Signing & Capabilities**. Click **Set Up Signing** if offered, select your team, and use `danxvv.setory` as the bundle identifier. Otherwise, enable **Automatically manage signing** and select your team directly. If Apple says that identifier is unavailable to your team, choose a unique personal one, such as `com.yourname.setory`.
+5. In the toolbar, select the **Setory** scheme and your **physical iPhone** as the run destination. Let device preparation finish; choose the phone itself rather than a simulator or the generic **Any iOS Device** destination.
+6. Choose **Product → Run** (**⌘R**). Xcode builds, signs, installs, and launches Setory. Accept any device-registration, Keychain, or developer-trust prompts needed to complete setup.
+
+After installation, you can open **Setory** from the iPhone's Home Screen. For later updates, run the same project on the same phone with the same bundle identifier and signing team; you do not need to uninstall the app. Apple's [guide to running on physical devices](https://developer.apple.com/documentation/xcode/building-and-running-an-app) covers the signing and device-selection screens.
+
+If the phone is missing or ineligible, check its status in **Device Hub**, unlock it, and verify pairing and Developer Mode. Install any requested iOS platform support in **Xcode → Settings → Components**. For a newer iOS 27 update or beta, use an Xcode version that supports that specific device OS.
+
+With a free Personal Team, provisioning profiles expire after **7 days**, so rebuild and reinstall periodically using either workflow. See Apple's [Personal Team limits](https://developer.apple.com/help/account/basics/about-your-developer-account).
+
 ### Install on an iPhone from the CLI
 
-Run these commands from the repository root on your Mac. You need the full Xcode installation and a physical iPhone running **iOS 26.5 or later**.
+Run these commands from the repository root on your Mac using **Xcode 27**. They install on a physical **iOS 27** iPhone and also support devices running the project's minimum iOS 26.5 version.
 
-**Prepare signing and the phone once:**
-
-1. Sign in to your Apple Account in **Xcode → Settings → Apple Accounts** (called **Accounts** in some versions). A free Personal Team can install apps on your own device; a paid membership is not required for this workflow.
-2. Connect the unlocked iPhone by USB, accept **Trust This Computer**, and let Xcode finish pairing it. Enable **Settings → Privacy & Security → Developer Mode** on the iPhone, then restart and confirm when prompted. The option may appear only after pairing starts. See Apple's [Developer Mode instructions](https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device).
-3. In the **Setory** target's **Signing & Capabilities**, select your team and enable **Automatically manage signing**. You can find the selected team's identifier in **Build Settings → Development Team**. See Apple's [device signing setup](https://developer.apple.com/documentation/xcode/building-and-running-an-app).
+First complete the account, pairing, Developer Mode, and automatic-signing setup in the [Xcode instructions above](#install-on-an-iphone-with-xcode-27). You can find the selected team's identifier in the Setory target's **Build Settings → Development Team**.
 
 **Keep the bundle identifier `danxvv.setory` if your signing team can register or already owns it.** Installing through the CLI does not require changing it. If Xcode reports that the identifier is unavailable to your team, use a unique personal value such as `com.yourname.setory` in `SETORY_BUNDLE_ID` below. This overrides the identifier for that build; the app still displays **Setory**. Keep the chosen identifier and signing team stable for later updates. Changing the bundle identifier creates a separate app with separate local data. See Apple's [bundle identifier guidance](https://developer.apple.com/documentation/xcode/changing-the-bundle-identifier).
 
@@ -123,23 +134,21 @@ xcrun devicectl device process launch \
 
 Keep the phone unlocked during installation and launch. If iOS requests developer trust, follow its instructions in **Settings → General → VPN & Device Management**. To install an updated build, repeat the build and install commands with the same identifiers; there is no need to uninstall the app first.
 
-With a free Personal Team, provisioning profiles expire after **7 days**, so you need to rebuild and reinstall periodically. See Apple's [Personal Team limits](https://developer.apple.com/help/account/basics/about-your-developer-account).
-
 If `xcodebuild` reports that it requires Xcode or `devicectl` cannot be found, check `xcode-select -p`. With Xcode installed in its usual location, select it using `sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer`, then open Xcode to complete any first-launch setup. If the iPhone is missing or listed as ineligible, check pairing, Developer Mode, its iOS version, and whether your installed Xcode supports that version.
 
 ### Run tests
 
-Use a dedicated DerivedData directory to avoid interference from Xcode previews:
+Use a dedicated DerivedData directory to avoid interference from Xcode previews. These examples use an **iPhone 18 Pro** simulator with **iOS 27.0**; install that runtime in Xcode's Components settings, or select another installed simulator:
 
 ```sh
 # Unit tests
 xcodebuild test -project Setory.xcodeproj -scheme Setory \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+  -destination 'platform=iOS Simulator,name=iPhone 18 Pro,OS=27.0' \
   -derivedDataPath /tmp/setory-unit-tests \
   -only-testing:SetoryTests
 
 # UI tests: boots the simulator and runs parallel workers
-DERIVED_DATA=/tmp/setory-ui-tests scripts/uitest.sh
+DEVICE="iPhone 18 Pro" DERIVED_DATA=/tmp/setory-ui-tests scripts/uitest.sh
 ```
 
 The UI runner accepts `DEVICE`, `WORKERS`, and `DERIVED_DATA` overrides. See [development and testing](docs/development.md) for focused runs, test fixtures, and launch options.
