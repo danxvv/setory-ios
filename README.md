@@ -78,7 +78,7 @@ After installation, you can open **Setory** from the iPhone's Home Screen. For l
 
 If the phone is missing or ineligible, check its status in **Device Hub**, unlock it, and verify pairing and Developer Mode. Install any requested iOS platform support in **Xcode → Settings → Components**. For a newer iOS 27 update or beta, use an Xcode version that supports that specific device OS.
 
-With a free Personal Team, provisioning profiles expire after **7 days**, so rebuild and reinstall periodically using either workflow. See Apple's [Personal Team limits](https://developer.apple.com/help/account/basics/about-your-developer-account).
+**Free Personal Team installations need refreshing every 7 days.** Follow the [renewal steps below](#refresh-every-7-days-free-personal-team) to keep using Setory.
 
 #### Trust the developer certificate on the iPhone
 
@@ -150,6 +150,17 @@ xcrun devicectl device process launch \
 Keep the phone unlocked during installation and launch. If iOS requests developer trust, complete the [certificate-trust steps above](#trust-the-developer-certificate-on-the-iphone), then repeat the launch command. To install an updated build, repeat the build and install commands with the same identifiers; there is no need to uninstall the app first.
 
 If `xcodebuild` reports that it requires Xcode or `devicectl` cannot be found, check `xcode-select -p`. With Xcode installed in its usual location, select it using `sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer`, then open Xcode to complete any first-launch setup. If the iPhone is missing or listed as ineligible, check pairing, Developer Mode, its iOS version, and whether your installed Xcode supports that version.
+
+### Refresh every 7 days (free Personal Team)
+
+With a **free Apple Account / Personal Team**, the provisioning profile expires **7 days after it is issued**. After expiration, Setory will not launch until you rebuild and reinstall it with a renewed profile. Opening the app or trusting the developer certificate again does not renew the profile. See Apple's [Personal Team limits](https://developer.apple.com/help/account/basics/about-your-developer-account).
+
+To refresh the installation, connect and unlock your iPhone, give your Mac internet access, and use either method:
+
+- **Xcode:** open **Setory.xcodeproj**, select the same signing team and iPhone, and press **⌘R**. Automatic signing handles provisioning before installing the new build.
+- **CLI:** repeat the documented `xcodebuild build` command with its provisioning flags, then the `devicectl device install app` and launch commands. Reinstalling an old `.app` with an expired profile is not a refresh.
+
+Keep the **same bundle identifier and signing team**, and install over the existing app to retain its local data. **Do not uninstall Setory just to refresh it.** This seven-day requirement applies to free Personal Team signing.
 
 ### Run tests
 
