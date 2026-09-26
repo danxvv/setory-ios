@@ -2,169 +2,141 @@
 
 # Setory
 
-### Every set tells a story.
-
-A native iOS workout journal for planning routines, logging training,<br>
-and seeing your progress—one session at a time.
+A native iOS workout journal for planning routines, logging training, and tracking progress.
 
 **SwiftUI · SwiftData · iOS 26.5+ · English & Español**
 
-[Get started](#get-started) · [Features](#built-for-your-training) · [Documentation](docs/README.md) · [Development](docs/development.md)
+[Get started](#get-started) · [Features](#features) · [Documentation](docs/README.md) · [Development](docs/development.md)
 
 </div>
 
 ---
 
-## Built for your training
+## Features
 
-Setory brings your exercise library, daily workout log, reusable routines, and progress charts together in one app. Core training features work locally without an account or an AI key.
+Core features work offline, with no account or AI key.
 
-| Explore | Train | Reflect |
+| Explore | Train | Review |
 | :--- | :--- | :--- |
-| Browse **1,324 exercises** with instructions and bundled thumbnails. | Record strength sets with repetitions and kilograms, or cardio duration. | Review completed sessions and individual exercise history. |
-| Search in English or Spanish and filter the catalog. | Build reusable templates and apply them as a daily checklist. | Follow training frequency, muscle coverage, and exercise records. |
-| Watch exercise demonstrations downloaded on demand. | Save a completed day or turn a past session into a template. | See progress charts calculated from your saved workouts. |
+| Browse 1,324 exercises with instructions and bundled thumbnails. | Log strength sets (reps × kg) or cardio duration. | See completed sessions and per-exercise history. |
+| Search in English or Spanish and filter the catalog. | Build reusable templates and apply them as a daily checklist. | Track training frequency, muscle coverage, and personal records. |
+| Stream exercise demonstrations, cached after first view. | Save a finished day, or turn a past session into a template. | View progress charts computed from saved workouts. |
 
-### A little help when you want it
+### Optional AI features
 
-Optional AI tools use your own OpenRouter key:
+These require your own [OpenRouter](https://openrouter.ai) API key:
 
-- **Routine suggestions** use a goal and recent training history to propose a routine you can review and edit.
-- **Photo matching** helps find catalog exercises from equipment photos, with optional description and muscle hints.
+- **Routine suggestions:** proposes a routine from a goal and your recent history.
+- **Photo matching:** finds catalog exercises from equipment photos, with optional description and muscle hints.
 
-Suggestions and photo matches enter a draft for your review before you save them. Configure the key in **Routines → AI Settings**; it is stored in the device Keychain. AI requests send the relevant context or selected photos to OpenRouter. See [AI integration](docs/ai.md) for request details.
+Results open as an editable draft; nothing is saved until you confirm. Set the key in **Routines → AI Settings**. It is stored in the Keychain. Requests send the relevant training context or selected photos to OpenRouter; see [AI integration](docs/ai.md).
 
-## From plan to progress
+## Usage
 
-1. **Pick a day** in Log and choose exercises, or apply a saved template.
-2. **Record your sets** as you train. Templates act as a checklist; you can adjust the workout as you go.
-3. **Tap Finish Day** to save the session and update your history and charts.
-4. **Review and repeat** in Routines and Progress.
+1. In **Log**, pick a day and add exercises or apply a template.
+2. Record sets as you train. Template items act as a checklist and can be changed.
+3. Tap **Finish Day** to save the session and update history and charts.
+4. Review results in **Routines** and **Progress**.
 
-> Daily drafts are temporary and are not restored after restarting the app. Saved workouts persist locally. Completed days are currently read-only in the UI.
+> Unsaved daily drafts are lost when the app restarts. Completed days are read-only.
 
 ## Get started
 
 ### Requirements
 
-- A Mac with **Xcode 27** and its **iOS 27 SDK** installed. The instructions below use Xcode 27.0.
-- An iPhone or simulator running **iOS 26.5 or later**, including **iOS 27**. The project's minimum deployment target remains 26.5; using iOS 27 does not require raising it.
-- An OpenRouter key only if you want to use the optional AI features.
+- Mac with **Xcode 27** (iOS 27 SDK)
+- iPhone or simulator running **iOS 26.5 or later**
+- Optional: an OpenRouter key for AI features
 
-### Run locally
+### Run in the simulator
 
 ```sh
-git clone git@github.com:danxvv/setory-ios.git
+git clone https://github.com/danxvv/setory-ios.git
 cd setory-ios
 open Setory.xcodeproj
 ```
 
-For a simulator, select the **Setory** scheme, choose an iPhone running **iOS 27**, and press **⌘R**. Install the iOS 27 simulator runtime from **Xcode → Settings → Components** if it is missing. For a physical iPhone, follow the Xcode or CLI steps below.
+Select the **Setory** scheme and an iOS 27 iPhone simulator, then press **⌘R**. If no iOS 27 simulator is listed, install the runtime in **Xcode → Settings → Components**. There are no packages to install and no backend; the exercise catalog is bundled and seeded on first launch.
 
-The app, Xcode project, scheme, and Swift module are named **Setory**. The repository is `setory-ios`, and the app's bundle identifier is `danxvv.setory`. There is no package installation or separate backend to start. The exercise catalog is bundled and seeded automatically on launch.
+### Run on an iPhone (Xcode)
 
-Builds installed under an earlier bundle identifier remain separate apps. Their local workouts, templates, preferences, and API key do not automatically transfer to Setory.
+1. Sign in under **Xcode → Settings → Apple Accounts**. A free Personal Team works.
+2. Connect the iPhone by USB, unlock it, and tap **Trust**. Open [Device Hub](https://developer.apple.com/documentation/xcode/managing-your-simulated-and-physical-devices-in-device-hub) (run-destination menu → **Manage Devices…**) and complete pairing. On iOS 27 you can instead pair over Wi-Fi via **+ → Pair Nearby Device…**.
+3. On the iPhone, turn on **Settings → Privacy & Security → Developer Mode** and tap **Restart**. After restarting, tap **Enable** and enter your passcode. The switch only appears once pairing has started. See [Enabling Developer Mode](https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device).
+4. In Xcode, select the **Setory** project → **TARGETS → Setory → Signing & Capabilities**. Keep **Automatically manage signing** on, choose your team, and set a **Bundle Identifier** unique to you, such as `com.yourname.setory`. (`danxvv.setory` belongs to the maintainer's team and won't work for other accounts.)
+5. Choose your iPhone as the run destination (not a simulator or **Any iOS Device**) and press **⌘R**.
+6. If launch fails because the developer isn't trusted, [trust your certificate](#trust-the-developer-certificate) and press **⌘R** again.
 
-### Install on an iPhone with Xcode 27
+To update, run again with the same team and bundle ID. Installing over the existing app keeps its data. See [Running your app on simulated or physical devices](https://developer.apple.com/documentation/xcode/running-your-app-on-simulated-or-physical-devices).
 
-1. Open **Setory.xcodeproj** in Xcode 27 and sign in under **Xcode → Settings → Apple Accounts**. A free Personal Team is enough for testing on your own iPhone.
-2. Connect your unlocked **iOS 27** iPhone by USB and accept **Trust This Computer**. In Xcode's run-destination menu, choose **Manage Devices** to open [Device Hub](https://developer.apple.com/documentation/xcode/managing-your-simulated-and-physical-devices-in-device-hub) and finish pairing the phone.
-3. On the iPhone, enable **Settings → Privacy & Security → Developer Mode** and accept the restart. After restarting, unlock the phone, confirm that you want to enable Developer Mode, and enter your passcode when asked. The switch may appear only after pairing begins. See Apple's [Developer Mode instructions](https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device).
-4. Select the blue **Setory** project in the Project navigator, then **TARGETS → Setory → Signing & Capabilities**. Click **Set Up Signing** if offered, select your team, and use `danxvv.setory` as the bundle identifier. Otherwise, enable **Automatically manage signing** and select your team directly. If Apple says that identifier is unavailable to your team, choose a unique personal one, such as `com.yourname.setory`.
-5. In the toolbar, select the **Setory** scheme and your **physical iPhone** as the run destination. Let device preparation finish; choose the phone itself rather than a simulator or the generic **Any iOS Device** destination.
-6. Choose **Product → Run** (**⌘R**). Xcode builds, signs, installs, and launches Setory. Complete any device-registration or signing-Keychain prompts. If installation succeeds but iOS blocks launch with a developer-trust warning, follow the [certificate-trust steps below](#trust-the-developer-certificate-on-the-iphone), then run again.
+#### Trust the developer certificate
 
-After installation, you can open **Setory** from the iPhone's Home Screen. For later updates, run the same project on the same phone with the same bundle identifier and signing team; you do not need to uninstall the app. Apple's [guide to running on physical devices](https://developer.apple.com/documentation/xcode/building-and-running-an-app) covers the signing and device-selection screens.
+Free Personal Team builds must be trusted once on the device:
 
-If the phone is missing or ineligible, check its status in **Device Hub**, unlock it, and verify pairing and Developer Mode. Install any requested iOS platform support in **Xcode → Settings → Components**. For a newer iOS 27 update or beta, use an Xcode version that supports that specific device OS.
+1. On the iPhone, open **Settings → General → VPN & Device Management**. (No VPN is involved.)
+2. Under **Developer App**, tap your Apple Account.
+3. Tap **Trust "Apple Development: …"**, then **Trust**.
 
-**Free Personal Team installations need refreshing every 7 days.** Follow the [renewal steps below](#refresh-every-7-days-free-personal-team) to keep using Setory.
+This is separate from Developer Mode. If no **Developer App** entry appears, the install didn't complete; run again from Xcode.
 
-#### Trust the developer certificate on the iPhone
+### Run on an iPhone (command line)
 
-After installing Setory, a Personal Team build may need this additional step if iOS shows **Untrusted Developer** or says the **Developer App Certificate is not trusted**:
+Complete steps 1–3 above first. The build below sets the team and bundle ID on the command line, so the project file is not modified.
 
-1. Open **Settings → General → VPN & Device Management** on the iPhone.
-2. Under **Developer App**, select the developer identity associated with the Apple Account or team that signed your build.
-3. Tap **Trust** for that identity and confirm using the action shown by iOS. If it requests a restart, complete it and follow the confirmation prompts after unlocking the phone.
-4. Open **Setory** again, or repeat **⌘R** in Xcode / the CLI launch command.
-
-This certificate approval is separate from **Developer Mode** under **Privacy & Security**. The **VPN & Device Management** page also contains developer-trust settings; **you do not need to configure or enable a VPN**. Apple explicitly documents trusting the developer certificate for Personal Team builds in its [Fruta sample setup](https://developer.apple.com/documentation/appclip/fruta-building-a-feature-rich-app-with-swiftui).
-
-Apple's **Allow & Restart** instructions apply specifically to manually installed **enterprise apps** on iOS 18 and later. For this Personal Team workflow, follow the confirmation displayed on your phone. If you see **Not Verified** or **Verify App**, connect the phone to the internet and retry verification. See Apple's [enterprise trust and verification guidance](https://support.apple.com/en-us/118254).
-
-If there is no developer entry, first confirm that the signed app was installed successfully. If Setory already opens, you do not need an additional manual trust step.
-
-### Install on an iPhone from the CLI
-
-Run these commands from the repository root on your Mac using **Xcode 27**. They install on a physical **iOS 27** iPhone and also support devices running the project's minimum iOS 26.5 version.
-
-First complete the account, pairing, Developer Mode, and automatic-signing setup in the [Xcode instructions above](#install-on-an-iphone-with-xcode-27). You can find the selected team's identifier in the Setory target's **Build Settings → Development Team**.
-
-**Keep the bundle identifier `danxvv.setory` if your signing team can register or already owns it.** Installing through the CLI does not require changing it. If Xcode reports that the identifier is unavailable to your team, use a unique personal value such as `com.yourname.setory` in `SETORY_BUNDLE_ID` below. This overrides the identifier for that build; the app still displays **Setory**. Keep the chosen identifier and signing team stable for later updates. Changing the bundle identifier creates a separate app with separate local data. See Apple's [bundle identifier guidance](https://developer.apple.com/documentation/xcode/changing-the-bundle-identifier).
-
-Find the connected phone:
+Find your iPhone's UDID and your Team ID:
 
 ```sh
-xcrun devicectl list devices
+# Use the "id" listed under platform:iOS (not iOS Simulator)
 xcodebuild -project Setory.xcodeproj -scheme Setory -showdestinations
+
+# Team ID is the 10-character "OU=" value on your Apple Development certificate
+security find-certificate -c "Apple Development" -p | openssl x509 -noout -subject
 ```
 
-From `xcodebuild`'s destinations, copy the `id` for your physical iPhone under **platform:iOS**, not an iOS Simulator. Use that hardware UDID for both building and installing; it is different from the app's bundle identifier and your signing Team ID.
-
-Replace the two placeholders below, then build a signed app:
+Build, install, and launch:
 
 ```sh
-SETORY_DEVICE_UDID="YOUR_IPHONE_UDID"
-SETORY_TEAM_ID="YOUR_TEAM_ID"
-SETORY_BUNDLE_ID="danxvv.setory"
-SETORY_BUILD_DIR="/tmp/setory-iphone"
+DEVICE_UDID="YOUR_IPHONE_UDID"
+TEAM_ID="YOUR_TEAM_ID"
+BUNDLE_ID="com.yourname.setory"
+BUILD_DIR="/tmp/setory-iphone"
 
 xcodebuild build \
   -project Setory.xcodeproj \
   -scheme Setory \
   -configuration Debug \
-  -destination "platform=iOS,id=$SETORY_DEVICE_UDID" \
-  -derivedDataPath "$SETORY_BUILD_DIR" \
+  -destination "platform=iOS,id=$DEVICE_UDID" \
+  -derivedDataPath "$BUILD_DIR" \
   -allowProvisioningUpdates \
   -allowProvisioningDeviceRegistration \
-  CODE_SIGN_STYLE=Automatic \
-  DEVELOPMENT_TEAM="$SETORY_TEAM_ID" \
-  PRODUCT_BUNDLE_IDENTIFIER="$SETORY_BUNDLE_ID"
+  DEVELOPMENT_TEAM="$TEAM_ID" \
+  PRODUCT_BUNDLE_IDENTIFIER="$BUNDLE_ID"
+
+xcrun devicectl device install app --device "$DEVICE_UDID" \
+  "$BUILD_DIR/Build/Products/Debug-iphoneos/Setory.app"
+
+xcrun devicectl device process launch --device "$DEVICE_UDID" "$BUNDLE_ID"
 ```
 
-The provisioning flags let Xcode create or update signing assets and register the destination device using the account configured in Xcode. The command-line signing values apply to this build without editing the project file.
+Keep the phone unlocked during install and launch. If launch is blocked, [trust the certificate](#trust-the-developer-certificate) and rerun the launch command. Changing `BUNDLE_ID` later installs a separate app with separate data.
 
-After the build succeeds, install and launch in the **same terminal session**:
+**Troubleshooting**
 
-```sh
-xcrun devicectl device install app \
-  --device "$SETORY_DEVICE_UDID" \
-  "$SETORY_BUILD_DIR/Build/Products/Debug-iphoneos/Setory.app"
+- *`xcodebuild` requires Xcode* or *`devicectl` not found*: run `sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer`.
+- *Device missing or ineligible*: check pairing and Developer Mode in Device Hub, and confirm your Xcode version supports the phone's iOS version.
 
-xcrun devicectl device process launch \
-  --device "$SETORY_DEVICE_UDID" \
-  "$SETORY_BUNDLE_ID"
-```
+### Free Personal Team: rebuild every 7 days
 
-Keep the phone unlocked during installation and launch. If iOS requests developer trust, complete the [certificate-trust steps above](#trust-the-developer-certificate-on-the-iphone), then repeat the launch command. To install an updated build, repeat the build and install commands with the same identifiers; there is no need to uninstall the app first.
+Free provisioning profiles [expire after 7 days](https://developer.apple.com/help/account/basics/about-your-developer-account), after which Setory won't launch. Re-trusting the certificate doesn't fix this; you need a fresh build:
 
-If `xcodebuild` reports that it requires Xcode or `devicectl` cannot be found, check `xcode-select -p`. With Xcode installed in its usual location, select it using `sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer`, then open Xcode to complete any first-launch setup. If the iPhone is missing or listed as ineligible, check pairing, Developer Mode, its iOS version, and whether your installed Xcode supports that version.
+- **Xcode:** connect the phone and press **⌘R**.
+- **CLI:** rerun the `xcodebuild build` command, then install. Reinstalling the old `.app` won't work.
 
-### Refresh every 7 days (free Personal Team)
-
-With a **free Apple Account / Personal Team**, the provisioning profile expires **7 days after it is issued**. After expiration, Setory will not launch until you rebuild and reinstall it with a renewed profile. Opening the app or trusting the developer certificate again does not renew the profile. See Apple's [Personal Team limits](https://developer.apple.com/help/account/basics/about-your-developer-account).
-
-To refresh the installation, connect and unlock your iPhone, give your Mac internet access, and use either method:
-
-- **Xcode:** open **Setory.xcodeproj**, select the same signing team and iPhone, and press **⌘R**. Automatic signing handles provisioning before installing the new build.
-- **CLI:** repeat the documented `xcodebuild build` command with its provisioning flags, then the `devicectl device install app` and launch commands. Reinstalling an old `.app` with an expired profile is not a refresh.
-
-Keep the **same bundle identifier and signing team**, and install over the existing app to retain its local data. **Do not uninstall Setory just to refresh it.** This seven-day requirement applies to free Personal Team signing.
+Use the same team and bundle ID, and don't uninstall first, so your workouts are kept.
 
 ### Run tests
 
-Use a dedicated DerivedData directory to avoid interference from Xcode previews. These examples use an **iPhone 18 Pro** simulator with **iOS 27.0**; install that runtime in Xcode's Components settings, or select another installed simulator:
+Use a dedicated DerivedData directory, since Xcode Previews can overwrite the default app bundle and cause launch crashes.
 
 ```sh
 # Unit tests
@@ -173,51 +145,51 @@ xcodebuild test -project Setory.xcodeproj -scheme Setory \
   -derivedDataPath /tmp/setory-unit-tests \
   -only-testing:SetoryTests
 
-# UI tests: boots the simulator and runs parallel workers
+# UI tests (boots the simulator, runs parallel workers)
 DEVICE="iPhone 18 Pro" DERIVED_DATA=/tmp/setory-ui-tests scripts/uitest.sh
 ```
 
-The UI runner accepts `DEVICE`, `WORKERS`, and `DERIVED_DATA` overrides. See [development and testing](docs/development.md) for focused runs, test fixtures, and launch options.
+`scripts/uitest.sh` accepts `DEVICE` (default `iPhone 17 Pro`), `WORKERS` (default 6), and `DERIVED_DATA`. See [Development and testing](docs/development.md) for focused runs, fixtures, and launch options.
 
-## Under the hood
+## Architecture
 
-The app uses **SwiftUI** for its interface, **SwiftData** for local persistence, **Swift Testing** for unit tests, and **XCUITest** for UI flows.
+SwiftUI for UI, SwiftData for persistence, Swift Testing for unit tests, XCUITest for UI tests.
 
 ```text
 Setory/
-├── App/             App entry point, navigation, and model container
-├── Domain/          Persisted entities, drafts, vocabulary, and statistics
-├── Persistence/     Catalog seeding and dedicated write stores
-├── Features/        Logging, exercises, routines, progress, and settings
-├── AI/              Shared transport, routine suggestions, and photo matching
-├── Media/           Exercise thumbnails and animation caching
-├── DesignSystem/    Theme and shared interface components
-├── Resources/       Bundled exercise catalog and thumbnails
+├── App/             Entry point, navigation, model container
+├── Domain/          Persisted entities, drafts, vocabulary, statistics
+├── Persistence/     Catalog seeding and write stores
+├── Features/        Logging, exercises, routines, progress, settings
+├── AI/              Shared OpenRouter client, suggestions, photo matching
+├── Media/           Thumbnail and animation caching
+├── DesignSystem/    Theme and shared components
+├── Resources/       Bundled catalog and thumbnails
 └── TestSupport/     Debug-only fixtures and launch overrides
 ```
 
-Feature views delegate database writes to persistence stores. Both AI features share a single transport, with separate request builders and response parsers. Domain statistics remain independent of screen presentation.
+Views delegate database writes to persistence stores. Both AI features share one HTTP client with separate request builders and response parsers. Statistics live in `Domain/` and are independent of the UI.
 
 ## Documentation
 
-| Guide | What's inside |
+| Guide | Contents |
 | :--- | :--- |
-| [Architecture](docs/architecture.md) | Startup, navigation, layers, and dependency boundaries |
-| [Screens and flows](docs/screens.md) | Screen behavior, validation, and state transitions |
-| [Data and statistics](docs/data-and-statistics.md) | Models, saving, chart calculations, and records |
-| [AI integration](docs/ai.md) | Credentials, request contents, validation, and failures |
-| [Catalog, media, and localization](docs/catalog-media-localization.md) | Exercise data, translations, caching, and attribution |
-| [Development and testing](docs/development.md) | Build setup, test workflows, and maintenance |
-| [Source reference](docs/modules.md) | Responsibilities of application files |
+| [Architecture](docs/architecture.md) | Startup, navigation, layers, dependencies |
+| [Screens and flows](docs/screens.md) | Screen behavior, validation, state transitions |
+| [Data and statistics](docs/data-and-statistics.md) | Models, saving, chart calculations, records |
+| [AI integration](docs/ai.md) | Credentials, request contents, validation, errors |
+| [Catalog, media, and localization](docs/catalog-media-localization.md) | Exercise data, translations, caching, attribution |
+| [Development and testing](docs/development.md) | Build setup, test workflows, maintenance |
+| [Source reference](docs/modules.md) | Per-file responsibilities |
 
-Design specifications and archived changes live in [openspec/](openspec).
+Design specs and archived changes are in [openspec/](openspec).
 
-## Data and connectivity
+## Data and privacy
 
-Workouts and templates are stored on the device. The current app has no account sign-in, workout cloud sync, or export flow. The bundled exercise library and core tracking work offline; uncached animations and AI features need a network connection.
+All workouts and templates are stored on-device. There is no account, cloud sync, or export. Everything works offline except uncached animations and AI features.
 
 ## Credits
 
-Exercise data and instruction text are sourced from **hasaneyldrm/exercises-dataset**, with its MIT license reproduced in the app's About screen. Exercise images and animations are **© Gym visual** and have separate reuse terms; the app records permission for redistribution at 180×180 resolution.
+Exercise data and instructions come from **hasaneyldrm/exercises-dataset** (MIT; license reproduced in the app's About screen). Exercise images and animations are © Gym visual, redistributed at 180×180 with permission under separate terms. The dataset license does not cover the app or the media.
 
-See [AboutView.swift](Setory/Features/Settings/AboutView.swift) for the shipped attribution and [catalog tooling](tools/catalog/README.md) for the import workflow. The dataset license does not grant rights to the application or exercise media.
+See [`AboutView.swift`](Setory/Features/Settings/AboutView.swift) for the shipped attribution and [catalog tooling](tools/catalog/README.md) for the import workflow.
